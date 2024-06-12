@@ -1,0 +1,60 @@
+/* Estilo para el contenedor principal */
+.qr-generator-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh; /* Hace que ocupe toda la altura de la ventana */
+}
+
+/* Estilo para el contenedor del contenido */
+.main-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%; /* Asegura que ocupe toda la altura del contenedor principal */
+  width: 100%;
+}
+
+.content-container {
+  display: flex;
+  flex-direction: row; /* Cambiado a fila para colocar elementos lado a lado */
+  justify-content: center; /* Alinea el contenido horizontalmente */
+  align-items: center; /* Alinea el contenido verticalmente */
+  padding: 50px;
+  text-align: center;
+}
+
+.left-content {
+  margin-right: 20px; /* Espacio entre los divs izquierdo y derecho */
+}
+
+.right-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.qr-code {
+  margin: 0 auto;
+}
+
+.button-container {
+  margin-top: 20px;
+}
+
+.generate-button {
+  padding: 10px 20px;
+  font-size: 16px;
+  background-color: #3C6E71;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.timer {
+  margin-top: 10px;
+  font-size: 14px;
+  color: #000000; /* Puedes ajustar el color según tu preferencia */
+}

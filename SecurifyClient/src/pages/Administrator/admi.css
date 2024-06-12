@@ -1,0 +1,307 @@
+.main-container {
+  display: flex;
+  height: 100vh;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+.sidebar {
+  width: 200px; /* Ancho del aside */
+  background-color: #f4f4f4;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+.table-container {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: #fff;
+  padding: 80px;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  margin-left: 100px; /* Espacio entre el aside y la tabla */
+  max-width: flex; /* no cambiar*/
+  max-height: 100vh; /* no cambiar */
+}
+
+.table-wrapper {
+  width: 100%;
+  max-height: 60vh;
+  overflow-y: auto;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.filter-input {
+  padding: 8px;
+  width: 100%;
+  max-width: 200px; /* Ajusta el ancho máximo */
+  margin-bottom: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.form {
+  padding: 4px;
+  width: 115%;
+  display: flex;
+  gap: 8px;
+  margin-bottom: 10px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.form-input {
+  padding: 10px;
+  width: 22vh;
+  display: flex;
+  max-width: 150px; /* Ajusta el ancho máximo según sea necesario */
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.form-button {
+  padding: 10px 10px;
+  background-color: #3C6E71;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.form-button:hover {
+  background-color: #3C6E71;
+}
+
+/*-------------------VISITHISTORY---------------*/
+.main-containervisit {
+  display: flex;
+  height: 100vh;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+
+
+.table-containervisit {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: #fff;
+  padding: 80px;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  margin-left: 50px; /* Espacio entre el aside y la tabla */
+  max-width: flex; /* no cambiar*/
+  max-height: 100vh; /* no cambiar */
+}
+
+.table-wrappervisit {
+  width: 100%;
+  max-height: 60vh;
+  overflow-y: auto;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.filter-inputvisit {
+  padding: 8px;
+  width: 100%;
+  max-width: 200px; /* Ajusta el ancho máximo */
+  margin-bottom: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.formvisit {
+  padding: 4px;
+  width: 115%;
+  display: flex;
+  gap: 8px;
+  margin-bottom: 10px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.form-inputvisit {
+  padding: 10px;
+  width: 25vh;
+  display: flex;
+  max-width: 150px; /* Ajusta el ancho máximo según sea necesario */
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.form-buttonvisit {
+  padding: 1px 5px;
+  background-color: #3C6E71;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.form-buttonvisit:hover {
+  background-color: #3C6E71;
+}
+
+
+/*-------------------security team---------------*/
+.main-containerse {
+  display: flex;
+  height: 100vh;
+  padding: 20px;
+  width: 120%;
+  box-sizing: border-box;
+}
+
+.sidebarse {
+  width: 200px; /* Ancho del aside */
+  background-color: #f4f4f4;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+.table-containerse {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  margin-left: 100px; /* Espacio entre el aside y la tabla */
+  max-width: flex; /* no cambiar*/
+  max-height: 100vh; /* no cambiar */
+}
+
+.table-wrapperse {
+  width: 100%;
+  max-height: 60vh;
+  overflow-y: auto;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  
+}
+
+.filter-inputse {
+  padding: 8px;
+  width: 60%;
+  max-width: 200px; /* Ajusta el ancho máximo */
+  margin-bottom: 10px;
+  border: 1px solid #3C6E71;
+  border-radius: 4px;
+}
+
+.formvise {
+  padding: 8px 10px;
+  display: flex;
+  gap: 8px;
+  margin-bottom: 10px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.form-inputse{
+  padding: 8px 10px;
+  display: flex;
+  max-width: 145px; /* Ajusta el ancho máximo según sea necesario */
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.form-buttonse {
+  padding: 8px 5px;
+  background-color: #3C6E71;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.form-buttonse:hover {
+  background-color: #3C6E71;
+}
+
+
+/*-------------------Anonimos---------------*/
+.main-containeran {
+  display: flex;
+  height: 100vh;
+  padding: 20px;
+  width: 120%;
+  box-sizing: border-box;
+}
+
+.sidebaran {
+  width: 200px; /* Ancho del aside */
+  background-color: #f4f4f4;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+.table-containeran {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: #fff;
+  padding: 200px;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  margin-left: 100px; /* Espacio entre el aside y la tabla */
+  max-width: flex; /* no cambiar*/
+  max-height: 100vh; /* no cambiar */
+}
+
+.table-wrapperan {
+  width: 100%;
+  max-height: 60vh;
+  overflow-y: auto;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  
+}
+
+.filter-inputan {
+  padding: 8px;
+  width: 60%;
+  max-width: 200px; /* Ajusta el ancho máximo */
+  margin-bottom: 10px;
+  border: 1px solid #3C6E71;
+  border-radius: 4px;
+}
+
+.formvian {
+  padding: 8px 10px;
+  display: flex;
+  gap: 8px;
+  margin-bottom: 10px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.form-inputan{
+  padding: 8px 10px;
+  display: flex;
+  max-width: 145px; /* Ajusta el ancho máximo según sea necesario */
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.form-buttonan {
+  padding: 8px 5px;
+  background-color: #3C6E71;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.form-buttonan:hover {
+  background-color: #3C6E71;
+}

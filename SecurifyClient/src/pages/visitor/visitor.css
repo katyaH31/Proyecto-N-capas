@@ -1,0 +1,181 @@
+/* Estilo para el contenedor principal */
+.main-container {
+    display: flex;
+    height: 100vh;
+  }
+  
+  /* Estilo para el contenedor del contenido */
+  .content-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    flex-grow: 1;
+    padding: 50px;
+    text-align: center;
+  }
+  .table-container {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-color: #fff;
+    padding: 80px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    margin-left: 100px; /* Espacio entre el aside y la tabla */
+    max-width: flex; /* no cambiar*/
+    max-height: 100vh; /* no cambiar */
+  }
+  
+  .table-wrapper {
+    width: 100%;
+    max-height: 60vh;
+    overflow-y: auto;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  .qr-code {
+    margin: 0 auto;
+  }
+  
+  .button-container {
+    margin-top: 20px;
+  }
+  
+  .generate-button {
+    padding: 10px 20px;
+    font-size: 16px;
+    background-color: #3C6E71;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  /**/
+  /* Overlay */
+  
+  .table-container {
+    padding: 20px;
+    max-width: 600px;
+    margin: 0 auto;
+  }
+  
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+  }
+  
+  th, td {
+    border: 1px solid #ccc;
+    padding: 8px;
+    text-align: left;
+  }
+  
+  th {
+    background-color: #f2f2f2;
+  }
+  
+  .estado-button {
+    background-color: #1ABC9C;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .estado-button:hover {
+    background-color: #17a085;
+  }
+  
+  .add-button {
+    background-color: #1ABC9C;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  
+  .popup-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+  }
+  
+  /* Popup content */
+  .popup-content {
+    background: white;
+    border-radius: 10px;
+    padding: 20px;
+    width: 300px;
+    text-align: center;
+    position: relative;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* Icon container */
+  .popup-icon {
+    background: #1ABC9C;  
+    border-radius: 50%;
+    width: 60px;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto -30px auto;
+    transform: translateY(-50%);
+  }
+  
+  /* Header */
+  .popup-content h2 {
+    margin-top: 40px;
+    margin-bottom: 10px;
+    color: #333;
+  }
+  
+  /* Paragraph */
+  .popup-content p {
+    margin-bottom: 20px;
+  }
+  
+  /* Button */
+  .popup-button {
+    background: #1ABC9C;
+    border: none;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background 0.3s;
+  }
+  
+  .popup-button:hover {
+    background: #17a085;
+  }
+  
+  /* Estilos para el mensaje "Lo sentimos" */
+  .error-message {
+    color: black; /* Texto en negro */
+    background: white; /* Fondo rojo */
+  }
+  
+  /* Estilos para el mensaje "Bienvenidos" */
+  .success-message {
+    color: black; /* Texto en negro */
+    background: #2ECC71; /* Fondo verde */
+  }
+  
+  

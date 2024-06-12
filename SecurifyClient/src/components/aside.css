@@ -1,0 +1,197 @@
+/* Archivo CSS */
+body, html {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+}
+
+.sidebarResidenta {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 250px; /* Ancho del sidebar */
+  height: 100%;
+  background-color: #3C6E71; /* Fondo del sidebar */
+  border-right: 1px solid #54A8AEFD; /* Borde derecho del sidebar */
+  /*  overflow-y: auto;Para permitir el scroll dentro del sidebar */
+  transition: transform 0.3s ease-in-out;
+}
+.sidebarResident {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 250px; /* Ancho del sidebar */
+  height: 100%;
+  background-color: #3C6E71; /* Fondo del sidebar */
+  border-right: 1px solid #54A8AEFD; /* Borde derecho del sidebar */
+  /* overflow-y: auto; Para permitir el scroll dentro del sidebar */
+  transition: transform 0.3s ease-in-out;
+}
+.headsider{
+    margin-top: 10px;
+  }
+.sidebarAdmi {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: auto; /* Ancho del sidebar 250px*/
+    height: 100%;
+    background-color: #3C6E71; /* Fondo del sidebar */
+    border-right: #54A8AEFD; /* Borde derecho del sidebar */
+    /*overflow-y: auto;  Para permitir el scroll dentro del sidebar */
+}
+.main-content div {
+    color: #cbc2bf; /* Cambia este color por el que desees */
+}
+
+.main-content {
+    margin-left: 250px; /* Debe ser igual al ancho del sidebar */
+    padding: 20px;
+    height: 100%;
+    background-color: #881111; /* Fondo del contenido principal */
+    
+}
+ 
+  /* SIDEBAR INCHARGE*/
+
+.sidebarIncharge {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: auto; /* Ancho del sidebar 250px*/
+    height: 100%;
+    background-color: #3C6E71; /* Fondo del sidebar */
+    border-right: #54A8AEFD; /* Borde derecho del sidebar */
+    /* overflow-y: auto; Para permitir el scroll dentro del sidebar */
+}
+.main-content div {
+    color: #cbc2bf; /* Cambia este color por el que desees */
+}
+.main-content {
+    margin-left: 250px; /* Debe ser igual al ancho del sidebar */
+    padding: 20px;
+    height: 100%;
+    background-color: #881111; /* Fondo del contenido principal */
+    
+}
+  
+  /* SIDEBAR VIGILANT*/
+body, html {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+}
+
+.sidebarVigilant {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: auto; /* Ancho del sidebar 250px*/
+  height: 100%;
+  background-color: #3C6E71; /* Fondo del sidebar */
+  border-right: #54A8AEFD; /* Borde derecho del sidebar */
+  /*overflow-y: auto;  Para permitir el scroll dentro del sidebar */
+}
+
+.main-content div {
+  color: #cbc2bf; /* Cambia este color por el que desees */
+}
+
+.main-content {
+  margin-left: 250px; /* Debe ser igual al ancho del sidebar */
+  padding: 20px;
+  height: 100%;
+  background-color: white; /* Fondo del contenido principal */
+  transition: margin-left 0.3s ease-in-out;
+}
+
+/* Responsive styles */
+@media (max-width: 768px) {
+  .sidebarResidenta{
+      transform: translateX(-100%);
+  }
+
+  .sidebarResidenta.active
+  {
+      transform: translateX(0);
+  }
+
+  .main-content {
+      margin-left: 0;
+  }
+
+  .main-content.shifted {
+      margin-left: 250px;
+  }
+
+  .sidebar-toggle {
+      display: block;
+      position: absolute;
+      top: 15px;
+      left: 15px;
+      background-color: #3C6E71;
+      border: none;
+      color: white;
+      padding: 10px;
+      cursor: pointer;
+      z-index: 1000;
+  }
+}
+
+.sidebarvisit {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: auto; /* Ancho del sidebar 250px*/
+  height: 100%;
+  background-color: #3C6E71; /* Fondo del sidebar */
+  border-right: #54A8AEFD; /* Borde derecho del sidebar */
+ /*  overflow-y: auto; Para permitir el scroll dentro del sidebar */
+}
+
+@media (min-width: 769px) {
+  .sidebar-toggle {
+      display: none;
+  }
+}
+
+/* Responsive styles resident*/
+@media (max-width: 768px) {
+  .sidebarResident{
+      transform: translateX(-100%);
+  }
+
+  .sidebarResident.active
+  {
+      transform: translateX(0);
+  }
+
+  .main-content {
+      margin-left: 0;
+  }
+
+  .main-content.shifted {
+      margin-left: 250px;
+  }
+
+  .sidebar-togglere {
+      display: block;
+      position: absolute;
+      top: 15px;
+      left: 15px;
+      background-color: #3C6E71;
+      border: none;
+      color: white;
+      padding: 10px;
+      cursor: pointer;
+      z-index: 1000;
+  }
+}
+
+
+
+@media (min-width: 769px) {
+  .sidebar-toggle {
+      display: none;
+  }
+}
