@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Data;
 
+import java.time.Instant;
 import java.util.Date;
 import java.util.UUID;
 
@@ -28,6 +29,14 @@ public class Token {
     @JoinColumn(name = "user_id")
     @JsonIgnore
     private User user;
+
+    public Token(String content, User user){
+        super();
+        this.content = content;
+        this.user = user;
+        this.timestamp = Date.from(Instant.now());
+        this.active = true;
+    }
 
 
 }

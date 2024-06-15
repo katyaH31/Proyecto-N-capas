@@ -24,8 +24,8 @@ public class User implements UserDetails {
 
     private String username;
     private String email;
-    private String password;
     private String DUI;
+    private Boolean active;
 
     //de aqui vamos con las relaciones
 
@@ -47,13 +47,13 @@ public class User implements UserDetails {
     private List<House> houses;
 
     //usuario con roles N - N
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "user_roles",
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id")
     )
-    private List<Rol> roles;
+    private List<Role> roles;
 
     //relacion user con token 1 - N
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
@@ -69,7 +69,12 @@ public class User implements UserDetails {
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return roles.stream()
-                .map(rol -> new SimpleGrantedAuthority(rol.getName()))
+                .map(role -> new SimpleGrantedAuthority(role.getName()))
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public String getPassword() {
+        return null;
     }
 }

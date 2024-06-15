@@ -1,3 +1,7 @@
+jwt:
+  secret: "NuevaClaveSecretaMuySegurade256bits"
+  exptime: 1296000000
+
 spring:
   sql:
     init:
@@ -7,8 +11,8 @@ spring:
   mustache:
     suffix: .html
   datasource:
-    url: jdbc:postgresql://localhost:5550/securifydb
-    username: davidmisael
+    url: jdbc:postgresql://localhost:5432/securifydb
+    username: andres
     password: root
   jpa:
     hibernate:

@@ -1,5 +1,6 @@
 package com.securifytech.securifyserver.Services.implementations;
 
+import com.securifytech.securifyserver.Domain.dtos.UserRegisterDTO;
 import com.securifytech.securifyserver.Domain.entities.Token;
 import com.securifytech.securifyserver.Domain.entities.User;
 import com.securifytech.securifyserver.Repositories.TokenRepository;
@@ -12,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.UUID;
 
 @Service
 @Slf4j
@@ -22,7 +24,7 @@ public class UserServiceImpl implements UserService {
     private JWTTools jwtTools;
 
     @Autowired
-    private TokenRepository tokenRepository
+    private TokenRepository tokenRepository;
 
     private final UserRepository userRepository;
 
@@ -41,6 +43,40 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public User findOneById(UUID id) {
+        return userRepository.findById(id).orElse(null);
+    }
+
+    @Override
+    @Transactional(rollbackOn = Exception.class)
+    public void verifyUser(String name, String email) {
+        User user = findByIdentifier(email);
+
+        if (user == null) {
+            createUser(name, email);
+        }
+    }
+
+
+    @Override
+    @Transactional(rollbackOn = Exception.class)
+    public void createUser(String name, String email) {
+        User user = new User();
+
+        user.setUsername(name);
+        user.setEmail(email);
+        user.setActive(true);
+
+        userRepository.save(user);
+    }
+
+    @Override
+    public void saveUser(User user) {
+        userRepository.save(user);
+    }
+
+
+    @Override
     public Boolean isTokenValid(User user, String token){
          try {
              cleanTokens(user);
@@ -55,6 +91,19 @@ public class UserServiceImpl implements UserService {
          } catch (Exception e) {
              return false;
          }
+    }
+
+    @Override
+    @Transactional(rollbackOn = Exception.class)
+    public Token RegisterToken(User user) {
+        cleanTokens(user);
+
+        String tokenString = jwtTools.generateToken(user);
+        Token token = new Token(tokenString, user);
+
+        tokenRepository.save(token);
+
+        return token;
     }
 
     @Override

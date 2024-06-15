@@ -4,16 +4,15 @@ import jakarta.persistence.*;
 import lombok.Data;
 
 import java.util.List;
-import java.util.UUID;
 
 @Data
 @Entity
 @Table(name = "securify_roles")
-public class Rol {
+public class Role {
+
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
     @Column(name = "role_id")
-    private UUID id;
+    private String id;
 
     private String name;
 
