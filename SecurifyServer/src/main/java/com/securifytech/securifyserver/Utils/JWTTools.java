@@ -17,7 +17,7 @@ public class JWTTools {
     @Value("${jwt.secret}")
     private String secret;
 
-    @Value("S{jwt.exp-time}")
+    @Value("${jwt.exptime}")
     private Integer exp;
 
     public String generateToken(User user){
