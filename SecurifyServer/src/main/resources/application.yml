@@ -11,8 +11,8 @@ spring:
   mustache:
     suffix: .html
   datasource:
-    url: jdbc:postgresql://localhost:5432/securifydb
-    username: andres
+    url: jdbc:postgresql://localhost:5500/securifydb
+    username: securifyuser
     password: root
   jpa:
     hibernate:
