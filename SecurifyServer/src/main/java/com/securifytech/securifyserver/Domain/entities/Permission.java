@@ -1,6 +1,7 @@
 package com.securifytech.securifyserver.Domain.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.securifytech.securifyserver.Enums.RequestState;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -18,9 +19,12 @@ public class Permission {
 
     private String description;
 
-    private Date date;
+    private Date requestedDated;
 
-    private Boolean status;
+    private Date makeDate;
+
+    @Enumerated(EnumType.STRING)
+    private RequestState status;
 
     //Relacion con usuario  N - 1
     @ManyToOne(fetch = FetchType.EAGER)

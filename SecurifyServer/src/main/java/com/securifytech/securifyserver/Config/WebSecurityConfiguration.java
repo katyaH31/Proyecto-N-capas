@@ -58,7 +58,8 @@ public class WebSecurityConfiguration {
         http.httpBasic(withDefaults()).csrf(AbstractHttpConfigurer::disable);
         http.authorizeHttpRequests(auth ->
             auth
-                    .requestMatchers("/api/auth/**").hasAuthority("Manager")
+                    .requestMatchers("/api/auth/**").permitAll()
+                    .requestMatchers("/api/permission/**").permitAll()
         );
         http.sessionManagement(management -> management.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
         http.exceptionHandling(handling -> handling.authenticationEntryPoint((req, res, ex) ->  {
