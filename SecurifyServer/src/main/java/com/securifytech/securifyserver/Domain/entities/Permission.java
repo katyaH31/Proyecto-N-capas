@@ -26,6 +26,9 @@ public class Permission {
     @Enumerated(EnumType.STRING)
     private RequestState status;
 
+    @ManyToOne(fetch = FetchType.EAGER)
+    private House house;
+
     //Relacion con usuario  N - 1
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "user_id")

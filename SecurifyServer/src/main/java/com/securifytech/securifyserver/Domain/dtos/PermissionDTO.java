@@ -18,5 +18,8 @@ public class PermissionDTO {
     @NotBlank
     private String description;
 
+    @NotBlank
+    private String houseId;
+
     private Date requestedDate;
 }
