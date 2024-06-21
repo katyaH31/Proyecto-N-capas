@@ -1,6 +1,7 @@
 package com.securifytech.securifyserver.Domain.entities;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -23,8 +24,12 @@ public class House {
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "house")
     private List<Visit> visits;
 
+    @JsonIgnore
+    @OneToMany(mappedBy = "house", fetch = FetchType.LAZY)
+    private List<Permission> permissions;
 
     // N: N
+    @JsonIgnore
     @ManyToMany(mappedBy = "houses")
     private List<User> users;
 

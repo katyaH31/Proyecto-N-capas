@@ -1,8 +1,10 @@
 package com.securifytech.securifyserver.Services.implementations;
 
 import com.securifytech.securifyserver.Domain.dtos.UserRegisterDTO;
+import com.securifytech.securifyserver.Domain.entities.House;
 import com.securifytech.securifyserver.Domain.entities.Token;
 import com.securifytech.securifyserver.Domain.entities.User;
+import com.securifytech.securifyserver.Repositories.HouseRepository;
 import com.securifytech.securifyserver.Repositories.TokenRepository;
 import com.securifytech.securifyserver.Repositories.UserRepository;
 import com.securifytech.securifyserver.Services.UserService;
@@ -10,6 +12,7 @@ import com.securifytech.securifyserver.Utils.JWTTools;
 import jakarta.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -28,8 +31,11 @@ public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
 
-    public UserServiceImpl(UserRepository userRepository) {
+    private final HouseRepository houseRepository;
+
+    public UserServiceImpl(UserRepository userRepository, HouseRepository houseRepository) {
         this.userRepository = userRepository;
+        this.houseRepository = houseRepository;
     }
 
     @Override
@@ -62,11 +68,13 @@ public class UserServiceImpl implements UserService {
     @Transactional(rollbackOn = Exception.class)
     public void createUser(String name, String email) {
         User user = new User();
+        String idHouse = "1";
+        List<House> houses = houseRepository.findByIdAndBlock(idHouse, "Block A");
 
         user.setUsername(name);
         user.setEmail(email);
         user.setActive(true);
-
+        user.setHouses(houses);
         userRepository.save(user);
     }
 
@@ -117,5 +125,15 @@ public class UserServiceImpl implements UserService {
                 tokenRepository.save(token);
             }
         });
+    }
+
+    @Override
+    public User findUserAuthenticated() {
+        String username = SecurityContextHolder
+                .getContext()
+                .getAuthentication()
+                .getName();
+
+        return userRepository.findByUsernameOrEmail(username, username).orElse(null);
     }
 }

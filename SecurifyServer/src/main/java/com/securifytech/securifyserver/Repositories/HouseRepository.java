@@ -1,14 +1,13 @@
 package com.securifytech.securifyserver.Repositories;
 
 import com.securifytech.securifyserver.Domain.entities.House;
-import com.securifytech.securifyserver.Domain.entities.Permission;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
-public interface PermissionRepository extends JpaRepository<Permission, UUID> {
+public interface HouseRepository extends JpaRepository<House, String> {
 
-    List<Permission> findByHouse(House house);
-
+    List<House> findByIdAndBlock(String id, String block);
 }

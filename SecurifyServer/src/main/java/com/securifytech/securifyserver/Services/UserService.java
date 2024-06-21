@@ -29,4 +29,8 @@ public interface UserService {
     Token RegisterToken(User user);
 
     void cleanTokens(User user);
+
+    // With Token
+
+    User findUserAuthenticated();
 }
