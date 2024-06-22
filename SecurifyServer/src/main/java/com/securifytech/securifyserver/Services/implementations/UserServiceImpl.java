@@ -1,7 +1,9 @@
 package com.securifytech.securifyserver.Services.implementations;
 
+import com.securifytech.securifyserver.Domain.dtos.CreateUserDTO;
 import com.securifytech.securifyserver.Domain.dtos.UserRegisterDTO;
 import com.securifytech.securifyserver.Domain.entities.House;
+import com.securifytech.securifyserver.Domain.entities.Role;
 import com.securifytech.securifyserver.Domain.entities.Token;
 import com.securifytech.securifyserver.Domain.entities.User;
 import com.securifytech.securifyserver.Repositories.HouseRepository;
@@ -53,28 +55,19 @@ public class UserServiceImpl implements UserService {
         return userRepository.findById(id).orElse(null);
     }
 
-    @Override
-    @Transactional(rollbackOn = Exception.class)
-    public void verifyUser(String name, String email) {
-        User user = findByIdentifier(email);
-
-        if (user == null) {
-            createUser(name, email);
-        }
-    }
 
 
     @Override
     @Transactional(rollbackOn = Exception.class)
-    public void createUser(String name, String email) {
+    public void createUser(CreateUserDTO info, List<Role> roles) {
         User user = new User();
-        String idHouse = "1";
-        List<House> houses = houseRepository.findByIdAndBlock(idHouse, "Block A");
 
-        user.setUsername(name);
-        user.setEmail(email);
+        user.setUsername(info.getUsername());
+        user.setEmail(info.getEmail());
+        user.setDUI(info.getDui());
         user.setActive(true);
-        user.setHouses(houses);
+        user.setRoles(roles);
+       // user.setHouses(houses);
         userRepository.save(user);
     }
 
