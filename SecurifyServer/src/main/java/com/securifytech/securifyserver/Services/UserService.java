@@ -1,10 +1,13 @@
 package com.securifytech.securifyserver.Services;
 
 
+import com.securifytech.securifyserver.Domain.dtos.CreateUserDTO;
 import com.securifytech.securifyserver.Domain.dtos.UserRegisterDTO;
+import com.securifytech.securifyserver.Domain.entities.Role;
 import com.securifytech.securifyserver.Domain.entities.Token;
 import com.securifytech.securifyserver.Domain.entities.User;
 
+import java.util.List;
 import java.util.UUID;
 
 
@@ -15,9 +18,7 @@ public interface UserService {
 
     User findOneById(UUID id);
 
-    void verifyUser(String name, String email);
-
-    void createUser(String name, String email);
+    void createUser(CreateUserDTO info, List<Role> roles);
 
     void saveUser(User user);
 
