@@ -47,6 +47,7 @@ public class User implements UserDetails {
     private List<House> houses;
 
     //usuario con roles N - N
+    @JsonIgnore
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "user_roles",

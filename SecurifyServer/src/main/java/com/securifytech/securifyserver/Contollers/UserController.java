@@ -72,4 +72,33 @@ public class UserController {
                     .getResponse();
         }
     }
+
+    //get user by id
+
+    @GetMapping("/{id}")
+    public ResponseEntity<GeneralResponse> getUserById(@PathVariable UUID id){
+        try {
+            User user = userService.findOneById(id);
+
+            if ( user == null ) {
+                return GeneralResponse.builder()
+                        .status(HttpStatus.NOT_FOUND)
+                        .message("User not found")
+                        .getResponse();
+            }
+
+            return GeneralResponse.builder()
+                    .status(HttpStatus.OK)
+                    .message("User found")
+                    .data(user)
+                    .getResponse();
+        }
+        catch (Exception e) {
+            System.out.println("Error: " + e);
+            return GeneralResponse.builder()
+                    .status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .message("An error has occurred while adding role to user ")
+                    .getResponse();
+        }
+    }
 }

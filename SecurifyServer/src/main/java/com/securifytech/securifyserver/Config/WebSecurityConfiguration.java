@@ -60,6 +60,7 @@ public class WebSecurityConfiguration {
             auth
                     .requestMatchers("/api/auth/**").permitAll()
                     .requestMatchers("/api/permission/**").permitAll()
+                    .requestMatchers("api/user/**").permitAll()
         );
         http.sessionManagement(management -> management.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
         http.exceptionHandling(handling -> handling.authenticationEntryPoint((req, res, ex) ->  {
