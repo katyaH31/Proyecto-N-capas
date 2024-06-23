@@ -34,4 +34,8 @@ public interface UserService {
     // With Token
 
     User findUserAuthenticated();
+
+    List<User> getUsersExcludingAdmin();
+
+
 }

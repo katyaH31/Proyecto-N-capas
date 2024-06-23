@@ -7,6 +7,7 @@ import com.securifytech.securifyserver.Domain.entities.Role;
 import com.securifytech.securifyserver.Domain.entities.Token;
 import com.securifytech.securifyserver.Domain.entities.User;
 import com.securifytech.securifyserver.Repositories.HouseRepository;
+import com.securifytech.securifyserver.Repositories.RoleRepository;
 import com.securifytech.securifyserver.Repositories.TokenRepository;
 import com.securifytech.securifyserver.Repositories.UserRepository;
 import com.securifytech.securifyserver.Services.UserService;
@@ -18,6 +19,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -33,11 +35,14 @@ public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
 
+    private final RoleRepository roleRepository;
+
     private final HouseRepository houseRepository;
 
-    public UserServiceImpl(UserRepository userRepository, HouseRepository houseRepository) {
+    public UserServiceImpl(UserRepository userRepository, HouseRepository houseRepository, RoleRepository roleRepository) {
         this.userRepository = userRepository;
         this.houseRepository = houseRepository;
+        this.roleRepository = roleRepository;
     }
 
     @Override
@@ -74,6 +79,17 @@ public class UserServiceImpl implements UserService {
     @Override
     public void saveUser(User user) {
         userRepository.save(user);
+    }
+
+    @Override
+    public List<User> getUsersExcludingAdmin() {
+        Optional<Role> adminRoleOptional = roleRepository.findByName("Admin");
+        if (adminRoleOptional.isPresent()) {
+            Role adminRole = adminRoleOptional.get();
+            return userRepository.findByRolesNotContaining(adminRole);
+        } else {
+            return userRepository.findAll();
+        }
     }
 
 

@@ -11,6 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -100,5 +101,24 @@ public class UserController {
                     .message("An error has occurred while adding role to user ")
                     .getResponse();
         }
+    }
+
+
+    // find all users
+    @GetMapping("/allna")
+    public ResponseEntity<GeneralResponse> getUsersExcludingAdmin(){
+        List<User> users = userService.getUsersExcludingAdmin();
+        if (users.isEmpty()) {
+            return GeneralResponse.builder()
+                    .status(HttpStatus.NOT_FOUND)
+                    .message("There are no users")
+                    .getResponse();
+        }
+
+        return GeneralResponse.builder()
+                .status(HttpStatus.OK)
+                .message("User found")
+                .data(users)
+                .getResponse();
     }
 }
