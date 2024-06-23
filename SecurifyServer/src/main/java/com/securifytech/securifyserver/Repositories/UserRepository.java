@@ -15,4 +15,5 @@ public interface UserRepository extends JpaRepository<User, UUID> {
 
     //List user not-admin
     List<User> findByRolesNotContaining(Role role);
+    List<User> findByRolesContaining(Role role);
 }

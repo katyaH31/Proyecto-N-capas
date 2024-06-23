@@ -159,4 +159,10 @@ public class UserServiceImpl implements UserService {
         user.setDUI(info.getDui());
         return userRepository.save(user);
     }
+
+    @Override
+    public List<User> getGuardUsers(){
+        Role guardRole = roleRepository.findByName("Guard").orElseThrow(() -> new RuntimeException("Role not found"));
+        return userRepository.findByRolesContaining(guardRole);
+    }
 }

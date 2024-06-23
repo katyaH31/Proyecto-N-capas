@@ -40,4 +40,6 @@ public interface UserService {
     void deleteUserById(UUID id);
 
     User updateUserById(UUID id, CreateUserDTO info);
+
+    List<User> getGuardUsers();
 }
