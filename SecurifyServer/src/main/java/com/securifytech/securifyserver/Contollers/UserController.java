@@ -1,5 +1,6 @@
 package com.securifytech.securifyserver.Contollers;
 
+import com.securifytech.securifyserver.Domain.dtos.CreateUserDTO;
 import com.securifytech.securifyserver.Domain.dtos.GeneralResponse;
 import com.securifytech.securifyserver.Domain.dtos.RoleDTO;
 import com.securifytech.securifyserver.Domain.entities.Role;
@@ -129,6 +130,17 @@ public class UserController {
         return GeneralResponse.builder()
                 .status(HttpStatus.OK)
                 .message("User deleted successfully")
+                .getResponse();
+    }
+
+    //update user by id
+    @PutMapping("/{id}")
+    public ResponseEntity<GeneralResponse> updateUser(@PathVariable UUID id, @RequestBody CreateUserDTO info){
+        User updateUser = userService.updateUserById(id, info);
+        return GeneralResponse.builder()
+                .status(HttpStatus.OK)
+                .message("User updated successfully")
+                .data(updateUser)
                 .getResponse();
     }
 }

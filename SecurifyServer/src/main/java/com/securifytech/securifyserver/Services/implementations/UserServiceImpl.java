@@ -149,4 +149,14 @@ public class UserServiceImpl implements UserService {
 
         return userRepository.findByUsernameOrEmail(username, username).orElse(null);
     }
+
+    @Override
+
+    public User updateUserById(UUID id, CreateUserDTO info) {
+        User user = userRepository.findById(id).orElseThrow(() -> new RuntimeException("User not found"));
+        user.setUsername(info.getUsername());
+        user.setEmail(info.getEmail());
+        user.setDUI(info.getDui());
+        return userRepository.save(user);
+    }
 }
