@@ -19,7 +19,7 @@ public class House {
     private int numberOfResidents;
 
     // casa con visitas 1 - N
-
+    @JsonIgnore
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "house")
     private List<Visit> visits;
 
