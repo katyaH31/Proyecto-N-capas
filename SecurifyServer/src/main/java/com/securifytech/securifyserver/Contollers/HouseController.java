@@ -3,14 +3,12 @@ package com.securifytech.securifyserver.Contollers;
 
 import com.securifytech.securifyserver.Domain.dtos.CreateHouseDto;
 import com.securifytech.securifyserver.Domain.dtos.GeneralResponse;
+import com.securifytech.securifyserver.Domain.dtos.UpdateHouseDto;
 import com.securifytech.securifyserver.Services.HouseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/houses")
@@ -26,6 +24,14 @@ public class HouseController {
                 .status(HttpStatus.OK)
                 .message("House created successfully")
                 .getResponse();
+    }
 
+    @PutMapping("/{houseId}")
+    public ResponseEntity<GeneralResponse> updateHouse(@PathVariable String houseId, @RequestBody UpdateHouseDto houseDto){
+        houseService.updateHouse(houseId, houseDto);
+        return GeneralResponse.builder()
+                .status(HttpStatus.OK)
+                .message("House updated successfully")
+                .getResponse();
     }
 }
