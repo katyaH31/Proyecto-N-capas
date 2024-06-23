@@ -1,5 +1,6 @@
 package com.securifytech.securifyserver.Contollers;
 
+import com.securifytech.securifyserver.Domain.dtos.CreateUserDTO;
 import com.securifytech.securifyserver.Domain.dtos.GeneralResponse;
 import com.securifytech.securifyserver.Domain.dtos.RoleDTO;
 import com.securifytech.securifyserver.Domain.entities.Role;
@@ -11,6 +12,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -100,5 +102,45 @@ public class UserController {
                     .message("An error has occurred while adding role to user ")
                     .getResponse();
         }
+    }
+
+
+    // find all users
+    @GetMapping("/allna")
+    public ResponseEntity<GeneralResponse> getUsersExcludingAdmin(){
+        List<User> users = userService.getUsersExcludingAdmin();
+        if (users.isEmpty()) {
+            return GeneralResponse.builder()
+                    .status(HttpStatus.NOT_FOUND)
+                    .message("There are no users")
+                    .getResponse();
+        }
+
+        return GeneralResponse.builder()
+                .status(HttpStatus.OK)
+                .message("User found")
+                .data(users)
+                .getResponse();
+    }
+
+    //delete user by id
+    @DeleteMapping("{id}")
+    public ResponseEntity<GeneralResponse> deleteUser(@PathVariable UUID id){
+        userService.deleteUserById(id);
+        return GeneralResponse.builder()
+                .status(HttpStatus.OK)
+                .message("User deleted successfully")
+                .getResponse();
+    }
+
+    //update user by id
+    @PutMapping("/{id}")
+    public ResponseEntity<GeneralResponse> updateUser(@PathVariable UUID id, @RequestBody CreateUserDTO info){
+        User updateUser = userService.updateUserById(id, info);
+        return GeneralResponse.builder()
+                .status(HttpStatus.OK)
+                .message("User updated successfully")
+                .data(updateUser)
+                .getResponse();
     }
 }

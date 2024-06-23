@@ -26,3 +26,5 @@ INSERT INTO public.securify_houses (house_id, street, block, state) VALUES
     ('4', 'Street 4', 'Block D', 'State X') ON CONFLICT (house_id) DO UPDATE SET street = excluded.street;
 INSERT INTO public.securify_houses (house_id, street, block, state) VALUES
     ('5', 'Street 5', 'Block E', 'State Y') ON CONFLICT (house_id) DO UPDATE SET street = excluded.street;
+
+
