@@ -143,4 +143,22 @@ public class UserController {
                 .data(updateUser)
                 .getResponse();
     }
+
+    //List User role Guard
+    @GetMapping("/guards")
+    public ResponseEntity<GeneralResponse> getUserGuards(){
+        List<User> guardUsers = userService.getGuardUsers();
+        if (guardUsers.isEmpty()) {
+            return GeneralResponse.builder()
+                    .status(HttpStatus.NOT_FOUND)
+                    .message("There are not guard users")
+                    .getResponse();
+        }
+
+        return GeneralResponse.builder()
+                .status(HttpStatus.OK)
+                .message("Guard users found")
+                .data(guardUsers)
+                .getResponse();
+    }
 }
