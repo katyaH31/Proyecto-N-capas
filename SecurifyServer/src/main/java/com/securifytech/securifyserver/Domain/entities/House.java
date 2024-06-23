@@ -15,9 +15,8 @@ public class House {
     @Column(name = "house_id")
     private String id;
 
-    private String street;
-    private String block;
-    private String state;
+    private String polygon;
+    private int numberOfResidents;
 
     // casa con visitas 1 - N
 
