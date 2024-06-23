@@ -1,5 +1,6 @@
 package com.securifytech.securifyserver.Contollers;
 
+import com.securifytech.securifyserver.Domain.dtos.CreateUserDTO;
 import com.securifytech.securifyserver.Domain.dtos.GeneralResponse;
 import com.securifytech.securifyserver.Domain.dtos.RoleDTO;
 import com.securifytech.securifyserver.Domain.entities.Role;
@@ -71,5 +72,23 @@ public class UserController {
                     .message("An error has occurred while adding role to user ")
                     .getResponse();
         }
+    }
+
+
+    @PutMapping("/update")
+    public ResponseEntity<GeneralResponse> updateUser(@RequestBody @Valid CreateUserDTO info) {
+        User user = userService.findByUsernameOrEmail(info.getUsername(), info.getUsername());
+        if (user == null) {
+            return GeneralResponse.builder()
+                    .status(HttpStatus.NOT_FOUND)
+                    .message("User not found")
+                    .getResponse();
+        }
+
+        user.setUsername(info.getUsername());
+        user.setDUI(info.getDui());
+        user.setEmail(info.getDui());
+
+        userService.saveUser(user);
     }
 }
