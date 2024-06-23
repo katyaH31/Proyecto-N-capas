@@ -121,4 +121,14 @@ public class UserController {
                 .data(users)
                 .getResponse();
     }
+
+    //delete user by id
+    @DeleteMapping("{id}")
+    public ResponseEntity<GeneralResponse> deleteUser(@PathVariable UUID id){
+        userService.deleteUserById(id);
+        return GeneralResponse.builder()
+                .status(HttpStatus.OK)
+                .message("User deleted successfully")
+                .getResponse();
+    }
 }

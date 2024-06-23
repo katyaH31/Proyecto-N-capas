@@ -37,5 +37,5 @@ public interface UserService {
 
     List<User> getUsersExcludingAdmin();
 
-
+    void deleteUserById(UUID id);
 }

@@ -92,6 +92,10 @@ public class UserServiceImpl implements UserService {
         }
     }
 
+    @Override
+    public void deleteUserById(UUID id){
+        userRepository.deleteById(id);
+    }
 
     @Override
     public Boolean isTokenValid(User user, String token){
