@@ -41,12 +41,6 @@ public class HouseServiceImpl implements HouseService {
         house.setId(houseDto.getHouseId());
         house.setPolygon(houseDto.getPolygon());
         house.setNumberOfResidents(houseDto.getNumberOfResidents());
-
-        User resident = userRepository.findById(houseDto.getResidentId())
-                .orElseThrow(() -> new RuntimeException("Resident not found"));
-
-        house.setUsers(List.of(resident));
-
         houseRepository.save(house);
     }
 

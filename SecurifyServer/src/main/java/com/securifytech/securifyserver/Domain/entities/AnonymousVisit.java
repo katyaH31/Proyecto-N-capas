@@ -4,13 +4,16 @@ package com.securifytech.securifyserver.Domain.entities;
 import jakarta.persistence.*;
 import lombok.Data;
 
+import java.util.UUID;
+
 @Data
 @Entity
 @Table(name = "securify_anonymousvisits")
 public class AnonymousVisit {
 
     @Id
-    private String id;
+    @GeneratedValue(strategy = GenerationType.UUID)
+    private UUID id;
 
     private String name;
     private String description;
