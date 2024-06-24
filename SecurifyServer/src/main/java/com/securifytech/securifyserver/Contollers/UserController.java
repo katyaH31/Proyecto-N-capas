@@ -12,6 +12,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -74,21 +75,90 @@ public class UserController {
         }
     }
 
+    //get user by id
 
-    @PutMapping("/update")
-    public ResponseEntity<GeneralResponse> updateUser(@RequestBody @Valid CreateUserDTO info) {
-        User user = userService.findByUsernameOrEmail(info.getUsername(), info.getUsername());
-        if (user == null) {
+    @GetMapping("/{id}")
+    public ResponseEntity<GeneralResponse> getUserById(@PathVariable UUID id){
+        try {
+            User user = userService.findOneById(id);
+
+            if ( user == null ) {
+                return GeneralResponse.builder()
+                        .status(HttpStatus.NOT_FOUND)
+                        .message("User not found")
+                        .getResponse();
+            }
+
+            return GeneralResponse.builder()
+                    .status(HttpStatus.OK)
+                    .message("User found")
+                    .data(user)
+                    .getResponse();
+        }
+        catch (Exception e) {
+            System.out.println("Error: " + e);
+            return GeneralResponse.builder()
+                    .status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .message("An error has occurred while adding role to user ")
+                    .getResponse();
+        }
+    }
+
+
+    // find all users
+    @GetMapping("/allna")
+    public ResponseEntity<GeneralResponse> getUsersExcludingAdmin(){
+        List<User> users = userService.getUsersExcludingAdmin();
+        if (users.isEmpty()) {
             return GeneralResponse.builder()
                     .status(HttpStatus.NOT_FOUND)
-                    .message("User not found")
+                    .message("There are no users")
                     .getResponse();
         }
 
-        user.setUsername(info.getUsername());
-        user.setDUI(info.getDui());
-        user.setEmail(info.getDui());
+        return GeneralResponse.builder()
+                .status(HttpStatus.OK)
+                .message("User found")
+                .data(users)
+                .getResponse();
+    }
 
-        userService.saveUser(user);
+    //delete user by id
+    @DeleteMapping("{id}")
+    public ResponseEntity<GeneralResponse> deleteUser(@PathVariable UUID id){
+        userService.deleteUserById(id);
+        return GeneralResponse.builder()
+                .status(HttpStatus.OK)
+                .message("User deleted successfully")
+                .getResponse();
+    }
+
+    //update user by id
+    @PutMapping("/{id}")
+    public ResponseEntity<GeneralResponse> updateUser(@PathVariable UUID id, @RequestBody CreateUserDTO info){
+        User updateUser = userService.updateUserById(id, info);
+        return GeneralResponse.builder()
+                .status(HttpStatus.OK)
+                .message("User updated successfully")
+                .data(updateUser)
+                .getResponse();
+    }
+
+    //List User role Guard
+    @GetMapping("/guards")
+    public ResponseEntity<GeneralResponse> getUserGuards(){
+        List<User> guardUsers = userService.getGuardUsers();
+        if (guardUsers.isEmpty()) {
+            return GeneralResponse.builder()
+                    .status(HttpStatus.NOT_FOUND)
+                    .message("There are not guard users")
+                    .getResponse();
+        }
+
+        return GeneralResponse.builder()
+                .status(HttpStatus.OK)
+                .message("Guard users found")
+                .data(guardUsers)
+                .getResponse();
     }
 }

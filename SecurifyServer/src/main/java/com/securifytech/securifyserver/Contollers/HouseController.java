@@ -1,18 +1,20 @@
 package com.securifytech.securifyserver.Contollers;
 
 import com.securifytech.securifyserver.Domain.dtos.ChangeManagerDTO;
+import com.securifytech.securifyserver.Domain.dtos.CreateHouseDto;
 import com.securifytech.securifyserver.Domain.dtos.GeneralResponse;
+import com.securifytech.securifyserver.Domain.dtos.UpdateHouseDto;
 import com.securifytech.securifyserver.Domain.entities.House;
 import com.securifytech.securifyserver.Domain.entities.User;
+import com.securifytech.securifyserver.Domain.entities.Visit;
 import com.securifytech.securifyserver.Services.HouseService;
 import com.securifytech.securifyserver.Services.UserService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/house")
@@ -59,5 +61,55 @@ public class HouseController {
                     .status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .getResponse();
         }
+    }
+
+
+    @PostMapping
+    public ResponseEntity<GeneralResponse> createHouse(@RequestBody CreateHouseDto houseDto){
+        houseService.createHouse(houseDto);
+        return GeneralResponse.builder()
+                .status(HttpStatus.OK)
+                .message("House created successfully")
+                .getResponse();
+    }
+
+    @PutMapping("/{houseId}")
+    public ResponseEntity<GeneralResponse> updateHouse(@PathVariable String houseId, @RequestBody UpdateHouseDto houseDto){
+        houseService.updateHouse(houseId, houseDto);
+        return GeneralResponse.builder()
+                .status(HttpStatus.OK)
+                .message("House updated successfully")
+                .getResponse();
+    }
+
+    @GetMapping("/all")
+    public ResponseEntity<GeneralResponse> getAllHouses(){
+        List<House> houses = houseService.getAllHouses();
+        return GeneralResponse.builder()
+                .status(HttpStatus.OK)
+                .message("Houses retrieved successfully")
+                .data(houses)
+                .getResponse();
+    }
+
+    @GetMapping("/history/visits/{houseId}")
+    public ResponseEntity<GeneralResponse> getHouseVisits(@PathVariable String houseId){
+        List<Visit> visits = houseService.getVisitHistory(houseId);
+        return GeneralResponse.builder()
+                .status(HttpStatus.OK)
+                .message("Visit History retrieved succesfully")
+                .data(visits)
+                .getResponse();
+
+    }
+
+    @GetMapping("/{houseId}/residents")
+    public ResponseEntity<GeneralResponse> getResidents(@PathVariable String houseId){
+        List<User> residents = houseService.getResidents(houseId);
+        return GeneralResponse.builder()
+                .status(HttpStatus.OK)
+                .message("Residents retrieved succesfully")
+                .data(residents)
+                .getResponse();
     }
 }

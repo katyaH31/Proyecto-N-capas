@@ -7,6 +7,7 @@ import com.securifytech.securifyserver.Domain.entities.Role;
 import com.securifytech.securifyserver.Domain.entities.Token;
 import com.securifytech.securifyserver.Domain.entities.User;
 import com.securifytech.securifyserver.Repositories.HouseRepository;
+import com.securifytech.securifyserver.Repositories.RoleRepository;
 import com.securifytech.securifyserver.Repositories.TokenRepository;
 import com.securifytech.securifyserver.Repositories.UserRepository;
 import com.securifytech.securifyserver.Services.UserService;
@@ -18,6 +19,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -33,11 +35,14 @@ public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
 
+    private final RoleRepository roleRepository;
+
     private final HouseRepository houseRepository;
 
-    public UserServiceImpl(UserRepository userRepository, HouseRepository houseRepository) {
+    public UserServiceImpl(UserRepository userRepository, HouseRepository houseRepository, RoleRepository roleRepository) {
         this.userRepository = userRepository;
         this.houseRepository = houseRepository;
+        this.roleRepository = roleRepository;
     }
 
     @Override
@@ -76,6 +81,21 @@ public class UserServiceImpl implements UserService {
         userRepository.save(user);
     }
 
+    @Override
+    public List<User> getUsersExcludingAdmin() {
+        Optional<Role> adminRoleOptional = roleRepository.findByName("Admin");
+        if (adminRoleOptional.isPresent()) {
+            Role adminRole = adminRoleOptional.get();
+            return userRepository.findByRolesNotContaining(adminRole);
+        } else {
+            return userRepository.findAll();
+        }
+    }
+
+    @Override
+    public void deleteUserById(UUID id){
+        userRepository.deleteById(id);
+    }
 
     @Override
     public Boolean isTokenValid(User user, String token){
@@ -128,5 +148,21 @@ public class UserServiceImpl implements UserService {
                 .getName();
 
         return userRepository.findByUsernameOrEmail(username, username).orElse(null);
+    }
+
+    @Override
+
+    public User updateUserById(UUID id, CreateUserDTO info) {
+        User user = userRepository.findById(id).orElseThrow(() -> new RuntimeException("User not found"));
+        user.setUsername(info.getUsername());
+        user.setEmail(info.getEmail());
+        user.setDUI(info.getDui());
+        return userRepository.save(user);
+    }
+
+    @Override
+    public List<User> getGuardUsers(){
+        Role guardRole = roleRepository.findByName("Guard").orElseThrow(() -> new RuntimeException("Role not found"));
+        return userRepository.findByRolesContaining(guardRole);
     }
 }

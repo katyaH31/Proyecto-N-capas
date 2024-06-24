@@ -34,4 +34,12 @@ public interface UserService {
     // With Token
 
     User findUserAuthenticated();
+
+    List<User> getUsersExcludingAdmin();
+
+    void deleteUserById(UUID id);
+
+    User updateUserById(UUID id, CreateUserDTO info);
+
+    List<User> getGuardUsers();
 }

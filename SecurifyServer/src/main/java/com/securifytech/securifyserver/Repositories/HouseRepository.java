@@ -9,5 +9,4 @@ import java.util.UUID;
 
 public interface HouseRepository extends JpaRepository<House, String> {
 
-    List<House> findByIdAndBlock(String id, String block);
 }
