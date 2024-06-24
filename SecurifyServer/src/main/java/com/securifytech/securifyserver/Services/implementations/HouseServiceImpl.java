@@ -74,4 +74,11 @@ public class HouseServiceImpl implements HouseService {
     public List<Visit> getVisitHistory(String houseId) {
         return visitRepository.findByHouseId(houseId);
     }
+
+    @Override
+    public List<User> getResidents(String houseId) {
+        House house = houseRepository.findById(houseId)
+                .orElseThrow(() -> new RuntimeException("House not found"));
+        return house.getUsers();
+    }
 }
