@@ -76,11 +76,6 @@ public class UserServiceImpl implements UserService {
         userRepository.save(user);
     }
 
-    @Override
-    public void deleteUser(User user) {
-        userRepository.delete(user);
-    }
-
 
     @Override
     public Boolean isTokenValid(User user, String token){

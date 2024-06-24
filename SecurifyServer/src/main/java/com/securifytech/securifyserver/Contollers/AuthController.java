@@ -114,30 +114,5 @@ public class AuthController {
         }
     }
 
-    @DeleteMapping("/delete")
-    public ResponseEntity<GeneralResponse> DeleteUser(@RequestParam String username) {
-        User user = userService.findByUsernameOrEmail(username, username);
-
-        if (user == null) {
-            return GeneralResponse.builder()
-                    .status(HttpStatus.NOT_FOUND)
-                    .message("User not found")
-                    .getResponse();
-        }
-
-        try {
-            userService.deleteUser(user);
-
-            return GeneralResponse.builder()
-                    .status(HttpStatus.OK)
-                    .message("User deleted")
-                    .getResponse();
-        } catch (Exception e) {
-            e.printStackTrace();
-            return GeneralResponse.builder()
-                    .status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .getResponse();
-        }
-    }
 
 }

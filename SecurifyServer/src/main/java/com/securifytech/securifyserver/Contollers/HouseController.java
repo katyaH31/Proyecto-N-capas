@@ -9,6 +9,7 @@ import com.securifytech.securifyserver.Services.UserService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -26,6 +27,7 @@ public class HouseController {
         this.houseService = houseService;
     }
 
+    @PutMapping("/changeManager")
     public ResponseEntity<GeneralResponse> ChangeManager(@RequestBody @Valid ChangeManagerDTO info) {
         User user = userService.findByUsernameOrEmail(info.getUsername(), info.getUsername());
         House house = houseService.findById(info.getHouseId());
