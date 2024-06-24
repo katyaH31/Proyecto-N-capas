@@ -4,8 +4,10 @@ import com.securifytech.securifyserver.Domain.dtos.CreateHouseDto;
 import com.securifytech.securifyserver.Domain.dtos.UpdateHouseDto;
 import com.securifytech.securifyserver.Domain.entities.House;
 import com.securifytech.securifyserver.Domain.entities.User;
+import com.securifytech.securifyserver.Domain.entities.Visit;
 import com.securifytech.securifyserver.Repositories.HouseRepository;
 import com.securifytech.securifyserver.Repositories.UserRepository;
+import com.securifytech.securifyserver.Repositories.VisitRepository;
 import com.securifytech.securifyserver.Services.HouseService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -20,9 +22,12 @@ public class HouseServiceImpl implements HouseService {
 
     private final UserRepository userRepository;
 
-    public HouseServiceImpl(HouseRepository houseRepository, UserRepository userRepository) {
+    private final VisitRepository visitRepository;
+
+    public HouseServiceImpl(HouseRepository houseRepository, UserRepository userRepository, VisitRepository visitRepository) {
         this.houseRepository = houseRepository;
         this.userRepository = userRepository;
+        this.visitRepository = visitRepository;
     }
 
     @Override
@@ -63,5 +68,10 @@ public class HouseServiceImpl implements HouseService {
     @Override
     public List<House> getAllHouses() {
         return houseRepository.findAll();
+    }
+
+    @Override
+    public List<Visit> getVisitHistory(String houseId) {
+        return visitRepository.findByHouseId(houseId);
     }
 }

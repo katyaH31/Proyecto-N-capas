@@ -5,6 +5,7 @@ import com.securifytech.securifyserver.Domain.dtos.CreateHouseDto;
 import com.securifytech.securifyserver.Domain.dtos.GeneralResponse;
 import com.securifytech.securifyserver.Domain.dtos.UpdateHouseDto;
 import com.securifytech.securifyserver.Domain.entities.House;
+import com.securifytech.securifyserver.Domain.entities.Visit;
 import com.securifytech.securifyserver.Services.HouseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -46,5 +47,16 @@ public class HouseController {
                 .message("Houses retrieved successfully")
                 .data(houses)
                 .getResponse();
+    }
+
+    @GetMapping("/history/visits/{houseId}")
+    public ResponseEntity<GeneralResponse> getHouseVisits(@PathVariable String houseId){
+        List<Visit> visits = houseService.getVisitHistory(houseId);
+        return GeneralResponse.builder()
+                .status(HttpStatus.OK)
+                .message("Visit History retrieved succesfully")
+                .data(visits)
+                .getResponse();
+
     }
 }

@@ -3,6 +3,7 @@ package com.securifytech.securifyserver.Services;
 import com.securifytech.securifyserver.Domain.dtos.CreateHouseDto;
 import com.securifytech.securifyserver.Domain.dtos.UpdateHouseDto;
 import com.securifytech.securifyserver.Domain.entities.House;
+import com.securifytech.securifyserver.Domain.entities.Visit;
 
 import java.util.List;
 
@@ -15,4 +16,6 @@ public interface HouseService {
     void updateHouse(String houseId, UpdateHouseDto houseDto);
 
     List<House> getAllHouses();
+
+    List<Visit> getVisitHistory(String houseId);
 }
