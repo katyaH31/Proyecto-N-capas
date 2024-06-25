@@ -105,7 +105,7 @@ public class PermissionController {
         }
 
         try {
-            List<Permission> permissions = permissionService.GetPermissionsByHouse(user.getHouses().get(0));
+             List<Permission> permissions = permissionService.GetPermissionsByHouse(user.getHouses().get(0));
 
             return GeneralResponse.builder()
                     .status(HttpStatus.OK)
