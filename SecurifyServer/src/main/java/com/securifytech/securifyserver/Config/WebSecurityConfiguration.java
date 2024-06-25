@@ -62,6 +62,7 @@ public class WebSecurityConfiguration {
                     .requestMatchers("/api/permission/**").permitAll()
                     .requestMatchers("api/user/**").permitAll()
                     .requestMatchers("/api/houses/**").permitAll()
+                    .requestMatchers("/api/visits/**").permitAll()
         );
         http.sessionManagement(management -> management.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
         http.exceptionHandling(handling -> handling.authenticationEntryPoint((req, res, ex) ->  {

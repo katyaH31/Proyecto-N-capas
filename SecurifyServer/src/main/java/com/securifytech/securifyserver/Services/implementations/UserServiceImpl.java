@@ -165,4 +165,30 @@ public class UserServiceImpl implements UserService {
         Role guardRole = roleRepository.findByName("Guard").orElseThrow(() -> new RuntimeException("Role not found"));
         return userRepository.findByRolesContaining(guardRole);
     }
+
+    @Override
+    public void createFirebaseUser(String name, String email) {
+        User user = new User();
+        Role role = roleRepository.findByName("Resident").orElse(null);
+        List<Role> roles = List.of(role);
+
+        user.setUsername(name);
+        user.setEmail(email);
+        user.setRoles(roles);
+        user.setActive(true);
+
+        userRepository.save(user);
+    }
+
+
+    @Override
+    @Transactional(rollbackOn = Exception.class)
+    public void verifyUser(String name, String email) {
+        User user = userRepository.findByUsernameOrEmail(name, name).orElse(null);
+
+
+        if (user == null) {
+            createFirebaseUser(name, email);
+        }
+    }
 }

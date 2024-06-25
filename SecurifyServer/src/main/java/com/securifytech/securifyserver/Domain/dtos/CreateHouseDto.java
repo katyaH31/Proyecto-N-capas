@@ -10,5 +10,4 @@ public class CreateHouseDto {
     private String houseId;
     private String polygon;
     private int numberOfResidents;
-    private UUID residentId;
 }

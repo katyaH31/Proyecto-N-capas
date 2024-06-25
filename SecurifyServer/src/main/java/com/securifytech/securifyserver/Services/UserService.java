@@ -42,4 +42,8 @@ public interface UserService {
     User updateUserById(UUID id, CreateUserDTO info);
 
     List<User> getGuardUsers();
+
+    void createFirebaseUser(String name, String email);
+
+    void verifyUser(String name, String email);
 }
