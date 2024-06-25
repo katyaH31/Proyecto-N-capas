@@ -12,6 +12,8 @@ public interface HouseService {
 
     House findById(String idHouse);
 
+    void ChangeHouseManager(House house, User newManager);
+
     void createHouse(CreateHouseDto houseDto);
 
     void updateHouse(String houseId, UpdateHouseDto houseDto);
@@ -21,4 +23,5 @@ public interface HouseService {
     List<Visit> getVisitHistory(String houseId);
 
     List<User> getResidents(String houseId);
+
 }

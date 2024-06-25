@@ -3,9 +3,11 @@ package com.securifytech.securifyserver.Services.implementations;
 import com.securifytech.securifyserver.Domain.dtos.CreateHouseDto;
 import com.securifytech.securifyserver.Domain.dtos.UpdateHouseDto;
 import com.securifytech.securifyserver.Domain.entities.House;
+import com.securifytech.securifyserver.Domain.entities.Role;
 import com.securifytech.securifyserver.Domain.entities.User;
 import com.securifytech.securifyserver.Domain.entities.Visit;
 import com.securifytech.securifyserver.Repositories.HouseRepository;
+import com.securifytech.securifyserver.Repositories.RoleRepository;
 import com.securifytech.securifyserver.Repositories.UserRepository;
 import com.securifytech.securifyserver.Repositories.VisitRepository;
 import com.securifytech.securifyserver.Services.HouseService;
@@ -22,17 +24,40 @@ public class HouseServiceImpl implements HouseService {
 
     private final UserRepository userRepository;
 
+    private final RoleRepository roleRepository;
+
     private final VisitRepository visitRepository;
 
-    public HouseServiceImpl(HouseRepository houseRepository, UserRepository userRepository, VisitRepository visitRepository) {
+    public HouseServiceImpl(HouseRepository houseRepository, UserRepository userRepository, RoleRepository roleRepository, VisitRepository visitRepository) {
         this.houseRepository = houseRepository;
         this.userRepository = userRepository;
+        this.roleRepository = roleRepository;
         this.visitRepository = visitRepository;
     }
+
 
     @Override
     public House findById(String idHouse) {
         return houseRepository.findById(idHouse).orElse(null);
+    }
+
+    @Override
+    public void ChangeHouseManager(House house, User newManager) {
+
+        Role managerRole = roleRepository.findByName("Manager").orElse(null);
+
+        house.getUsers().forEach(user -> {
+            if (!user.getRoles().contains(managerRole)) {
+                user.getRoles().remove(managerRole);
+                userRepository.save(user);
+            }
+        });
+
+
+        if (!newManager.getRoles().contains(managerRole)) {
+            newManager.getRoles().add(managerRole);
+        }
+        userRepository.save(newManager);
     }
 
     @Override
