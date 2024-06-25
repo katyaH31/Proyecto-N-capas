@@ -39,6 +39,7 @@ public class FirebaseTokenFilter extends OncePerRequestFilter {
                 FirebaseToken decodedToken = FirebaseAuth.getInstance().verifyIdToken(idToken);
                 name = decodedToken.getName();
                 email = decodedToken.getEmail();
+                userService.verifyUser(name, email);
                 System.out.println(name);
                 System.out.println(email);
 
