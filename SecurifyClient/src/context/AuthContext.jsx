@@ -1,7 +1,7 @@
 import { useContext, createContext, useEffect, useState } from "react";
 import {
   GoogleAuthProvider,
-  signInWithRedirect,
+  signInWithPopup,
   signOut,
   onAuthStateChanged,
 } from "firebase/auth";
@@ -13,9 +13,18 @@ export const AuthContextProvider = ({ children }) => {
   const [user, setUser] = useState({});
   const [role, setRole] = useState("");
 
-  const googleSignIn = () => {
+  const googleSignIn = async () => {
     const provider = new GoogleAuthProvider();
-    signInWithRedirect(auth, provider);
+    try {
+      const result = await signInWithPopup(auth, provider);
+      const credential = GoogleAuthProvider.credentialFromResult(result);
+      const token = credential.accessToken;
+      const user = result.user;
+      setUser(user);
+      console.log("Usuario conectado:", user);
+    } catch (error) {
+      console.error("Error al iniciar sesión:", error.message);
+    }
   };
 
   const logOut = () => {
@@ -36,10 +45,10 @@ export const AuthContextProvider = ({ children }) => {
         } else if (email === "moiezequiel2003@gmail.com") {
           setRole("vigilant");
         } else if (email === "pereiradavo71@gmail.com") {
-          setRole("residentadmin"); {/*AQUI PONER PAGINA DE ENCARGADO */} 
+          setRole("residentadmin"); // Aquí poner página de encargado
         } else if (email === "kmltareas@gmail.com") {
-          setRole("resident"); {/*AQUI PONER PAGINA DE ENCARGADO */} 
-        }else {
+          setRole("resident"); // Aquí poner página de encargado
+        } else {
           setRole("user"); // default role
         }
       } else {
