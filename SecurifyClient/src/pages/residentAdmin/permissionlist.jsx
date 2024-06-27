@@ -43,6 +43,9 @@ const PermissionList = () => {
 
   return (
     <main className="content-container1">
+      <aside className="sidebar">
+        {/* Contenido del aside */}
+      </aside>
       <img src={invitationImage} alt="Invitación" />
       <h1>Solicitud de permiso</h1>
       {requests.map((request, index) => (

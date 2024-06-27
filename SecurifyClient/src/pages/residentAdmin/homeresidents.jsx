@@ -52,7 +52,10 @@ const HomeResidents = () => {
   };
 
   return (
-    <div className="qr-generator-container">
+    <div className="home-residents">
+      <aside className="sidebar">
+        {/* Contenido del aside */}
+      </aside>
       <div className="main-container">
         <form onSubmit={handleSubmit} className="space-y-4 p-6 max-w-lg mx-auto content-container">
           <div className="left-content">

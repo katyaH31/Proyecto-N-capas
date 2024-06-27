@@ -1,11 +1,35 @@
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  overflow: hidden; /* Oculta el desbordamiento para eliminar el scroll */
+}
+
 /* Estilo personalizado */
 .qr-generator-container {
   display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
-  padding: 10px;
+  height: 75vh; /* Hace que ocupe toda la altura de la ventana */
+  overflow: hidden; /* Asegura que no haya desplazamiento */
+}
+
+.home-residents{
+  display: flex;
+  height: 81vh; /* Hace que ocupe toda la altura de la ventana */
+  overflow: hidden; /* Asegura que no haya desplazamiento */
+}
+.history{
+  display: flex;
+  height: vh; /* Hace que ocupe toda la altura de la ventana */
+  overflow: hidden; /* Asegura que no haya desplazamiento */
+}
+
+.sidebar{
+  width: 200px; /* Ancho del aside */
+  background-color: #f4f4f4;
+  padding: 20px;
   box-sizing: border-box;
+  height: 100%; /* Asegura que el sidebar ocupe toda la altura */
+  overflow-y: auto; /* Añade desplazamiento solo al sidebar si es necesario */
 }
 
 .main-container {
@@ -14,7 +38,7 @@
   align-items: center;
   justify-content: center;
   width: 100%;
-  padding: 10px;
+  padding: 20px;
 }
 
 .content-container1 {

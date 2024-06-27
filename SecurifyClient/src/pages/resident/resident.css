@@ -1,42 +1,55 @@
+/* Asegúrate de que el html y body ocupen el 100% del espacio */
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  overflow: hidden; /* Oculta el desbordamiento para eliminar el scroll */
+}
+
 /* Estilo para el contenedor principal */
 .qr-generator-container {
   display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh; /* Hace que ocupe toda la altura de la ventana */
+  height: 75vh; /* Hace que ocupe toda la altura de la ventana */
+  overflow: hidden; /* Asegura que no haya desplazamiento */
+}
+.visit-permits{
+  display: flex;
+  height: 81vh; /* Hace que ocupe toda la altura de la ventana */
+  overflow: hidden; /* Asegura que no haya desplazamiento */
+}
+
+/* Estilo para el aside */
+.sidebar {
+  width: 200px; /* Ancho del aside */
+  background-color: #f4f4f4;
+  padding: 20px;
+  box-sizing: border-box;
+  height: 100%; /* Asegura que el sidebar ocupe toda la altura */
+  overflow-y: auto; /* Añade desplazamiento solo al sidebar si es necesario */
 }
 
 /* Estilo para el contenedor del contenido */
 .main-container {
   display: flex;
-  flex-direction: column;
-  align-items: center;
   justify-content: center;
+  align-items: center;
   height: 100%; /* Asegura que ocupe toda la altura del contenedor principal */
-  width: 100%;
+  width: 100%; /* Asegura que ocupe todo el ancho disponible */
+  padding: 20px; /* Espacio alrededor del contenido */
+  box-sizing: border-box;
 }
 
 .content-container {
   display: flex;
-  flex-direction: row; /* Cambiado a fila para colocar elementos lado a lado */
-  justify-content: center; /* Alinea el contenido horizontalmente */
-  align-items: center; /* Alinea el contenido verticalmente */
-  padding: 50px;
+  flex-direction: column; /* Columna para centrar verticalmente */
+  justify-content: center; /* Alinea el contenido verticalmente */
+  align-items: center; /* Alinea el contenido horizontalmente */
   text-align: center;
-}
-
-.left-content {
-  margin-right: 20px; /* Espacio entre los divs izquierdo y derecho */
-}
-
-.right-content {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+  flex: 1; /* Hace que ocupe el espacio restante */
 }
 
 .qr-code {
-  margin: 0 auto;
+  margin: 0 auto 20px; /* Centro horizontal con margen inferior */
 }
 
 .button-container {
@@ -57,4 +70,69 @@
   margin-top: 10px;
   font-size: 14px;
   color: #000000; /* Puedes ajustar el color según tu preferencia */
+}
+
+/* Estilo para el modal */
+.custom-modal {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  right: auto;
+  bottom: auto;
+  margin-right: -50%;
+  transform: translate(-50%, -50%);
+  background-color: white;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  max-width: 500px;
+  width: 100%;
+}
+
+.custom-overlay {
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+.modal-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.modal-icon {
+  font-size: 48px;
+  margin-bottom: 20px;
+}
+
+.modal-icon.success {
+  color: green;
+}
+
+.modal-icon.error {
+  color: red;
+}
+
+.modal-title {
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.modal-message {
+  font-size: 16px;
+  margin-bottom: 20px;
+}
+
+.modal-button {
+  padding: 10px 20px;
+  font-size: 16px;
+  background-color: #3C6E71;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.modal-button.error {
+  background-color: red;
 }

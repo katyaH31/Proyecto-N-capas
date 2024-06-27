@@ -26,9 +26,10 @@ const QRGeneratora = () => {
   }, [buttonDisabled, timeLeft]);
 
   return (
-    <div className="qr">
-  <aside className="sidebar"></aside>
     <div className="qr-generator-container">
+       <aside className="sidebar">
+        {/* Contenido del aside */}
+      </aside>
       <div className="main-container">
         <div className="content-container">
           <div className="left-content">
@@ -54,8 +55,6 @@ const QRGeneratora = () => {
           </div>
         </div>
       </div>
-    </div>
-  
     </div>
   );
 };

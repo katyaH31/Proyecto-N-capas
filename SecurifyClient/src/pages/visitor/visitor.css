@@ -1,3 +1,25 @@
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  overflow: hidden; /* Oculta el desbordamiento para eliminar el scroll */
+}
+
+/* Estilo para el contenedor principal */
+.qr-generator-container {
+  display: flex;
+  height: 75vh; /* Hace que ocupe toda la altura de la ventana */
+  overflow: hidden; /* Asegura que no haya desplazamiento */
+}
+
+.sidebar{
+  width: 200px; /* Ancho del aside */
+  background-color: #f4f4f4;
+  padding: 20px;
+  box-sizing: border-box;
+  height: 100%; /* Asegura que el sidebar ocupe toda la altura */
+  overflow-y: auto; /* Añade desplazamiento solo al sidebar si es necesario */
+}
 /* Estilo para el contenedor principal */
 .main-container {
     display: flex;

@@ -27,6 +27,9 @@ const QRGeneratorr = () => {
 
   return (
     <div className="qr-generator-container">
+       <aside className="sidebar">
+        {/* Contenido del aside */}
+      </aside>
       <div className="main-container">
         <div className="content-container">
           <div className="left-content">

@@ -37,6 +37,9 @@ const VisitHistoryTable = ({ visitas, setVisitas }) => {
 
   return (
     <div className="py-4 flex flex-col items-center">
+      <aside className="sidebar">
+        {/* Contenido del aside */}
+      </aside>
       <h2 className="text-xl font-bold mb-4 text-center">Historial de visitas</h2>
       <div className="mb-4">
         <label htmlFor="filter" className="mr-2">Mostrar:</label>
