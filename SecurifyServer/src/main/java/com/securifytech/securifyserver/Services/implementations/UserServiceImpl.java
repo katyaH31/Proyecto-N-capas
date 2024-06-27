@@ -169,7 +169,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public void createFirebaseUser(String name, String email) {
         User user = new User();
-        Role role = roleRepository.findByName("Resident").orElse(null);
+        Role role = roleRepository.findByName("Visitor").orElse(null);
         List<Role> roles = List.of(role);
 
         user.setUsername(name);

@@ -40,11 +40,11 @@ const Layout = ({ children }) => {
 
   return (
     <div className="app-container">
-      {role === 'admin' && <SidebarAdministrator/>}
-      {role === 'residentadmin' && <SidebarResidentAdmin/>}
-      {role === 'resident' && <SidebarResident/>}
-      {role === 'vigilant' && <SidebarVigilant/>}
-      {role === 'visitor' && <SidebarVisit/>}
+      {role === 'Admin' && <SidebarAdministrator/>}
+      {role === 'Manager' && <SidebarResidentAdmin/>}
+      {role === 'Resident' && <SidebarResident/>}
+      {role === 'Guard' && <SidebarVigilant/>}
+      {role === 'Visitor' && <SidebarVisit/>}
       <div className="content">
         {children}
       </div>

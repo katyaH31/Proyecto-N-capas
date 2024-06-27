@@ -1,5 +1,7 @@
 package com.securifytech.securifyserver.Contollers;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseToken;
 import com.securifytech.securifyserver.Domain.dtos.CreateUserDTO;
 import com.securifytech.securifyserver.Domain.dtos.GeneralResponse;
 import com.securifytech.securifyserver.Domain.dtos.UserLoginDTO;
@@ -27,6 +29,38 @@ public class AuthController {
     public AuthController(UserService userService, RoleService roleService) {
         this.userService = userService;
         this.roleService = roleService;
+    }
+
+
+    @PostMapping("/google")
+    public ResponseEntity<GeneralResponse> authenticateUser(@RequestHeader("Authorization") String firebaseToken) {
+        try {
+            String idToken = firebaseToken.substring(7);
+            FirebaseToken decodeToken = FirebaseAuth.getInstance().verifyIdToken(idToken);
+            String username = decodeToken.getName();
+            String email = decodeToken.getEmail();
+
+            User user = userService.findByUsernameOrEmail(email, email);
+            if (user == null) {
+                userService.createFirebaseUser(username, email);
+
+            }
+            user = userService.findByUsernameOrEmail(email, email);
+            Token token = userService.RegisterToken(user);
+            return GeneralResponse.builder()
+                    .status(HttpStatus.OK)
+                    .message("User token:")
+                    .data(token.getContent())
+                    .role(user)
+                    .getResponse();
+
+        } catch (Exception e){
+            e.printStackTrace();
+            return GeneralResponse.builder()
+                    .status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .getResponse();
+        }
+
     }
 
     @RequestMapping("/me")

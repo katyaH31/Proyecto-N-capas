@@ -38,5 +38,9 @@ public class Token {
         this.active = true;
     }
 
+    public Token() {
+
+    }
+
 
 }

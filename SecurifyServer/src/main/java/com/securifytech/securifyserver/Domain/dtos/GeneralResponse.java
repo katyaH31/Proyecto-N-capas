@@ -12,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 public class GeneralResponse {
     private String message;
     private Object data;
+    private Object role;
 
     public static Builder builder() {
         return new Builder();
@@ -21,6 +22,8 @@ public class GeneralResponse {
         private HttpStatus status = HttpStatus.OK;
         private String message;
         private Object data;
+
+        private Object role;
 
         public Builder status(HttpStatus status) {
             this.status = status;
@@ -37,11 +40,16 @@ public class GeneralResponse {
             return this;
         }
 
+        public Builder role(Object role) {
+            this.role = role;
+            return this;
+        }
+
         public ResponseEntity<GeneralResponse> getResponse() {
             return ResponseEntity
                     .status(status)
                     .body(new GeneralResponse(
-                            message == null ? status.getReasonPhrase() : message, data
+                            message == null ? status.getReasonPhrase() : message, data, role
                     ));
         }
     }
