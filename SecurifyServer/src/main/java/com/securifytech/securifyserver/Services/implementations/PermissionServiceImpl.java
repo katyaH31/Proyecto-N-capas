@@ -47,4 +47,9 @@ public class PermissionServiceImpl implements PermissionService {
     public List<Permission> GetPermissionsByHouse(House house) {
         return permissionRepository.findByHouse(house);
     }
+
+    @Override
+    public Permission findById(UUID idPermission) {
+        return permissionRepository.findById(idPermission).orElse(null);
+    }
 }

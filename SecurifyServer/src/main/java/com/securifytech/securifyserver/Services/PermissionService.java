@@ -14,4 +14,6 @@ public interface PermissionService {
 
     List<Permission> GetPermissionsByHouse(House house);
 
+    Permission findById(UUID idPermission);
+
 }

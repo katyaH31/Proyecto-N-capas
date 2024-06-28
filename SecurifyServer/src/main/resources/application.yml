@@ -1,6 +1,8 @@
 jwt:
   secret: "NuevaClaveSecretaMuySegurade256bits"
   exptime: 1296000000
+  qr-secret: "NuevaClaveSecretaMuySegurade256bits"
+  qr-exptime: 180000
 
 spring:
   sql:

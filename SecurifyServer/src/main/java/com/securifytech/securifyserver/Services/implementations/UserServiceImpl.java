@@ -127,6 +127,7 @@ public class UserServiceImpl implements UserService {
         return token;
     }
 
+
     @Override
     @Transactional(rollbackOn = Exception.class)
     public void cleanTokens(User user) {
