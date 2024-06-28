@@ -26,6 +26,7 @@ public class Permission {
     @Enumerated(EnumType.STRING)
     private RequestState status;
 
+    @JsonIgnore
     @ManyToOne(fetch = FetchType.EAGER)
     private House house;
 
