@@ -1,5 +1,4 @@
 import React, { useContext, useState, useRef, useEffect } from 'react';
-import DataTable from 'react-data-table-component';
 import { DataContext } from "../../context/DataContext";
 import './admi.css';
 
@@ -50,11 +49,11 @@ const AnonymousHistory = () => {
   );
 
   return (
-    <div className="main-containeran text-sm">
-      <aside className="sidebaran">
+    <div className="main-containerAno text-sm">
+      <aside className="sidebarAno" style={{ backgroundColor: 'white' }}>
         {/* Contenido del aside */}
       </aside>
-      <div className="table-containeran">
+      <div className="table-container">
         <input
           type="text"
           className="filter-inputan"
@@ -62,8 +61,24 @@ const AnonymousHistory = () => {
           value={filterText}
           onChange={handleFilterChange}
         />
-        <div className="table-wrapperan" ref={tableContainerRef}>
-          <DataTable columns={columns} data={filteredData} />
+       <div className="custom-table-wrapperAno text-sm" ref={tableContainerRef}>
+          <table className="custom-tableAno">
+            <thead>
+              <tr>
+                <th>Nombre</th>
+                <th>Descripción</th>
+                
+              </tr>
+            </thead>
+            <tbody>
+              {filteredData.map((row, index) => (
+                <tr key={index}>
+                  <td data-label="Nombre">{row.name}</td>
+                  <td data-label="Descripción">{row.descripcion}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
         </div>
       </div>
     </div>

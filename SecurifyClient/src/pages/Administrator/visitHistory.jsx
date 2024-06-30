@@ -1,5 +1,4 @@
 import React, { useState, useRef } from 'react';
-import DataTable from 'react-data-table-component';
 import './admi.css';
 
 const VisitHistory = () => {
@@ -143,7 +142,7 @@ const VisitHistory = () => {
 
   return (
     <div className="main-containervisit text-sm">
-      <aside className="sidebarvisit">
+      <aside className="sidebar" style={{ backgroundColor: 'white' }}>
         {/* Contenido del aside */}
       </aside>
       <div className="table-containervisit">
@@ -200,8 +199,33 @@ const VisitHistory = () => {
           </div>
           <button className="form-buttonvisit text-sm" onClick={handleAddData}>Agregar a la tabla</button>
         </div>
-        <div className="table-wrappervisit" ref={tableContainerRef}>
-          <DataTable columns={columns} data={filteredData} />
+        <div className="custom-table-wrappervisit text-sm" ref={tableContainerRef}>
+          <table className="custom-tablevisit">
+            <thead>
+              <tr>
+              <th>Correlativo</th>
+                <th>Nombre/Apellido</th>
+                <th>N° de DUI</th>
+                <th>Casa</th>
+                <th>Fecha</th>
+                <th>Hora</th>
+                <th>Acciones</th>
+              </tr>
+            </thead>
+            <tbody>
+              {filteredData.map((row, index) => (
+                <tr key={index}>
+                  <td data-label="Correlativo">{row.correlativo}</td>
+                  <td data-label="Nombre">{row.name}</td>
+                  <td data-label="N° de DUI">{row.dui}</td>
+                  <td data-label="Casa">{row.home}</td>
+                  <td data-label="Fecha">{row.date}</td>
+                  <td data-label="Hora">{row.hour}</td>
+                  <td data-label="Acciones">{row.acciones}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
         </div>
       </div>
     </div>

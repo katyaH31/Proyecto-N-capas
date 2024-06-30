@@ -1,5 +1,4 @@
 import React, { useState, useRef, useEffect } from 'react';
-import DataTable from 'react-data-table-component';
 import './admi.css';
 const UserPanel = () => {
   const [filterText, setFilterText] = useState('');

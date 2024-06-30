@@ -1,5 +1,4 @@
 import React, { useState, useRef, useEffect } from 'react';
-import DataTable from 'react-data-table-component';
 import './admi.css';
 
 const SecurityTeam= () => {
@@ -105,7 +104,7 @@ const SecurityTeam= () => {
 
   return (
     <div className="main-containerse text-sm">
-      <aside className="sidebar">
+      <aside className="sidebar" style={{ backgroundColor: 'white' }}>
         {/* Contenido del aside */}
       </aside>
       <div className="table-containerse">
@@ -143,8 +142,27 @@ const SecurityTeam= () => {
           />
           <button className="form-buttonse" onClick={handleAddData}>Agregar a la tabla</button>
         </div>
-        <div className="table-wrapperse" ref={tableContainerRef}>
-          <DataTable columns={columns} data={filteredData} />
+        <div className="custom-table-wrapperse text-sm" ref={tableContainerRef}>
+          <table className="custom-tablese">
+            <thead>
+              <tr>
+                <th>Nombre</th>
+                <th>N° de DUI</th>
+                <th>Correo</th>
+                <th>Acciones</th>
+              </tr>
+            </thead>
+            <tbody>
+              {filteredData.map((row, index) => (
+                <tr key={index}>
+                  <td data-label="Nombre">{row.name}</td>
+                  <td data-label="N° de DUI">{row.dui}</td>
+                  <td data-label="Correo">{row.correo}</td>
+                  <td data-label="Acciones">{row.acciones}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
         </div>
       </div>
     </div>
