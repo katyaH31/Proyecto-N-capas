@@ -22,11 +22,11 @@ export function Home() {
     <Container>
       
 
-      {role === "admin" && <Admin />}
-      {role === "visitor" && <Visitor/>}
-      {role === "vigilant" && <Vigilant/>}
-      {role === "residentadmin" && <ResidentAdmin/>}
-      {role === "resident" && <Resident/>}
+      {role === "Admin" && <Admin />}
+      {role === "Visitor" && <Visitor/>}
+      {role === "Guard" && <Vigilant/>}
+      {role === "Managen" && <ResidentAdmin/>}
+      {role === "Resident" && <Resident/>}
     </Container>
   );
 }
