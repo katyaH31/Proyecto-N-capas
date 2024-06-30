@@ -15,4 +15,3 @@ INSERT INTO public.securify_roles (role_id, name) VALUES ('MNG', 'Manager')
 
 INSERT INTO public.securify_roles (role_id, name) VALUES ('VST', 'Visitor')
     ON CONFLICT (role_id) DO UPDATE SET name = excluded.name;
-

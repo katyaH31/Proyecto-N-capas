@@ -52,4 +52,15 @@ public class PermissionServiceImpl implements PermissionService {
     public Permission findById(UUID idPermission) {
         return permissionRepository.findById(idPermission).orElse(null);
     }
+
+    @Override
+    public void ChangePermissionStatus(Permission permission, RequestState state) {
+            permission.setStatus(state);
+            permissionRepository.save(permission);
+    }
+
+    @Override
+    public List<Permission> GetPermissionsByUser(User user) {
+        return permissionRepository.findByUser(user);
+    }
 }
