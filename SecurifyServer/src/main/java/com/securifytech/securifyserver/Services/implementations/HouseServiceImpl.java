@@ -11,9 +11,12 @@ import com.securifytech.securifyserver.Repositories.RoleRepository;
 import com.securifytech.securifyserver.Repositories.UserRepository;
 import com.securifytech.securifyserver.Repositories.VisitRepository;
 import com.securifytech.securifyserver.Services.HouseService;
+import jakarta.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 @Service
@@ -63,13 +66,16 @@ public class HouseServiceImpl implements HouseService {
     @Override
     public void createHouse(CreateHouseDto houseDto){
         House house = new House();
+        List<User> users = Collections.emptyList();
         house.setId(houseDto.getHouseId());
         house.setPolygon(houseDto.getPolygon());
         house.setNumberOfResidents(houseDto.getNumberOfResidents());
+        house.setUsers(users);
         houseRepository.save(house);
     }
 
     @Override
+    @Transactional(rollbackOn = Exception.class)
     public void updateHouse(String houseId, UpdateHouseDto houseDto) {
         House house = houseRepository.findById(houseId)
                 .orElseThrow(() -> new RuntimeException("House not found"));
@@ -79,7 +85,8 @@ public class HouseServiceImpl implements HouseService {
         User resident = userRepository.findById(houseDto.getResidentID())
                 .orElseThrow(() -> new RuntimeException("Resident not found"));
 
-        house.getUsers().clear();
+
+
         house.getUsers().add(resident);
         houseRepository.save(house);
     }
