@@ -75,7 +75,7 @@
   background-color: #3C6E71;
 }
 
-/*-------------------VISITHISTORY---------------*/
+/-------------------VISITHISTORY---------------/
 .main-containervisit {
   display: flex;
   height: 100vh;
@@ -149,7 +149,7 @@
 }
 
 
-/*-------------------security team---------------*/
+/-------------------security team---------------/
 .main-containerse {
   display: flex;
   height: 100vh;
@@ -228,7 +228,7 @@
 }
 
 
-/*-------------------Anonimos---------------*/
+/-------------------Anonimos---------------/
 .main-containeran {
   display: flex;
   height: 100vh;
@@ -305,21 +305,6 @@
 .form-buttonan:hover {
   background-color: #3C6E71;
 }
-
-/*Content of the Userpanel-Admi*/
-/* Importa la fuente Poppins desde Google Fonts */
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
-
-/* Estilo general del cuerpo para aplicar la fuente Poppins */
-body {
-  font-family: 'Poppins', sans-serif;
-  background-color: #ffffff; /* Color de fondo suave */
-  color: #333; /* Color de texto suave */
-}
-
-/* Estilo para la tabla personalizada, 
-   hace que la tabla ocupe el 100% del ancho del contenedor 
-   y colapsa los bordes para que se muestren como una sola línea */
 .custom-table {
   width: 100%;
   border-collapse: inherit;
@@ -351,7 +336,7 @@ body {
 /* Modificación para centrar el contenedor de la tabla personalizada y ajustar su tamaño */
 .custom-table-wrapper {
   color: rgb(78, 78, 78); 
-  margin-left: auto; /* Espacio entre el aside y la tabla */
+  margin-left: 90px; /* Espacio entre el aside y la tabla */
   max-height: 200vh; /* No cambiar */
   justify-content: center; /* Centra horizontalmente el contenido */
   overflow-x: auto; /* Permite el scroll horizontal si es necesario */
@@ -360,8 +345,8 @@ body {
   font-size: 0.9rem; /* Reduce el tamaño de la letra */
 }
 
-/* Estilo para .table-containerinv */
-.table-containerpa {   
+/* Estilo para .table-containerA */
+.table-containerA {   
   flex-grow: 1;
   display: flex;
   flex-direction: column;
@@ -377,31 +362,31 @@ body {
 
 /* Media queries para hacer .table-containerinv responsive */
 @media (max-width: 1200px) {
-  .table-containerinv {
+  .table-containerA {
     padding: 30px 80px; /* Ajusta el padding en pantallas más pequeñas */
   }
 }
 
 @media (max-width: 992px) {
-  .table-containerinv {
+  .table-containerA {
     padding: 20px 60px; /* Ajusta el padding en pantallas más pequeñas */
   }
 }
 
 @media (max-width: 768px) {
-  .table-containerinv {
+  .table-containerA {
     padding: 15px 40px; /* Ajusta el padding en pantallas más pequeñas */
     max-width: 100%; /* Ajusta el ancho máximo en pantallas pequeñas */
   }
 }
 
 @media (max-width: 576px) {
-  .table-containerinv {
+  .table-containerA {
     padding: 10px 20px; /* Ajusta el padding en pantallas muy pequeñas */
     max-width: 100%; /* Ajusta el ancho máximo en pantallas muy pequeñas */
   }
 }
-.sidebarpa{
+.sidebarA{
   width: 200px; /* Ancho del aside */
   background-color: #ffffff;
   color:#fff;
@@ -411,7 +396,7 @@ body {
   overflow-y: auto; /* Añade desplazamiento solo al sidebar si es necesario */
 }
 
-.main-containerpa {
+.main-containerA {
   display: flex;
   height: 100vh;
   display: flex;

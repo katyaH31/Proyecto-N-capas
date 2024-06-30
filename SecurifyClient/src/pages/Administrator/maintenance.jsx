@@ -1,19 +1,40 @@
 import React, { useState, useRef, useEffect } from 'react';
-import DataTable from 'react-data-table-component';
+import Modal from 'react-modal';
+import axios from 'axios';
 import './admi.css';
+
+Modal.setAppElement('#root'); // Asegúrate de que el root coincide con el id del div principal en tu index.html
 
 const Maintenance = () => {
   const [filterText, setFilterText] = useState('');
   const [newData, setNewData] = useState([]);
+  const [backendData, setBackendData] = useState([]);
   const [formValues, setFormValues] = useState({
-    name: '',
     casa: '',
     poligono: '',
     residente: '',
-    acciones: 'Acciones', // Default value for actions
   });
-
+  const [modalIsOpen, setModalIsOpen] = useState(false);
+  const [modalMessage, setModalMessage] = useState('');
+  const [isSuccess, setIsSuccess] = useState(true);
   const tableContainerRef = useRef(null);
+
+  useEffect(() => {
+    // Fetch data from the backend
+    const fetchData = async () => {
+      try {
+        const response = await axios.get('http://localhost:8080/api/house/all', {
+          headers: { 'Authorization': `Bearer ${localStorage.getItem('token')}` }
+        });
+        console.log('Backend response:', response);
+        setBackendData(response.data.data);
+      } catch (error) {
+        console.error('Error fetching data:', error.response ? error.response.data : error.message);
+      }
+    };
+
+    fetchData();
+  }, []);
 
   const handleFilterChange = (e) => {
     setFilterText(e.target.value);
@@ -27,19 +48,55 @@ const Maintenance = () => {
     });
   };
 
-  const handleAddData = () => {
-    const newEntry = {
-      ...formValues,
-      casa: parseInt(formValues.casa, 10), // Convert casa to number
-    };
-    setNewData((prevData) => [...prevData, newEntry]);
-    setFormValues({
-      name: '',
-      casa: '',
-      poligono: '',
-      residente: '',
-      acciones: 'Acciones',
-    });
+  const handleAddData = async () => {
+    console.log('Casa:', formValues.casa);
+    console.log('Poligono:', formValues.poligono);
+    console.log('Residente:', formValues.residente);
+
+    if (!formValues.casa || !formValues.poligono || !formValues.residente) {
+      setIsSuccess(false);
+      setModalMessage('Por favor, complete todos los campos.');
+      setModalIsOpen(true);
+      return;
+    }
+
+    const casaValue = formValues.casa;
+    const residenteValue = parseInt(formValues.residente, 10);
+    if (isNaN(residenteValue)) {
+      setIsSuccess(false);
+      setModalMessage('Número de residentes debe ser un número.');
+      setModalIsOpen(true);
+      return;
+    }
+
+    try {
+      const data = {
+        houseId: casaValue,
+        polygon: formValues.poligono,
+        numberOfResidents: residenteValue,
+      };
+
+      const response = await axios.post('http://localhost:8080/api/house', data, {
+        headers: { 'Authorization': `Bearer ${localStorage.getItem('token')}` }
+      });
+
+      console.log('Response:', response.data);
+
+      setIsSuccess(true);
+      setModalMessage(response.data.message || 'La entrada se ha agregado con éxito.');
+      setModalIsOpen(true);
+      setNewData((prevData) => [...prevData, data]);
+      setFormValues({
+        casa: '',
+        poligono: '',
+        residente: '',
+      });
+    } catch (error) {
+      console.error('Error:', error.response ? error.response.data : error.message);
+      setIsSuccess(false);
+      setModalMessage(error.response ? error.response.data.message : 'Ocurrió un error al agregar la entrada');
+      setModalIsOpen(true);
+    }
   };
 
   useEffect(() => {
@@ -48,94 +105,32 @@ const Maintenance = () => {
     }
   }, [newData]);
 
-  const columns = [
-    {
-      name: 'Nombre encargado',
-      selector: (row) => row.name,
-      sortable: true,
-    },
-    {
-      name: 'Número de casa',
-      selector: (row) => row.casa,
-      sortable: true,
-    },
-    {
-      name: 'Poligono',
-      selector: (row) => row.poligono,
-      sortable: true,
-    },
-    {
-      name: 'N° Residentes',
-      selector: (row) => row.residente,
-      sortable: true,
-    },
-    {
-      name: 'Acciones',
-      selector: (row) => row.acciones,
-      sortable: true,
-    },
-  ];
+  const closeModal = () => {
+    setModalIsOpen(false);
+  };
 
-  const data = [
-    {
-      name: 'Katya',
-      casa: 12,
-      poligono: 'poligono a',
-      residente: 5,
-      acciones: 'Acciones',
-    },
-    {
-      name: 'Cardona',
-      casa: 10,
-      poligono: 'poligono b',
-      residente: 2,
-      acciones: 'Acciones',
-    },
-    {
-      name: 'David',
-      casa: 1,
-      poligono: 'poligono d',
-      residente: 3,
-      acciones: 'Acciones',
-    },
-    {
-      name: 'Moises',
-      casa: 19,
-      poligono: 'poligono c',
-      residente: 4,
-      acciones: 'Acciones',
-    },
-    ...newData, // Agregar nuevos datos
-  ];
-
-  const filteredData = data.filter((item) =>
+  const filteredData = [...backendData, ...newData].filter((item) =>
     Object.values(item).some((value) =>
       value.toString().toLowerCase().includes(filterText.toLowerCase())
     )
   );
 
   return (
-    <div className="main-container text-sm">
-      <aside className="sidebar">
-        {/* if it was necessary*/}
+    <div className="main-containerA text-sm">
+      <aside className="sidebarA" style={{ backgroundColor: 'white' }}>
+        {/* Contenido del aside */}
       </aside>
-      <div className="table-container">
-        <input
-          type="text"
-          className="filter-input"
-          placeholder="Filtrar..."
-          value={filterText}
-          onChange={handleFilterChange}
-        />
-        <div className="form">
+      <div className="table-containerA">
+        <div className="table-container">
           <input
             type="text"
-            name="name"
-            className="form-input"
-            placeholder="Nombre residente"
-            value={formValues.name}
-            onChange={handleInputChange}
+            className="filter-input"
+            placeholder="Filtrar..."
+            value={filterText}
+            onChange={handleFilterChange}
           />
+        </div>
+        <div className="form">
           <input
             type="text"
             name="casa"
@@ -148,7 +143,7 @@ const Maintenance = () => {
             type="text"
             name="poligono"
             className="form-input"
-            placeholder="poligono"
+            placeholder="Poligono"
             value={formValues.poligono}
             onChange={handleInputChange}
           />
@@ -156,16 +151,54 @@ const Maintenance = () => {
             type="text"
             name="residente"
             className="form-input"
-            placeholder="residentes"
+            placeholder="N° Residentes"
             value={formValues.residente}
             onChange={handleInputChange}
           />
           <button className="form-button" onClick={handleAddData}>Agregar a la tabla</button>
         </div>
-        <div className="table-wrapper" ref={tableContainerRef}>
-          <DataTable columns={columns} data={filteredData} />
+        <div className="custom-table-wrapper text-sm" ref={tableContainerRef}>
+          <table className="custom-table">
+            <thead>
+              <tr>
+                <th>Número de casa</th>
+                <th>Poligono</th>
+                <th>N° Residentes</th>
+              </tr>
+            </thead>
+            <tbody>
+              {filteredData.map((row, index) => (
+                <tr key={index}>
+                  <td data-label="Número de casa">{row.houseId || row.id}</td>
+                  <td data-label="Poligono">{row.polygon}</td>
+                  <td data-label="N° Residentes">{row.numberOfResidents}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
         </div>
       </div>
+      <Modal
+        isOpen={modalIsOpen}
+        onRequestClose={closeModal}
+        contentLabel="Mensaje del formulario"
+        className="custom-modal"
+        overlayClassName="custom-overlay"
+      >
+        <div className="modal-content">
+          <div className={`modal-icon ${isSuccess ? 'success' : 'error'}`}>
+            <span>{isSuccess ? '✓' : 'X'}</span>
+          </div>
+          <h2 className="modal-title">{isSuccess ? 'Éxito' : '¡Error!'}</h2>
+          <p className="modal-message">{modalMessage}</p>
+          <button 
+            onClick={closeModal} 
+            className={`modal-button ${isSuccess ? '' : 'error'}`}
+          >
+            Continuar
+          </button>
+        </div>
+      </Modal>
     </div>
   );
 };
