@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
-import DataTable from 'react-data-table-component';
 import './visitor.css';
+
 const Invitation = () => {
   const [filterText, setFilterText] = useState('');
   const [newData, setNewData] = useState([]);
@@ -8,7 +8,7 @@ const Invitation = () => {
     name: '',
     date: '',
     state: '',
-    acciones: 'Acciones', // Default value for actions
+    acciones: 'Acciones', // Valor predeterminado para acciones
   });
 
   const tableContainerRef = useRef(null);
@@ -28,7 +28,7 @@ const Invitation = () => {
   const handleAddData = () => {
     const newEntry = {
       ...formValues,
-      casa: parseInt(formValues.casa, 10), // Convert casa to number
+      casa: parseInt(formValues.casa, 10), // Convertir casa a número
     };
     setNewData((prevData) => [...prevData, newEntry]);
     setFormValues({
@@ -44,29 +44,6 @@ const Invitation = () => {
       tableContainerRef.current.scrollTop = tableContainerRef.current.scrollHeight;
     }
   }, [newData]);
-
-  const columns = [
-    {
-      name: 'Nombre de familia',
-      selector: (row) => row.name,
-      sortable: true,
-    },
-    {
-      name: 'Fecha',
-      selector: (row) => row.date,
-      sortable: true,
-    },
-    {
-      name: 'Estado',
-      selector: (row) => row.state,
-      sortable: true,
-    },
-    {
-      name: 'Acciones',
-      selector: (row) => row.acciones,
-      sortable: true,
-    },
-  ];
 
   const data = [
     {
@@ -103,10 +80,12 @@ const Invitation = () => {
   );
 
   return (
-    <div className="main-container text-sm">
-      <aside className="sidebar" style={{ backgroundColor: 'white' }}>
+    
+    <div className="main-containerinv text-sm">
+       <aside className="sidebarinv" style={{ backgroundColor: 'white' }}>
         {/* Contenido del aside */}
       </aside>
+      <div className="table-containerinv">
       <div className="table-container">
         <input
           type="text"
@@ -115,11 +94,31 @@ const Invitation = () => {
           value={filterText}
           onChange={handleFilterChange}
         />
-        <div className="table-wrapper" ref={tableContainerRef}>
-          <DataTable columns={columns} data={filteredData} />
+      </div>
+        <div className="custom-table-wrapper text-sm" ref={tableContainerRef}>
+          <table className="custom-table">
+            <thead>
+              <tr>
+                <th>Nombre de familia</th>
+                <th>Fecha</th>
+                <th>Estado</th>
+                <th>Acciones</th>
+              </tr>
+            </thead>
+            <tbody>
+              {filteredData.map((row, index) => (
+                <tr key={index}>
+                  <td data-label="Nombre de familia">{row.name}</td>
+                  <td data-label="Fecha">{row.date}</td>
+                  <td data-label="Estado">{row.state}</td>
+                  <td data-label="Acciones">{row.acciones}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
         </div>
       </div>
-    </div>
   );
 };
 

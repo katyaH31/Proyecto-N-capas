@@ -305,3 +305,120 @@
 .form-buttonan:hover {
   background-color: #3C6E71;
 }
+
+/*Content of the Userpanel-Admi*/
+/* Importa la fuente Poppins desde Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+/* Estilo general del cuerpo para aplicar la fuente Poppins */
+body {
+  font-family: 'Poppins', sans-serif;
+  background-color: #ffffff; /* Color de fondo suave */
+  color: #333; /* Color de texto suave */
+}
+
+/* Estilo para la tabla personalizada, 
+   hace que la tabla ocupe el 100% del ancho del contenedor 
+   y colapsa los bordes para que se muestren como una sola línea */
+.custom-table {
+  width: 100%;
+  border-collapse: inherit;
+  font-size: 0.9rem; /* Reduce el tamaño de la letra */
+}
+
+/* Estilo para las celdas de la tabla (th y td),
+   agrega padding, 
+   un borde de 1px sólido y gris claro, 
+   y alinea el texto a la izquierda */
+.custom-table th,
+.custom-table td {
+  padding: 0.5rem; /* Reduce el padding */
+  border: 1px solid #ddd;
+  text-align: center;
+}
+
+/* Estilo específico para las celdas de encabezado de la tabla (th),
+   establece un color de fondo gris claro */
+.custom-table th {
+  background-color:#398f94;
+  text-align: center;
+  color: #ffffff; /* Color de texto suave */
+  font-size: 0.80rem; /* Reduce el tamaño de la letra del encabezado */
+}
+
+
+
+/* Modificación para centrar el contenedor de la tabla personalizada y ajustar su tamaño */
+.custom-table-wrapper {
+  color: rgb(78, 78, 78); 
+  margin-left: auto; /* Espacio entre el aside y la tabla */
+  max-height: 200vh; /* No cambiar */
+  justify-content: center; /* Centra horizontalmente el contenido */
+  overflow-x: auto; /* Permite el scroll horizontal si es necesario */
+  width: 115%; /* Ajusta el ancho del contenedor */
+  margin-right: 90px; /* Centra el contenedor horizontalmente */
+  font-size: 0.9rem; /* Reduce el tamaño de la letra */
+}
+
+/* Estilo para .table-containerinv */
+.table-containerpa {   
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: #fff;
+  padding: 40px 100px;
+  border-radius: 8px;
+  max-width: 190%; /* no cambiar */
+  max-height: 100vh; /* no cambiar */
+  box-sizing: border-box;
+}
+
+/* Media queries para hacer .table-containerinv responsive */
+@media (max-width: 1200px) {
+  .table-containerinv {
+    padding: 30px 80px; /* Ajusta el padding en pantallas más pequeñas */
+  }
+}
+
+@media (max-width: 992px) {
+  .table-containerinv {
+    padding: 20px 60px; /* Ajusta el padding en pantallas más pequeñas */
+  }
+}
+
+@media (max-width: 768px) {
+  .table-containerinv {
+    padding: 15px 40px; /* Ajusta el padding en pantallas más pequeñas */
+    max-width: 100%; /* Ajusta el ancho máximo en pantallas pequeñas */
+  }
+}
+
+@media (max-width: 576px) {
+  .table-containerinv {
+    padding: 10px 20px; /* Ajusta el padding en pantallas muy pequeñas */
+    max-width: 100%; /* Ajusta el ancho máximo en pantallas muy pequeñas */
+  }
+}
+.sidebarpa{
+  width: 200px; /* Ancho del aside */
+  background-color: #ffffff;
+  color:#fff;
+  padding: 20px;
+  box-sizing: border-box;
+  height: 100%; /* Asegura que el sidebar ocupe toda la altura */
+  overflow-y: auto; /* Añade desplazamiento solo al sidebar si es necesario */
+}
+
+.main-containerpa {
+  display: flex;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  padding: 20px;
+  box-sizing: border-box;
+  
+}
