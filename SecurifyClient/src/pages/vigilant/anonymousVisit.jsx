@@ -44,7 +44,7 @@ const AnonymousVisit = () => {
       setModalMessage(response.data.message || 'La solicitud ha sido generada con éxito.');
       setModalIsOpen(true);
       setAnonymousData((prevData) => [...prevData, formValues]);
-      navigate('/AnonymousHistory');
+      setTimeout(() => navigate('/AnonymousHistory'), 2000); // Redirige después de 2 segundos
     } catch (error) {
       setIsSuccess(false);
       setModalMessage(error.response ? error.response.data.message : 'Ocurrió un error al añadir la entrada');
