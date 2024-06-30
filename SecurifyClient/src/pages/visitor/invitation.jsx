@@ -104,7 +104,7 @@ const Invitation = () => {
 
   return (
     <div className="main-container text-sm">
-      <aside className="sidebar">
+      <aside className="sidebar" style={{ backgroundColor: 'white' }}>
         {/* Contenido del aside */}
       </aside>
       <div className="table-container">

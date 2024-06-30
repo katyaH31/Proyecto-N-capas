@@ -55,7 +55,7 @@ const Permits = () => {
   return (
     <div className="visit-permits">
     <aside className="sidebar">
-        {/* Contenido del aside */}
+        {/* Contenido del aside */ }
       </aside>
       <div className="main-container">
         <form onSubmit={handleSubmit} className="space-y-4 p-6 max-w-lg mx-auto content-container">

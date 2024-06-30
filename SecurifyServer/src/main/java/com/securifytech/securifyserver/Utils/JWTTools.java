@@ -26,7 +26,7 @@ public class JWTTools {
     @Value("${jwt.exptime}")
     private Integer exp;
 
-    @Value("${jwt.qr-exptime}")x|
+    @Value("${jwt.qr-exptime}")
     private Integer qrExp;
 
     public String generateToken(User user){

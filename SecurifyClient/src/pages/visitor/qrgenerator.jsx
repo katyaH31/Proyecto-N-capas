@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import QRCode from 'qrcode.react';
-import './visitor.css'; // 
+import './visitor.css';
 
 const QRGenerator = () => {
   const [qrValue, setQrValue] = useState(''); // Inicialmente vacío
@@ -26,13 +26,13 @@ const QRGenerator = () => {
   }, [buttonDisabled, timeLeft]);
 
   return (
-    <div className="qr-generator-container">
-       <aside className="sidebar">
+    <div className="qr-generator-container" >
+       <aside className="sidebar" style={{ backgroundColor: 'white' }}>
         {/* Contenido del aside */}
       </aside>
-      <div className="main-container">
-        <div className="content-container">
-          <div className="left-content">
+      <div className="main-container" >
+        <div className="content-container" >
+          <div className="left-content" >
             {/* Contenido izquierdo */}
           </div>
           <div className="right-content">
