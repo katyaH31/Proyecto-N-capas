@@ -1,6 +1,7 @@
 package com.securifytech.securifyserver.Services;
 
 import com.securifytech.securifyserver.Domain.dtos.CreateHouseDto;
+import com.securifytech.securifyserver.Domain.dtos.ResidentHouseDto;
 import com.securifytech.securifyserver.Domain.dtos.UpdateHouseDto;
 import com.securifytech.securifyserver.Domain.entities.House;
 import com.securifytech.securifyserver.Domain.entities.User;
@@ -24,4 +25,5 @@ public interface HouseService {
 
     List<User> getResidents(String houseId);
 
+    void updateHome(ResidentHouseDto residentHouseDto);
 }

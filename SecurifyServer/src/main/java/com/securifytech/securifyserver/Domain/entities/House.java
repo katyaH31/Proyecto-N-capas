@@ -31,7 +31,7 @@ public class House {
 
     // N: N
     @JsonIgnore
-    @ManyToMany(mappedBy = "houses")
+    @OneToMany(mappedBy = "house", fetch = FetchType.LAZY)
     private List<User> users;
 
 }

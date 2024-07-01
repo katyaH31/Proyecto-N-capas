@@ -1,6 +1,7 @@
 package com.securifytech.securifyserver.Services.implementations;
 
 import com.securifytech.securifyserver.Domain.dtos.CreateHouseDto;
+import com.securifytech.securifyserver.Domain.dtos.ResidentHouseDto;
 import com.securifytech.securifyserver.Domain.dtos.UpdateHouseDto;
 import com.securifytech.securifyserver.Domain.entities.House;
 import com.securifytech.securifyserver.Domain.entities.Role;
@@ -106,5 +107,16 @@ public class HouseServiceImpl implements HouseService {
         House house = houseRepository.findById(houseId)
                 .orElseThrow(() -> new RuntimeException("House not found"));
         return house.getUsers();
+    }
+
+    @Override
+    public void updateHome(ResidentHouseDto residentHouseDto){
+        House house = houseRepository.findById(residentHouseDto.getHouseId())
+                .orElseThrow(() -> new RuntimeException("House not found"));
+        User resident = userRepository.findById(residentHouseDto.getResidentId())
+                .orElseThrow(() -> new RuntimeException("Resident not found"));
+
+        resident.setHouse(house);
+        userRepository.save(resident);
     }
 }

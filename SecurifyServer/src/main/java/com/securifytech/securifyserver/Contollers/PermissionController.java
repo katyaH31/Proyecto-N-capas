@@ -39,7 +39,6 @@ public class PermissionController {
     public ResponseEntity<GeneralResponse> createPermission(@RequestBody @Valid PermissionDTO info) {
         User user = userService.findByUsernameOrEmail(info.getUsername(), info.getUsername());
         User resident = userService.findUserAuthenticated();
-        List<House> houses = resident.getHouses();
 
         if (user == null) {
             return GeneralResponse.builder()
@@ -48,15 +47,9 @@ public class PermissionController {
                     .getResponse();
         }
 
-        if (houses == null) {
-            return GeneralResponse.builder()
-                    .status(HttpStatus.NOT_FOUND)
-                    .message("House not Found")
-                    .getResponse();
-        }
 
         try {
-            permissionService.CreatePermission(info,user,houses.get(0));
+            permissionService.CreatePermission(info,user,resident.getHouse());
 
             return GeneralResponse.builder()
                     .status(HttpStatus.CREATED)

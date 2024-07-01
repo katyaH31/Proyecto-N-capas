@@ -1,9 +1,6 @@
 package com.securifytech.securifyserver.Contollers;
 
-import com.securifytech.securifyserver.Domain.dtos.ChangeManagerDTO;
-import com.securifytech.securifyserver.Domain.dtos.CreateHouseDto;
-import com.securifytech.securifyserver.Domain.dtos.GeneralResponse;
-import com.securifytech.securifyserver.Domain.dtos.UpdateHouseDto;
+import com.securifytech.securifyserver.Domain.dtos.*;
 import com.securifytech.securifyserver.Domain.entities.House;
 import com.securifytech.securifyserver.Domain.entities.User;
 import com.securifytech.securifyserver.Domain.entities.Visit;
@@ -110,6 +107,15 @@ public class HouseController {
                 .status(HttpStatus.OK)
                 .message("Residents retrieved succesfully")
                 .data(residents)
+                .getResponse();
+    }
+
+    @PostMapping("/residenthouse")
+    public ResponseEntity<GeneralResponse> updateHome(@RequestBody ResidentHouseDto residentHouseDto){
+        houseService.updateHome(residentHouseDto);
+        return GeneralResponse.builder()
+                .status(HttpStatus.OK)
+                .message("Resident assigned successfully")
                 .getResponse();
     }
 }

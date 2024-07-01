@@ -38,13 +38,10 @@ public class User implements UserDetails {
     private List<AnonymousVisit> anonymousVisits;
 
     //usuario con casas N - N
-    @ManyToMany
-    @JoinTable(
-            name = "user_houses",
-            joinColumns = @JoinColumn(name = "user_id"),
-            inverseJoinColumns = @JoinColumn(name = "house_id")
-    )
-    private List<House> houses;
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "house_id")
+    @JsonIgnore
+    private House house;
 
     //usuario con roles N - N
     @JsonIgnore
