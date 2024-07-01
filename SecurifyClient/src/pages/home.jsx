@@ -2,7 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import { UserAuth } from "../context/AuthContext";
 import Admin from "../pages/Administrator/admin"; // Asegúrate de que la ruta sea correcta
-import Visitor from "../pages/visitor/visitor";
+import Visitor from "../pages/visitor/visitor.jsx";
 import ResidentAdmin from "./residentAdmin/residentadmin";
 import Resident from "../pages/resident/resident"
 import Vigilant from "./vigilant/vigilant";
@@ -20,8 +20,6 @@ export function Home() {
 
   return (
     <Container>
-      
-
       {role === "Admin" && <Admin />}
       {role === "Visitor" && <Visitor/>}
       {role === "Guard" && <Vigilant/>}

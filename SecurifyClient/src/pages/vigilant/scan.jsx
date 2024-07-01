@@ -7,10 +7,13 @@ import './vigilant.css';
 const Scan = () => {
   const [scanResult, setScanResult] = useState(null);
   const [showPopup, setShowPopup] = useState(false);
+  const [validationResult, setValidationResult] = useState(null);
 
   const handleScan = data => {
     if (data) {
+      console.log(data.text); // Muestra la data escaneada en la consola
       setScanResult(data.text);
+      validateToken(data.text); // Llama a la función de validación
       setShowPopup(true);
     }
   };
@@ -23,45 +26,61 @@ const Scan = () => {
     setShowPopup(false);
   };
 
+  const validateToken = async (token) => {
+    try {
+      const response = await fetch('http://localhost:8080/api/qr/validate', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify({ token })
+      });
+      const result = await response.json();
+      console.log(result); // Muestra el resultado de la validación en la consola
+      setValidationResult(result.data);
+    } catch (error) {
+      console.error('Error al validar el token:', error);
+    }
+  };
+
   const previewStyle = {
     height: 240,
     width: 320,
   };
 
   return (
-    <>
-      <SidebarVigilant />
-      <div className="main-containerScan text-sm">
-        <aside className="sidebarScan"></aside>
-        <div className="btn-containerScan">
-          <Link to="/homevigilant" className="btnScan">
-            <span>Regresar</span>
-          </Link>
-        </div>
-        <div className="qr-reader-container">
-          <QrScanner
-            delay={300}
-            onError={handleError}
-            onScan={handleScan}
-            style={previewStyle}
-          />
-        </div>
-        {showPopup && (
-          <div className="popup">
-            <div className="popup-content">
-              <p>Código QR escaneado con éxito!</p>
-              <button onClick={handleClosePopup} className="btnClosePopup">Cerrar</button>
-            </div>
+      <>
+        <SidebarVigilant />
+        <div className="main-containerScan text-sm">
+          <aside className="sidebarScan"></aside>
+          <div className="btn-containerScan">
+            <Link to="/homevigilant" className="btnScan">
+              <span>Regresar</span>
+            </Link>
           </div>
-        )}
-      </div>
-    </>
+          <div className="qr-reader-container">
+            <QrScanner
+                delay={300}
+                onError={handleError}
+                onScan={handleScan}
+                style={previewStyle}
+            />
+          </div>
+          {showPopup && (
+              <div className="popup">
+                <div className="popup-content">
+                  <p>Código QR escaneado con éxito!</p>
+                  {validationResult !== null && (
+                      <p>Resultado de la validación: {validationResult ? 'Válido' : 'Inválido'}</p>
+                  )}
+                  <button onClick={handleClosePopup} className="btnClosePopup">Cerrar</button>
+                </div>
+              </div>
+          )}
+        </div>
+      </>
   );
 };
 
 export default Scan;
-
-
-
-
-

@@ -76,7 +76,7 @@ export function MyRoutes() {
         <Route path="/qrgenerator" element={<RequiereAuth><Layout>< QRGeneratorr/></Layout></RequiereAuth>} />
         <Route path="/visitingpermits" element={<RequiereAuth><Layout><Permits/></Layout></RequiereAuth>} />
         {/*Visitor */}
-        <Route path="/qrgenerator" element={<RequiereAuth><Layout><QRGenerator/></Layout></RequiereAuth>} />
+        <Route path="/qrgeneratorvisit" element={<RequiereAuth><Layout><QRGenerator/></Layout></RequiereAuth>} />
         <Route path="/invitation" element={<RequiereAuth><Layout><Invitation/></Layout></RequiereAuth>} />
         {/* vigilant rol */}
         <Route path="/scan" element={<RequiereAuth><Layout><Scan /></Layout></RequiereAuth>}/>

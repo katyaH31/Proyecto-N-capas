@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import QRCode from 'qrcode.react';
-import './resident.css'; // 
+import './resident.css'; //
 
 const QRGeneratorr = () => {
   const [qrValue, setQrValue] = useState(''); // Inicialmente vacío
@@ -8,7 +8,7 @@ const QRGeneratorr = () => {
   const [timeLeft, setTimeLeft] = useState(0); // Estado para el contador
 
   const generateQR = () => {
-    setQrValue('https://new-url.com');
+    setQrValue('https://new-url.comaaaaaaaaaa');
     setButtonDisabled(true); // Deshabilita el botón cuando se genera el código QR
     setTimeLeft(120); // Inicializa el contador a 120 segundos (2 minutos)
   };
