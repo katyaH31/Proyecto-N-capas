@@ -13,9 +13,12 @@ html, body {
   overflow: hidden; /* Asegura que no haya desplazamiento */
 }
 .visit-permits{
+  margin-top: -5%;
   display: flex;
-  height: 81vh; /* Hace que ocupe toda la altura de la ventana */
-  overflow: hidden; /* Asegura que no haya desplazamiento */
+  height: 100vh; /* Hace que ocupe toda la altura de la ventana */
+  overflow-x: croll;
+  ; /* Asegura que no haya desplazamiento */
+
 }
 
 /* Estilo para el aside */
