@@ -87,4 +87,19 @@ public class QrController {
         }
 
     }
+
+    @GetMapping("/servo")
+    public ResponseEntity<GeneralResponse> sendToServo(@RequestParam Boolean flag) {
+        if (flag) {
+            return GeneralResponse.builder()
+                    .status(HttpStatus.OK)
+                    .data(true)
+                    .getResponse();
+        }
+
+        return GeneralResponse.builder()
+                .status(HttpStatus.OK)
+                .data(false)
+                .getResponse();
+    }
 }
