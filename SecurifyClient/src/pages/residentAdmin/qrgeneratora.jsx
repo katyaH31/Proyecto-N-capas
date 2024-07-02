@@ -27,7 +27,7 @@ const QRGeneratora = () => {
 
   return (
     <div className="qr-generator-container">
-       <aside className="sidebar">
+       <aside className="sidebar" style={{ backgroundColor: 'white' }}>
         {/* Contenido del aside */}
       </aside>
       <div className="main-container">

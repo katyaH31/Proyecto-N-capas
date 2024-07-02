@@ -10,6 +10,13 @@ const Admin = () => {
   console.log("Admin");
   return (
     <>
+    <div className="main-containerpa text-sm">
+    <aside className="sidebar" style={{ backgroundColor: 'white' }}>
+        {/* Contenido del aside */}
+      </aside>
+      
+     <h2 className="modal-title">¡Bienvenido a su aliado en la gestión residencial!</h2>
+     </div>
       <SidebarAdministrator>
         <UserPanel />
         <Maintenance />  {/* Uso del componente */}
