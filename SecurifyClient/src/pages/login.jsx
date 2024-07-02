@@ -118,6 +118,7 @@ const Container = styled.div`
 
       img {
         width: 29px;
+        margin: 0 auto;
       }
       background-color: white;
       padding: 10px 29px;

@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import Modal from 'react-modal';
 import './residenta.css';
 import invitationImage from '../../assets/img/invitation.png'; // Importa la imagen
@@ -8,6 +9,7 @@ const PermissionList = () => {
   const [rejectionModalIsOpen, setRejectionModalIsOpen] = useState(false);
   const [selectedRequest, setSelectedRequest] = useState(null);
   const [status, setStatus] = useState({}); // Estado para el mensaje de aceptación o rechazo
+  const navigate = useNavigate(); // Hook para la navegación
 
   const handleAccept = (request) => {
     setSelectedRequest(request);
@@ -23,6 +25,7 @@ const PermissionList = () => {
     // Aquí puedes manejar la lógica de aceptación
     setStatus({ ...status, [selectedRequest.name]: 'Aprobado' });
     setConfirmationModalIsOpen(false);
+    navigate('/qrgeneratora'); // Redirige a la página qrgeneratora
   };
 
   const handleConfirmReject = () => {
@@ -43,7 +46,7 @@ const PermissionList = () => {
 
   return (
     <main className="content-container1">
-      <aside className="sidebar">
+      <aside className="sidebar" style={{ backgroundColor: 'white' }}>
         {/* Contenido del aside */}
       </aside>
       <img src={invitationImage} alt="Invitación" />
