@@ -1,7 +1,7 @@
 import { useState } from "react";
 import styled from "styled-components";
 import "./App.css";
-import { AuthContextProvider, UserAuth } from "./context/AuthContext";
+import { AuthContextProvider } from "./context/AuthContext";
 import { MyRoutes } from "./routers/routes";
 import { DataProvider } from "./context/DataContext"; // Importar DataProvider
 
@@ -22,3 +22,4 @@ function App() {
 }
 
 export default App;
+

@@ -9,15 +9,16 @@ import { auth } from "../api/firebase.config";
 const AuthContext = createContext();
 
 export const AuthContextProvider = ({ children }) => {
-  const [user, setUser] = useState({});
+  const [user, setUser] = useState(null);
   const [role, setRole] = useState("");
+  const [loading, setLoading] = useState(true); // Nuevo estado de carga
 
   const googleSignIn = async () => {
     const provider = new GoogleAuthProvider();
     try {
       const result = await signInWithPopup(auth, provider);
       
-      const token = await result.user.getIdToken(true)
+      const token = await result.user.getIdToken(true);
       const user = result.user;
       setUser(user);
       const response = await fetch('http://localhost:8080/api/auth/google', {
@@ -44,17 +45,26 @@ export const AuthContextProvider = ({ children }) => {
   };
 
   const logOut = () => {
-      localStorage.removeItem('token');
-      localStorage.removeItem('role');
-      setUser(null)
-      setRole("")
-      signOut(auth)
+    localStorage.removeItem('token');
+    localStorage.removeItem('role');
+    setUser(null);
+    setRole("");
+    signOut(auth);
   };
 
   useEffect(() => {
-    setUser()
-    setRole()
+    const token = localStorage.getItem('token');
+    const role = localStorage.getItem('role');
+    if (token && role) {
+      setUser({ token });
+      setRole(role);
+    }
+    setLoading(false); // La carga ha terminado
   }, []);
+
+  if (loading) {
+    return <div>Loading...</div>; // Muestra un mensaje de carga o un spinner
+  }
 
   return (
     <AuthContext.Provider value={{ googleSignIn, logOut, user, role }}>
