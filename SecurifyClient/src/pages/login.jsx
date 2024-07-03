@@ -160,7 +160,7 @@ const Container = styled.div`
       width: 40%;
     }
     .panelsesion {
-      width: 50%;
+      width: 40%;
     }
   }
   @media (max-width: 48em) {
