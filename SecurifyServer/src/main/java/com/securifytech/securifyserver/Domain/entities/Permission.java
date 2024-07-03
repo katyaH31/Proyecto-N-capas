@@ -6,6 +6,7 @@ import jakarta.persistence.*;
 import lombok.Data;
 
 import java.util.Date;
+import java.util.List;
 import java.util.UUID;
 
 @Data
@@ -31,10 +32,23 @@ public class Permission {
     private House house;
 
     //Relacion con usuario  N - 1
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "user_id")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "creator_id")
     @JsonIgnore
-    private User user;
+    private User creator;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "visitor_id")
+    @JsonIgnore
+    private User visitor;
+
+    @ManyToMany
+    @JoinTable(
+            name = "user_permissions",
+            joinColumns = @JoinColumn(name = "id_request"),
+            inverseJoinColumns = @JoinColumn(name = "id_user")
+    )
+    @JsonIgnore
+    private List<User> users;
 
 }

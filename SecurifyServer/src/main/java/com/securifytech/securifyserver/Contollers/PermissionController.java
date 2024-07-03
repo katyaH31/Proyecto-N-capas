@@ -100,7 +100,7 @@ public class PermissionController {
     }
 
     @GetMapping("/User")
-    public ResponseEntity<GeneralResponse> getPermissionsByManager() {
+    public ResponseEntity<GeneralResponse> getPermissionsByCreator() {
         User user = userService.findUserAuthenticated();
         List<Permission> emptyList = Collections.emptyList();
 
@@ -112,7 +112,7 @@ public class PermissionController {
         }
 
         try {
-             List<Permission> permissions = permissionService.GetPermissionsByUser(user);
+             List<Permission> permissions = permissionService.GetPermissionsByCreator(user);
 
              if (permissions == null) {
                  return GeneralResponse.builder()
@@ -152,6 +152,39 @@ public class PermissionController {
             return GeneralResponse.builder()
                     .status(HttpStatus.OK)
                     .message("status changed")
+                    .getResponse();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return GeneralResponse.builder()
+                    .status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .getResponse();
+        }
+    }
+
+    @GetMapping("/visitors")
+    public ResponseEntity<GeneralResponse> getPermissionsByVisitor() {
+        User user = userService.findUserAuthenticated();
+        List<Permission> emptyList = Collections.emptyList();
+        if (user == null) {
+            return GeneralResponse.builder()
+                    .status(HttpStatus.NOT_FOUND)
+                    .message("User not found")
+                    .getResponse();
+        }
+
+        try {
+            List<Permission> permissions = permissionService.GetPermissionsByVisitor(user);
+            if (permissions == null) {
+                return GeneralResponse.builder()
+                        .status(HttpStatus.OK)
+                        .message("Permissions found:")
+                        .data(emptyList)
+                        .getResponse();
+            }
+            return GeneralResponse.builder()
+                    .status(HttpStatus.OK)
+                    .message("Permissions found:")
+                    .data(permissions)
                     .getResponse();
         } catch (Exception e) {
             e.printStackTrace();

@@ -1,3 +1,8 @@
+mqtt:
+  url: tcp://64.23.196.58:1883
+  clientId: mqttClient
+  defaultTopic: test/topic
+
 jwt:
   secret: "NuevaClaveSecretaMuySegurade256bits"
   exptime: 1296000000

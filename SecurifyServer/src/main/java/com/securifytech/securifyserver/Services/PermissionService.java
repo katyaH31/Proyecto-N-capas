@@ -19,6 +19,7 @@ public interface PermissionService {
 
     void ChangePermissionStatus(Permission permission, RequestState state);
 
-    List<Permission> GetPermissionsByUser(User user);
+    List<Permission> GetPermissionsByVisitor(User visitor);
+    List<Permission> GetPermissionsByCreator(User creator);
 
 }
