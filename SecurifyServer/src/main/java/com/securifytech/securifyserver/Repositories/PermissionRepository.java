@@ -12,6 +12,7 @@ public interface PermissionRepository extends JpaRepository<Permission, UUID> {
 
     List<Permission> findByHouse(House house);
 
-    List<Permission> findByUser(User user);
+    List<Permission> findByVisitor(User visitor);
+    List<Permission> findByCreator(User creator);
 
 }

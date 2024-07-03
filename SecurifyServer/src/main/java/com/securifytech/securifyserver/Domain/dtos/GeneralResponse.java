@@ -22,7 +22,6 @@ public class GeneralResponse {
         private HttpStatus status = HttpStatus.OK;
         private String message;
         private Object data;
-
         private Object role;
 
         public Builder status(HttpStatus status) {

@@ -58,8 +58,8 @@ public class User implements UserDetails {
     @JsonIgnore
     private List<Token> tokens;
 
-    //Relacion con permisos 1 - N
-    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
+    //Relacion con permisos N - N
+    @ManyToMany(mappedBy = "users", fetch = FetchType.LAZY)
     @JsonIgnore
     private List<Permission> permissions;
 

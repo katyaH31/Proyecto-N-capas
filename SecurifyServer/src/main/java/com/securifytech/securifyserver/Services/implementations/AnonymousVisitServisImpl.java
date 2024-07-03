@@ -8,6 +8,8 @@ import com.securifytech.securifyserver.Services.AnonymousVisitService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class AnonymousVisitServisImpl implements AnonymousVisitService {
 
@@ -22,4 +24,11 @@ public class AnonymousVisitServisImpl implements AnonymousVisitService {
         anonymousVisit.setUser(user);
         anonymousVisitRepository.save(anonymousVisit);
     }
+
+    @Override
+    public List<AnonymousVisit> getAllAnonymousVisit() {
+        return anonymousVisitRepository.findAll();
+    }
+
+
 }

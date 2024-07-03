@@ -18,6 +18,8 @@ public class Visit {
 
     private Date visitDate;
 
+    private String description;
+
     //Todas son relaciones 1 - N
 
     //id de tipo de entrada

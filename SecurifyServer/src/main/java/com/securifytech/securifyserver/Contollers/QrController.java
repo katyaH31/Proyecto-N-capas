@@ -50,7 +50,7 @@ public class QrController {
         }
 
         try {
-            QrToken token = qrService.registerQrToken(user, permission);
+            QrToken token = qrService.creatQrToken(createQrTokenDTO);
             return GeneralResponse.builder()
                     .status(HttpStatus.CREATED)
                     .data(token.getContent())
@@ -102,4 +102,6 @@ public class QrController {
                 .data(false)
                 .getResponse();
     }
+
+
 }
