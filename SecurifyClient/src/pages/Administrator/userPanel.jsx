@@ -83,7 +83,7 @@ const UserPanel = () => {
         acciones: 'Acciones',
       };
 
-      const response = await axios.post(baseURL + 'users', data, {
+      const response = await axios.post(baseURL + 'user', data, {
         headers: { 'Authorization': `Bearer ${localStorage.getItem('token')}` }
       });
 
