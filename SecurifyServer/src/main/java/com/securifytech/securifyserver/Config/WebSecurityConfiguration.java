@@ -67,6 +67,8 @@ public class WebSecurityConfiguration {
                     .requestMatchers("/api/house/**").permitAll()
                     .requestMatchers("/api/visits/**").permitAll()
                     .requestMatchers("/api/qr/**").permitAll()
+                    .requestMatchers("/api/anonymous/**").permitAll()
+
 
         );
         http.sessionManagement(management -> management.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
