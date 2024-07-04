@@ -6,6 +6,7 @@ import com.securifytech.securifyserver.Domain.dtos.QrTokenDTO;
 import com.securifytech.securifyserver.Domain.entities.Permission;
 import com.securifytech.securifyserver.Domain.entities.QrToken;
 import com.securifytech.securifyserver.Domain.entities.User;
+import com.securifytech.securifyserver.Services.MqttService;
 import com.securifytech.securifyserver.Services.PermissionService;
 import com.securifytech.securifyserver.Services.QrService;
 import com.securifytech.securifyserver.Services.UserService;
@@ -24,10 +25,13 @@ public class QrController {
 
     private final QrService qrService;
 
-    public QrController(UserService userService, PermissionService permissionService, QrService qrService) {
+    private final MqttService mqttService;
+
+    public QrController(UserService userService, PermissionService permissionService, QrService qrService, MqttService mqttService) {
         this.userService = userService;
         this.permissionService = permissionService;
         this.qrService = qrService;
+        this.mqttService = mqttService;
     }
 
     @PostMapping("/create")
@@ -74,7 +78,7 @@ public class QrController {
                         .data(false)
                         .getResponse();
             }
-
+            mqttService.publishMessage("/test/securify", response.toString());
             return GeneralResponse.builder()
                     .status(HttpStatus.OK)
                     .data(true)
@@ -89,19 +93,18 @@ public class QrController {
     }
 
     @GetMapping("/servo")
-    public ResponseEntity<GeneralResponse> sendToServo(@RequestParam Boolean flag) {
-        if (flag) {
+    public ResponseEntity<GeneralResponse> sendToServo(@RequestParam String flag) {
+        try {
+            mqttService.publishMessage("/test/securify", flag);
             return GeneralResponse.builder()
                     .status(HttpStatus.OK)
-                    .data(true)
+                    .message("Message send")
+                    .getResponse();
+        } catch (Exception e) {
+            return GeneralResponse.builder()
+                    .status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .getResponse();
         }
 
-        return GeneralResponse.builder()
-                .status(HttpStatus.OK)
-                .data(false)
-                .getResponse();
     }
-
-
 }
