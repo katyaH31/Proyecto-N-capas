@@ -4,6 +4,7 @@ import axios from 'axios';
 import SidebarVigilant from '../../components/sidebarVigilant';
 import { Link, useNavigate } from 'react-router-dom';
 import { DataContext } from "../../context/DataContext";
+import { baseURL } from '../../config/apiConfig'; // Importa baseURL desde config
 import './vigilant.css';
 
 Modal.setAppElement('#root'); // Asegúrate de que el root coincide con el id del div principal en tu index.html
@@ -37,7 +38,9 @@ const AnonymousVisit = () => {
         name: formValues.name,
         description: formValues.descripcion
       };
-      const response = await axios.post('http://localhost:8080/api/visits/anonymous', data, {
+      const url = baseURL + 'anonymous/create';
+
+      const response = await axios.post(url, data, {
         headers: { 'Authorization': `Bearer ${localStorage.getItem('token')}` }
       });
       setIsSuccess(true);

@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import Modal from 'react-modal';
 import axios from 'axios';
+import { baseURL } from '../../config/apiConfig';
 import './admi.css';
 
 Modal.setAppElement('#root'); // Asegúrate de que el root coincide con el id del div principal en tu index.html
@@ -23,7 +24,7 @@ const Maintenance = () => {
     // Fetch data from the backend
     const fetchData = async () => {
       try {
-        const response = await axios.get('http://localhost:8080/api/house/all', {
+        const response = await axios.get(baseURL + 'house/all', {
           headers: { 'Authorization': `Bearer ${localStorage.getItem('token')}` }
         });
         console.log('Backend response:', response);
@@ -76,7 +77,7 @@ const Maintenance = () => {
         numberOfResidents: residenteValue,
       };
 
-      const response = await axios.post('http://localhost:8080/api/house', data, {
+      const response = await axios.post(baseURL + 'house', data, {
         headers: { 'Authorization': `Bearer ${localStorage.getItem('token')}` }
       });
 
