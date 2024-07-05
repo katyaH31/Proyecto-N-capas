@@ -1,10 +1,10 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useState, useEffect, useRef } from 'react';
 import Modal from 'react-modal';
 import axios from 'axios';
 import SidebarVigilant from '../../components/sidebarVigilant';
 import { Link, useNavigate } from 'react-router-dom';
 import { DataContext } from "../../context/DataContext";
-import { baseURL } from '../../config/apiConfig'; // Importa baseURL desde config
+import { baseURL } from '../../config/apiConfig'; 
 import './vigilant.css';
 
 Modal.setAppElement('#root'); // Asegúrate de que el root coincide con el id del div principal en tu index.html
@@ -15,7 +15,9 @@ const AnonymousVisit = () => {
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [modalMessage, setModalMessage] = useState('');
   const [isSuccess, setIsSuccess] = useState(true);
+  const [backendData, setBackendData] = useState([]);
   const navigate = useNavigate();
+  const tableContainerRef = useRef(null);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -55,6 +57,22 @@ const AnonymousVisit = () => {
       console.log(error);
     }
   };
+
+  const fetchData = async () => {
+    try {
+      const response = await axios.get(baseURL + 'anonymous/all', {
+        headers: { 'Authorization': `Bearer ${localStorage.getItem('token')}` }
+      });
+      console.log('Backend response:', response);
+      setBackendData(response.data.data);
+    } catch (error) {
+      console.error('Error fetching data:', error.response ? error.response.data : error.message);
+    }
+  };
+
+  useEffect(() => {
+    fetchData();
+  }, []);
 
   const closeModal = () => {
     setModalIsOpen(false);
@@ -96,6 +114,26 @@ const AnonymousVisit = () => {
             <Link to="/homevigilant" className="btnAno">
               <span>Regresar</span>
             </Link>
+          </div>
+          <div className="custom-table-wrapper text-sm" ref={tableContainerRef}>
+            <table className="custom-table">
+              <thead>
+                <tr>
+                  <th>Nombre</th>
+                  <th>Descripción</th>
+                  <th>Fecha de Creación</th>
+                </tr>
+              </thead>
+              <tbody>
+                {backendData.map((row, index) => (
+                  <tr key={index}>
+                    <td data-label="Nombre">{row.name}</td>
+                    <td data-label="Descripción">{row.description}</td>
+                    <td data-label="Fecha de Creación">{row.creationDate}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
           </div>
         </div>
         <Modal

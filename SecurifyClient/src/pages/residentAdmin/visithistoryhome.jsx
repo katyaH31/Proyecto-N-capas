@@ -1,24 +1,25 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import axios from 'axios';
+import { baseURL } from '../../config/apiConfig';
 
-const VisitHistoryTable = ({ visitas, setVisitas }) => {
-  const visitasEjemplo = [
-    {
-      nombre: 'Juan Pérez',
-      fechaInicio: '05/15/2024',
-      hora: '10:30 AM',
-      fechaVencimiento: '05/20/2024',
-      estado: 'Aprobado',
-      id: 1
-    },
-    {
-      nombre: 'María García',
-      fechaInicio: '05/20/2024',
-      hora: '02:45 PM',
-      fechaVencimiento: '05/25/2024',
-      estado: 'Denegado',
-      id: 2
-    }
-  ];
+const VisitHistoryTable = ({ houseId }) => {
+  const [visitas, setVisitas] = useState([]);
+  const [filter, setFilter] = useState('all');
+
+  useEffect(() => {
+    const fetchVisitas = async () => {
+      try {
+        const response = await axios.get(baseURL + 'house/history/visits/?houseId=' + houseId, {
+          headers: { 'Authorization': `Bearer ${localStorage.getItem('token')}` }
+        });
+        setVisitas(response.data);
+      } catch (error) {
+        console.error('Error fetching visitas:', error);
+      }
+    };
+
+    fetchVisitas();
+  }, [houseId]);
 
   const handleDelete = (id) => {
     const nuevasVisitas = visitas.filter((visita) => visita.id !== id);
@@ -27,8 +28,7 @@ const VisitHistoryTable = ({ visitas, setVisitas }) => {
     setVisitas(nuevasVisitas); // Actualiza el estado 'visitas'
   };
 
-  const [filter, setFilter] = useState('all');
-  const filteredVisitas = visitasEjemplo.filter((visita) => {
+  const filteredVisitas = visitas.filter((visita) => {
     if (filter === 'all') return true;
     if (filter === 'approved' && visita.estado === 'Aprobado') return true;
     if (filter === 'denied' && visita.estado === 'Denegado') return true;

@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import SidebarVigilant from '../../components/sidebarVigilant';
 import { Link } from 'react-router-dom';
 import QrScanner from 'react-qr-scanner';
+import { baseURL } from '../../config/apiConfig'; // Importa baseURL desde config
 import './vigilant.css';
 
 const Scan = () => {
@@ -28,11 +29,11 @@ const Scan = () => {
 
   const validateToken = async (token) => {
     try {
-      const response = await fetch('http://localhost:8080/api/qr/validate', {
+      const response = await fetch(baseURL + 'qr/validate', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`
+          'Authorization': 'Bearer ' + localStorage.getItem('token') // Usando el token del almacenamiento local
         },
         body: JSON.stringify({ token })
       });
@@ -50,36 +51,36 @@ const Scan = () => {
   };
 
   return (
-      <>
-        <SidebarVigilant />
-        <div className="main-containerScan text-sm">
-          <aside className="sidebarScan"></aside>
-          <div className="btn-containerScan">
-            <Link to="/homevigilant" className="btnScan">
-              <span>Regresar</span>
-            </Link>
-          </div>
-          <div className="qr-reader-container">
-            <QrScanner
-                delay={300}
-                onError={handleError}
-                onScan={handleScan}
-                style={previewStyle}
-            />
-          </div>
-          {showPopup && (
-              <div className="popup">
-                <div className="popup-content">
-                  <p>Código QR escaneado con éxito!</p>
-                  {validationResult !== null && (
-                      <p>Resultado de la validación: {validationResult ? 'Válido' : 'Inválido'}</p>
-                  )}
-                  <button onClick={handleClosePopup} className="btnClosePopup">Cerrar</button>
-                </div>
-              </div>
-          )}
+    <>
+      <SidebarVigilant />
+      <div className="main-containerScan text-sm">
+        <aside className="sidebarScan"></aside>
+        <div className="btn-containerScan">
+          <Link to="/homevigilant" className="btnScan">
+            <span>Regresar</span>
+          </Link>
         </div>
-      </>
+        <div className="qr-reader-container">
+          <QrScanner
+            delay={300}
+            onError={handleError}
+            onScan={handleScan}
+            style={previewStyle}
+          />
+        </div>
+        {showPopup && (
+          <div className="popup">
+            <div className="popup-content">
+              <p>Código QR escaneado con éxito!</p>
+              {validationResult !== null && (
+                <p>Resultado de la validación: {validationResult ? 'Válido' : 'Inválido'}</p>
+              )}
+              <button onClick={handleClosePopup} className="btnClosePopup">Cerrar</button>
+            </div>
+          </div>
+        )}
+      </div>
+    </>
   );
 };
 

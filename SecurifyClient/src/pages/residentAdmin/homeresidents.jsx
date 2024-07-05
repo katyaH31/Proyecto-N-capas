@@ -1,10 +1,12 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Modal from 'react-modal';
+import axios from 'axios';
+import { baseURL } from '../../config/apiConfig'; // Importa baseURL desde config
 import './residenta.css';
 
 Modal.setAppElement('#root'); // Asegúrate de que el root coincide con el id del div principal en tu index.html
 
-const HomeResidents = () => {
+const HomeResidents = ({ houseId }) => {
   const [formData, setFormData] = useState({
     firstName: '',
     lastName: '',
@@ -14,6 +16,22 @@ const HomeResidents = () => {
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [modalMessage, setModalMessage] = useState('');
   const [isSuccess, setIsSuccess] = useState(true); // Añadido para controlar el estado del mensaje
+  const [residents, setResidents] = useState([]);
+
+  useEffect(() => {
+    const fetchResidents = async () => {
+      try {
+        const response = await axios.get(baseURL + `house/?houseId=${houseId}/residents`, {
+          headers: { 'Authorization': `Bearer ${localStorage.getItem('token')}` }
+        });
+        setResidents(response.data);
+      } catch (error) {
+        console.error('Error fetching residents:', error);
+      }
+    };
+
+    fetchResidents();
+  }, [houseId]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -23,17 +41,36 @@ const HomeResidents = () => {
     });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    if (validateForm()) {
-      setIsSuccess(true); // Éxito en la validación
-      setModalMessage('El residente ha sido incorporado.');
-      setModalIsOpen(true);
-      // Aquí puedes enviar los datos del formulario o realizar otras acciones
-    } else {
+    if (!validateForm()) {
       setIsSuccess(false); // Error en la validación
       setModalMessage('¡Lo sentimos! La solicitud no se pudo realizar.');
       setModalIsOpen(true);
+      return;
+    }
+
+    try {
+      const response = await axios.post(baseURL + 'house/residenthouse', formData, {
+        headers: { 'Authorization': `Bearer ${localStorage.getItem('token')}` }
+      });
+      setIsSuccess(true); // Éxito en la validación
+      setModalMessage('El residente ha sido incorporado.');
+      setModalIsOpen(true);
+      setResidents((prevResidents) => [...prevResidents, response.data]); // Actualiza la lista de residentes
+      // Reset form data
+      setFormData({
+        firstName: '',
+        lastName: '',
+        duiNumber: '',
+        email: ''
+      });
+    } catch (error) {
+      const errorMessage = error.response ? error.response.data.message : 'Ocurrió un error al añadir la entrada';
+      setIsSuccess(false);
+      setModalMessage(errorMessage);
+      setModalIsOpen(true);
+      console.log('Error:', error);
     }
   };
 
@@ -113,6 +150,16 @@ const HomeResidents = () => {
             </div>
           </div>
         </form>
+        <div className="residents-list">
+          <h2 className="text-xl font-bold mb-4 text-center">Residentes actuales</h2>
+          <ul>
+            {residents.map((resident) => (
+              <li key={resident.id} className="resident-item">
+                {resident.firstName} {resident.lastName} - {resident.duiNumber} - {resident.email}
+              </li>
+            ))}
+          </ul>
+        </div>
       </div>
       <Modal
         isOpen={modalIsOpen}
