@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class ChangeStateDTO {
+public class    ChangeStateDTO {
 
     private RequestState state;
 

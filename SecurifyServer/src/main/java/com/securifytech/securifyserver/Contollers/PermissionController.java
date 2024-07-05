@@ -39,6 +39,14 @@ public class PermissionController {
     public ResponseEntity<GeneralResponse> createPermission(@RequestBody @Valid PermissionDTO info) {
         User user = userService.findByUsernameOrEmail(info.getUsername(), info.getUsername());
         User resident = userService.findUserAuthenticated();
+        House house = user.getHouse();
+
+        if(house == null){
+            return GeneralResponse.builder()
+                    .status(HttpStatus.NOT_FOUND)
+                    .message("User must have a house asigned")
+                    .getResponse();
+        }
 
         if (user == null) {
             return GeneralResponse.builder()

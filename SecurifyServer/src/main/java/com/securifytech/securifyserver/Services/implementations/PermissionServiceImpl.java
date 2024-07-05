@@ -11,6 +11,7 @@ import com.securifytech.securifyserver.Services.UserService;
 import org.springframework.stereotype.Service;
 
 import java.time.Instant;
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
@@ -34,8 +35,14 @@ public class PermissionServiceImpl implements PermissionService {
         Permission permission = new Permission();
         User creator = userService.findUserAuthenticated();
 
+        LocalDate localDate = info.getRequestedDate();
+
+        if (localDate.isBefore(LocalDate.now())) {
+            throw new RuntimeException("Invalid requested date");
+        }
+
         permission.setMakeDate(Date.from(Instant.now()));
-        permission.setRequestedDated(info.getRequestedDate());
+        permission.setRequestedDated(localDate);
         permission.setStatus(RequestState.PENDING);
         permission.setDescription(info.getDescription());
         permission.setHouse(house);

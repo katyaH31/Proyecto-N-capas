@@ -35,7 +35,7 @@ public class AnonymousVisitController {
         }
         return GeneralResponse.builder()
                 .status(HttpStatus.OK)
-                .message("Anonymous visit created succesfully")
+                .message("Anonymous visit created succeckesfully")
                 .getResponse();
     }
 

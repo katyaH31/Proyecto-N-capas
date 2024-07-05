@@ -115,6 +115,24 @@ public class HouseServiceImpl implements HouseService {
                 .orElseThrow(() -> new RuntimeException("House not found"));
         User resident = userRepository.findById(residentHouseDto.getResidentId())
                 .orElseThrow(() -> new RuntimeException("Resident not found"));
+        List<Role> role = resident.getRoles();
+        Role manager = roleRepository.findByName("Manager").orElse(null);
+        Role guard = roleRepository.findByName("Guard").orElse(null);
+
+        if (role.contains(manager)) {
+            throw new RuntimeException("Manager already exists");
+        }
+
+        if(role.contains(guard)) {
+            throw new RuntimeException("Guard can not be assigned to a house");
+        }
+
+        int maxResidents = house.getNumberOfResidents();
+        int currentResidents = house.getUsers().size();
+
+        if (currentResidents > maxResidents) {
+            throw new RuntimeException("House is already full");
+        }
 
         resident.setHouse(house);
         userRepository.save(resident);
