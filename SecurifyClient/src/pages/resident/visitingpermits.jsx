@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import Modal from 'react-modal';
 import axios from 'axios';
+import { baseURL } from '../../config/apiConfig'; // Importar baseURL
 import './resident.css';
 
 Modal.setAppElement('#root'); // Asegúrate de que el root coincide con el id del div principal en tu index.html
@@ -33,7 +34,8 @@ const Permits = () => {
     }
 
     try {
-      const response = await axios.post('http://localhost:8080/api/permission/create', formData, {
+      const url = baseURL + 'permission/create';
+      const response = await axios.post(url, formData, {
         headers: { 'Authorization': `Bearer ${localStorage.getItem('token')}` }
       });
       setIsSuccess(true);

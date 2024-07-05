@@ -41,7 +41,7 @@ export const AuthContextProvider = ({ children }) => {
       }
     } catch (error) {
       console.error("Error al iniciar sesión:", error.message);
-    }
+     }
   };
 
   const logOut = () => {
