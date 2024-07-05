@@ -1,15 +1,33 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Modal from 'react-modal';
+import axios from 'axios';
+import { baseURL } from '../../config/apiConfig'; // Importa baseURL desde config
 import './residenta.css';
 import invitationImage from '../../assets/img/invitation.png'; // Importa la imagen
 
-const PermissionList = () => {
+const PermissionList = ({ idHouse }) => {
   const [confirmationModalIsOpen, setConfirmationModalIsOpen] = useState(false);
   const [rejectionModalIsOpen, setRejectionModalIsOpen] = useState(false);
   const [selectedRequest, setSelectedRequest] = useState(null);
   const [status, setStatus] = useState({}); // Estado para el mensaje de aceptación o rechazo
+  const [requests, setRequests] = useState([]); // Estado para almacenar las solicitudes
   const navigate = useNavigate(); // Hook para la navegación
+
+  useEffect(() => {
+    const fetchRequests = async () => {
+      try {
+        const response = await axios.get(baseURL + 'permission/house?idHouse=' + idHouse, {
+          headers: { 'Authorization': `Bearer ${localStorage.getItem('token')}` }
+        });
+        setRequests(response.data);
+      } catch (error) {
+        console.error('Error fetching requests:', error);
+      }
+    };
+
+    fetchRequests();
+  }, [idHouse]);
 
   const handleAccept = (request) => {
     setSelectedRequest(request);
@@ -38,11 +56,6 @@ const PermissionList = () => {
     setConfirmationModalIsOpen(false);
     setRejectionModalIsOpen(false);
   };
-
-  const requests = [
-    { name: 'Marcela Martínez', time: 'Solicitud enviada ahora', status: status['Marcela Martínez'] },
-    { name: 'Daniela Perlera', time: 'Solicitud enviada hace 1 día', status: status['Daniela Perlera'] },
-  ];
 
   return (
     <main className="content-container1">
