@@ -118,10 +118,10 @@ public class JWTTools {
     public Boolean isTokenExpired(String token) {
         try {
             JwtParser parser = Jwts.parser()
-                    .verifyWith(Keys.hmacShaKeyFor(qrSecret.getBytes()))
+                    .setSigningKey(Keys.hmacShaKeyFor(qrSecret.getBytes()))
                     .build();
 
-            Claims claims = parser.parseEncryptedClaims(token).getPayload();
+            Claims claims = parser.parseClaimsJws(token).getBody();
 
             Date expirationDate = claims.getExpiration();
             return expirationDate.before(new Date());

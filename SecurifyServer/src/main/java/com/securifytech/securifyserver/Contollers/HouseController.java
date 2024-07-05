@@ -100,7 +100,7 @@ public class HouseController {
 
     }
 
-    @GetMapping("/{houseId}/residents")
+    @GetMapping("/residents/{houseId}")
     public ResponseEntity<GeneralResponse> getResidents(@PathVariable String houseId){
         List<User> residents = houseService.getResidents(houseId);
         return GeneralResponse.builder()

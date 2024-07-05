@@ -127,7 +127,7 @@ public class QrServiceImpl implements QrService {
 
                 Permission permission = permissionService.findById(idPermission);
                 if (permission != null) {
-                    if (permission.getStatus().equals(RequestState.APPROVED) && permission.getVisitor().equals(user) && permission.getRequestedDated().equals(Date.from(Instant.now())) && !jwtTools.isTokenExpired(token)){
+                    if (permission.getStatus().equals(RequestState.APPROVED) && permission.getVisitor().equals(user) && permission.getRequestedDated().equals(LocalDate.now()) && !jwtTools.isTokenExpired(token)){
                         qrToken.setActive(false);
                         qrTokenRepository.save(qrToken);
                         permission.setStatus(RequestState.USED);

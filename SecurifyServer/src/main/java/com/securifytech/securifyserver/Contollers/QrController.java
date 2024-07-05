@@ -74,7 +74,7 @@ public class QrController {
 
             if (!response) {
                 return GeneralResponse.builder()
-                        .status(HttpStatus.NOT_FOUND)
+                        .status(HttpStatus.NOT_ACCEPTABLE)
                         .data(false)
                         .getResponse();
             }

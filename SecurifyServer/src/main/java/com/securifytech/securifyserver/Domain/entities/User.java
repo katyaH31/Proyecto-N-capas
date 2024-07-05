@@ -31,10 +31,12 @@ public class User implements UserDetails {
 
     //usario con visita 1 - N
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
+    @JsonIgnore
     private List<Visit> visits;
 
     //usuario con visita anonima 1 - N
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
+    @JsonIgnore
     private List<AnonymousVisit> anonymousVisits;
 
     //usuario con casas N - N

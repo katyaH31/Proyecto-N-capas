@@ -5,6 +5,7 @@ import com.securifytech.securifyserver.Enums.RequestState;
 import jakarta.persistence.*;
 import lombok.Data;
 
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
@@ -20,7 +21,7 @@ public class Permission {
 
     private String description;
 
-    private Date requestedDated;
+    private LocalDate requestedDated;
 
     private Date makeDate;
 
