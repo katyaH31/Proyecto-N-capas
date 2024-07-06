@@ -51,16 +51,17 @@ public class HouseServiceImpl implements HouseService {
         Role managerRole = roleRepository.findByName("Manager").orElse(null);
 
         house.getUsers().forEach(user -> {
-            if (!user.getRoles().contains(managerRole)) {
+            if (user.getRoles().contains(managerRole)) {
                 user.getRoles().remove(managerRole);
                 userRepository.save(user);
             }
         });
 
-
         if (!newManager.getRoles().contains(managerRole)) {
+            newManager.getRoles().clear();
             newManager.getRoles().add(managerRole);
         }
+        newManager.setHouse(house);
         userRepository.save(newManager);
     }
 
