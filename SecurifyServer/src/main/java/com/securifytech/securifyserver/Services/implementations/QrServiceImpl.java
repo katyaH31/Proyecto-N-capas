@@ -45,18 +45,20 @@ public class QrServiceImpl implements QrService {
 
 
     @Override
-    public QrToken creatQrToken(CreateQrTokenDTO info) {
+    public QrToken createQrToken(UUID idPermission) {
         User user = userService.findUserAuthenticated();
-        Permission permission = permissionService.findById(info.getPermissionId());
+        Permission permission = permissionService.findById(idPermission);
         Role resident = roleService.findByName("Resident").orElse(null);
         Role manager = roleService.findByName("Manager").orElse(null);
         Role admin = roleService.findByName("Admin").orElse(null);
 
         if (user.getRoles().contains(resident) || user.getRoles().contains(manager) || user.getRoles().contains(admin)) {
             return registerQrToken(user);
-        } else {
+        } else if (permission.getStatus().equals(RequestState.APPROVED)){
           return registerQrTokenVisitor(user, permission);
         }
+
+        throw new RuntimeException();
     }
 
     @Override

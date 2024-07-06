@@ -88,10 +88,11 @@ public class WebSecurityConfiguration {
 
                     //resident
                     .requestMatchers("/api/permission/create").hasAuthority("Resident")
+                    .requestMatchers("/api/qr/create").hasAnyAuthority("Resident", "Manager")
 
                     //Visitor
                     .requestMatchers("/api/permission/visitors").hasAuthority("Visitor")
-                    .requestMatchers("/api/qr/create").hasAnyAuthority("Visitor", "Resident", "Manager")
+                    .requestMatchers("/api/qr/create-visitor").hasAuthority("Visitor")
 
                     //Auth
                     .requestMatchers("api/auth/google").permitAll()

@@ -15,6 +15,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.UUID;
+
 @RestController
 @RequestMapping("/api/qr")
 public class QrController {
@@ -34,8 +36,8 @@ public class QrController {
         this.mqttService = mqttService;
     }
 
-    @PostMapping("/create")
-    public ResponseEntity<GeneralResponse> createQrToken(@RequestBody @Valid CreateQrTokenDTO createQrTokenDTO) {
+    @PostMapping("/create-visitor")
+    public ResponseEntity<GeneralResponse> createQrTokenVisitor(@RequestBody @Valid CreateQrTokenDTO createQrTokenDTO) {
         User user = userService.findUserAuthenticated();
         Permission permission = permissionService.findById(createQrTokenDTO.getPermissionId());
 
@@ -54,7 +56,33 @@ public class QrController {
         }
 
         try {
-            QrToken token = qrService.creatQrToken(createQrTokenDTO);
+            QrToken token = qrService.createQrToken(createQrTokenDTO.getPermissionId());
+            return GeneralResponse.builder()
+                    .status(HttpStatus.CREATED)
+                    .data(token.getContent())
+                    .getResponse();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return GeneralResponse.builder()
+                    .status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .getResponse();
+        }
+    }
+
+    @PostMapping("/create")
+    public ResponseEntity<GeneralResponse> createQrToken() {
+        User user = userService.findUserAuthenticated();
+
+        if (user == null) {
+            return GeneralResponse.builder()
+                    .status(HttpStatus.NOT_FOUND)
+                    .message("User not Found")
+                    .getResponse();
+        }
+
+
+        try {
+            QrToken token = qrService.registerQrToken(user);
             return GeneralResponse.builder()
                     .status(HttpStatus.CREATED)
                     .data(token.getContent())
