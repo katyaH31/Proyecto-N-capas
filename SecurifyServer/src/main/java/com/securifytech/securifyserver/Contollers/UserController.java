@@ -173,4 +173,6 @@ public class UserController {
                 .message("Guard created successfully")
                 .getResponse();
     }
+
+    //podemos hacer lo mismo para residente encargado
 }

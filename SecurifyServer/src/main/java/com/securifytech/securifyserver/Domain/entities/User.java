@@ -42,7 +42,6 @@ public class User implements UserDetails {
     //usuario con casas N - N
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "house_id")
-    @JsonIgnore
     private House house;
 
     //usuario con roles N - N
