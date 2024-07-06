@@ -4,6 +4,7 @@ package com.securifytech.securifyserver.Domain.entities;
 import jakarta.persistence.*;
 import lombok.Data;
 
+import java.util.Date;
 import java.util.UUID;
 
 @Data
@@ -17,6 +18,7 @@ public class AnonymousVisit {
 
     private String name;
     private String description;
+    private Date visitDate;
 
     //user(Vigilante) al generar visitas anonimas 1 - N
 

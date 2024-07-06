@@ -61,14 +61,40 @@ public class WebSecurityConfiguration {
 
         http.authorizeHttpRequests(auth ->
             auth
-                    .requestMatchers("/api/auth/**").permitAll()
-                    .requestMatchers("/api/permission/**").permitAll()
-                    .requestMatchers("api/user/**").permitAll()
-                    .requestMatchers("/api/house/**").permitAll()
-                    .requestMatchers("/api/visits/**").permitAll()
-                    .requestMatchers("/api/qr/**").permitAll()
-                    .requestMatchers("/api/anonymous/**").permitAll()
+                    //Guard
+                    .requestMatchers("/api/anonymous/create").hasAuthority("Guard")
+                    .requestMatchers("/api/anonymous/all").hasAnyAuthority("Guard", "Admin")
+                    .requestMatchers("/api/qr/validate").hasAuthority("Guard")
 
+                    //Admin
+                    .requestMatchers("/api/house/changeManager").hasAuthority("Admin")
+                    .requestMatchers("/api/house").hasAuthority("Admin")
+                    .requestMatchers("/api/house/all").hasAuthority("Admin")
+                    .requestMatchers("/api/user/roles/").hasAuthority("Admin")
+                    .requestMatchers("/api/user").hasAuthority("Admin")
+                    .requestMatchers("/api/user/allna").hasAuthority("Admin")
+                    .requestMatchers("/api/user/guards").hasAuthority("Admin")
+                    .requestMatchers("/api/visits/all").hasAuthority("Admin")
+
+                    //Manager
+                    .requestMatchers("/api/house/history/visits/{houseId}").hasAuthority("Manager")
+                    .requestMatchers("/api/house/residents/{houseId}").hasAuthority("Manager")
+                    .requestMatchers("/api/house/residenthouse").hasAuthority("Manager")
+                    .requestMatchers("/api/permission/").hasAuthority("Manager")
+                    .requestMatchers("/api/permission/User").hasAuthority("Manager")
+                    .requestMatchers("/api/permission/changeStatus").hasAuthority("Manager")
+                    .requestMatchers("/api/visits/house").hasAuthority("Manager")
+
+                    //resident
+                    .requestMatchers("/api/permission/create").hasAuthority("Resident")
+
+                    //Visitor
+                    .requestMatchers("/api/permission/visitors").hasAuthority("Visitor")
+                    .requestMatchers("/api/qr/create").hasAuthority("Visitor")
+
+                    //Auth
+                    .requestMatchers("api/auth/google").permitAll()
+                    .requestMatchers("api/auth/me").hasAnyAuthority("Guard", "Admin", "Manager", "Resident", "Visitor")
         );
         http.sessionManagement(management -> management.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
         http.exceptionHandling(handling -> handling.authenticationEntryPoint((req, res, ex) ->  {

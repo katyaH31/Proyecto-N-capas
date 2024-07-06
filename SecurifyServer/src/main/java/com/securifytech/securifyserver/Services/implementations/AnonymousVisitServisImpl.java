@@ -8,6 +8,8 @@ import com.securifytech.securifyserver.Services.AnonymousVisitService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.Instant;
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -22,6 +24,7 @@ public class AnonymousVisitServisImpl implements AnonymousVisitService {
         anonymousVisit.setName(visitDto.getName());
         anonymousVisit.setDescription(visitDto.getDescription());
         anonymousVisit.setUser(user);
+        anonymousVisit.setVisitDate(Date.from(Instant.now()));
         anonymousVisitRepository.save(anonymousVisit);
     }
 
