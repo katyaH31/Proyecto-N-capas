@@ -1,122 +1,72 @@
 import React, { useState, useRef, useEffect } from 'react';
+import axios from 'axios';
+import { baseURL } from '../../config/apiConfig'; // Importar baseURL
 import './visitor.css';
 
 const Invitation = () => {
-  const [filterText, setFilterText] = useState('');
-  const [newData, setNewData] = useState([]);
-  const [formValues, setFormValues] = useState({
-    name: '',
-    date: '',
-    state: '',
-    acciones: 'Acciones', // Valor predeterminado para acciones
-  });
-
+  const [backendData, setBackendData] = useState([]);
   const tableContainerRef = useRef(null);
 
-  const handleFilterChange = (e) => {
-    setFilterText(e.target.value);
+  const statusTranslations = {
+    APPROVED: 'Aprobado',
+    PENDING: 'Pendiente',
+    DENIED: 'Denegado',
+    USED: 'Usado'
   };
 
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setFormValues({
-      ...formValues,
-      [name]: value,
-    });
-  };
-
-  const handleAddData = () => {
-    const newEntry = {
-      ...formValues,
-      casa: parseInt(formValues.casa, 10), // Convertir casa a número
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get(baseURL + 'permission/visitors', {
+          headers: { 'Authorization': `Bearer ${localStorage.getItem('token')}` }
+        });
+        const dataWithTranslations = response.data.data.map((item) => ({
+          ...item,
+          state: statusTranslations[item.status] || item.status
+        }));
+        setBackendData(dataWithTranslations);
+      } catch (error) {
+        console.error('Error fetching data:', error.response ? error.response.data : error.message);
+      }
     };
-    setNewData((prevData) => [...prevData, newEntry]);
-    setFormValues({
-      name: '',
-      date: '',
-      state: '',
-      acciones: 'Acciones',
-    });
-  };
+
+    fetchData();
+  }, []);
 
   useEffect(() => {
     if (tableContainerRef.current) {
       tableContainerRef.current.scrollTop = tableContainerRef.current.scrollHeight;
     }
-  }, [newData]);
-
-  const data = [
-    {
-      name: 'Katya',
-      date: '2024-02-12',
-      state: 'Activo',
-      acciones: 'Acciones',
-    },
-    {
-      name: 'Moises',
-      date: '2024-02-12',
-      state: 'Activo',
-      acciones: 'Acciones',
-    },
-    {
-      name: 'Cardo',
-      date: '2024-02-12',
-      state: 'Activo',
-      acciones: 'Acciones',
-    },
-    {
-      name: 'David',
-      date: '2024-02-12',
-      state: 'Activo',
-      acciones: 'Acciones',
-    },
-    ...newData, // Agregar nuevos datos
-  ];
-
-  const filteredData = data.filter((item) =>
-    Object.values(item).some((value) =>
-      value.toString().toLowerCase().includes(filterText.toLowerCase())
-    )
-  );
+  }, [backendData]);
 
   return (
-    
-    <div className="main-containerinv text-sm">
-       <aside className="sidebarinv" style={{ backgroundColor: 'white' }}>
-        {/* Contenido del aside */}
-      </aside>
-      <div className="table-containerinv">
-      <div className="table-container">
-        <input
-          type="text"
-          className="filter-input"
-          placeholder="Filtrar..."
-          value={filterText}
-          onChange={handleFilterChange}
-        />
-      </div>
-        <div className="custom-table-wrapper text-sm" ref={tableContainerRef}>
-          <table className="custom-table">
-            <thead>
+      <div className="main-containerinv text-sm">
+        <aside className="sidebarinv" style={{ backgroundColor: 'white' }}>
+          {/* Contenido del aside */}
+        </aside>
+        <div className="table-containerinv">
+          <div className="custom-table-wrapper text-sm" ref={tableContainerRef}>
+            <table className="custom-table">
+              <thead>
               <tr>
-                <th>Nombre de familia</th>
-                <th>Fecha</th>
+                <th>Descripción</th>
+                <th>Fecha a realizar la visita</th>
+                <th>Fecha de petición</th>
                 <th>Estado</th>
-                <th>Acciones</th>
               </tr>
-            </thead>
-            <tbody>
-              {filteredData.map((row, index) => (
-                <tr key={index}>
-                  <td data-label="Nombre de familia">{row.name}</td>
-                  <td data-label="Fecha">{row.date}</td>
-                  <td data-label="Estado">{row.state}</td>
-                  <td data-label="Acciones">{row.acciones}</td>
-                </tr>
+              </thead>
+              <tbody>
+              {backendData.map((row, index) => (
+                  <tr key={index}>
+                    <td data-label="Descripción">{row.description}</td>
+                    <td data-label="Fecha a realizar la visita">{row.requestedDated}</td>
+                    <td data-label="Fecha de petición">{row.makeDate}</td>
+                    <td data-label="Estado">{row.state}</td>
+                  </tr>
               ))}
-            </tbody>
-          </table>
-        </div>
+              </tbody>
+            </table>
+          </div>
         </div>
       </div>
   );

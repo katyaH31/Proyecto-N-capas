@@ -9,9 +9,7 @@ const QRGenerator = () => {
   const [timeLeft, setTimeLeft] = useState(0); // Estado para el contador
 
   const generateQR = async () => {
-    console.log('generateQR function called');
     try {
-      console.log("coman mierda");
       const tokenResponse = await axios.post('http://localhost:8080/api/qr/create', {
         permissionId: '367f6946-e8bc-4c95-b4da-2b72c46106ee'
       }, {
@@ -20,8 +18,8 @@ const QRGenerator = () => {
 
       const token = tokenResponse.data.data;
       setQrValue(token);
-      setButtonDisabled(true); // Deshabilita el botón cuando se genera el código QR
-      setTimeLeft(120); // Inicializa el contador a 120 segundos (2 minutos)
+      setButtonDisabled(true);
+      setTimeLeft(120);
     } catch (error) {
       console.error('Error generating QR token:', error.response ? error.response.data : error.message);
     }
