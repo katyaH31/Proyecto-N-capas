@@ -36,7 +36,7 @@ public class QrController {
 
     @PostMapping("/create")
     public ResponseEntity<GeneralResponse> createQrToken(@RequestBody @Valid CreateQrTokenDTO createQrTokenDTO) {
-        User user = userService.findByUsernameOrEmail(createQrTokenDTO.getUsername(), createQrTokenDTO.getUsername());
+        User user = userService.findUserAuthenticated();
         Permission permission = permissionService.findById(createQrTokenDTO.getPermissionId());
 
         if (user == null) {

@@ -91,7 +91,7 @@ public class WebSecurityConfiguration {
 
                     //Visitor
                     .requestMatchers("/api/permission/visitors").hasAuthority("Visitor")
-                    .requestMatchers("/api/qr/create").hasAuthority("Visitor")
+                    .requestMatchers("/api/qr/create").hasAnyAuthority("Visitor", "Resident", "Manager")
 
                     //Auth
                     .requestMatchers("api/auth/google").permitAll()

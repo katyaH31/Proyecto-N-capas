@@ -12,8 +12,5 @@ import java.util.UUID;
 @NoArgsConstructor
 public class CreateQrTokenDTO {
 
-    @NotBlank
-    private String username;
-
     private UUID permissionId;
 }

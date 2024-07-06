@@ -46,7 +46,7 @@ public class QrServiceImpl implements QrService {
 
     @Override
     public QrToken creatQrToken(CreateQrTokenDTO info) {
-        User user = userService.findByIdentifier(info.getUsername());
+        User user = userService.findUserAuthenticated();
         Permission permission = permissionService.findById(info.getPermissionId());
         Role resident = roleService.findByName("Resident").orElse(null);
         Role manager = roleService.findByName("Manager").orElse(null);
@@ -114,6 +114,7 @@ public class QrServiceImpl implements QrService {
         User user = userService.findByUsernameOrEmail(username, username);
         UUID idPermission = jwtTools.getIdPermissionFrom(token);
         Role resident = roleService.findByName("Resident").orElse(null);
+        Role manager = roleService.findByName("Manager").orElse(null);
 
         if (qrToken != null) {
             if (!qrToken.getActive()) {
@@ -121,7 +122,7 @@ public class QrServiceImpl implements QrService {
             }
 
             if (user != null) {
-                if (user.getRoles().contains(resident)) {
+                if (user.getRoles().contains(resident) || user.getRoles().contains(manager)) {
                     return true;
                 }
 
