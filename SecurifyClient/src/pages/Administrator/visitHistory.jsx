@@ -146,58 +146,14 @@ const VisitHistory = () => {
         {/* Contenido del aside */}
       </aside>
       <div className="table-containervisit">
-        <input
-          type="text"
-          className="filter-inputvisit"
-          placeholder="Filtrar..."
-          value={filterText}
-          onChange={handleFilterChange}
-        />
+        
         <div className="formvisit">
-          <input
-            type="text"
-            name="name"
-            className="form-inputvisit text-sm"
-            placeholder="Nombre/apellido"
-            value={formValues.name}
-            onChange={handleInputChange}
-          />
+         
 
-          <input
-            type="text"
-            name="dui"
-            className="form-inputvisit text-sm"
-            placeholder="N° de DUI"
-            value={formValues.dui}
-            onChange={handleInputChange}
-          />
-          <input
-            type="text"
-            name="home"
-            className="form-inputvisit text-sm"
-            placeholder="home"
-            value={formValues.home}
-            onChange={handleInputChange}
-          />
-          <input
-            type="date"
-            name="date"
-            className="form-inputvisit text-sm"
-            placeholder="Fecha"
-            value={formValues.date}
-            onChange={handleInputChange}
-          />
-          <div className="formvisitor">
-            <input
-              type="time"
-              name="hour"
-              className="form-inputvisit"
-              placeholder="Hora"
-              value={formValues.hour}
-              onChange={handleInputChange}
-            />
-          </div>
-          <button className="form-buttonvisit text-sm" onClick={handleAddData}>Agregar a la tabla</button>
+          
+         
+         
+         
         </div>
         <div className="custom-table-wrappervisit text-sm" ref={tableContainerRef}>
           <table className="custom-tablevisit">

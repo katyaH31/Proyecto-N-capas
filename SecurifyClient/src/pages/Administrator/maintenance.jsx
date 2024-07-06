@@ -123,13 +123,7 @@ const Maintenance = () => {
       </aside>
       <div className="table-containerA">
         <div className="table-container">
-          <input
-            type="text"
-            className="filter-input"
-            placeholder="Filtrar..."
-            value={filterText}
-            onChange={handleFilterChange}
-          />
+        
         </div>
         <div className="form">
           <input

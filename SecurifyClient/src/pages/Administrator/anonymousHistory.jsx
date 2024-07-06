@@ -73,13 +73,7 @@ const AnonymousHistory = () => {
           {/* Contenido del aside */}
         </aside>
         <div className="table-container">
-          <input
-              type="text"
-              className="filter-inputan"
-              placeholder="Filtrar..."
-              value={filterText}
-              onChange={handleFilterChange}
-          />
+         
           <div className="custom-table-wrapperAno text-sm" ref={tableContainerRef}>
             <table className="custom-tableAno">
               <thead>
