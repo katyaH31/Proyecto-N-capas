@@ -80,6 +80,20 @@ const SecurityTeam = () => {
     }
   };
 
+  const handleDelete = async (username) => {
+    try {
+      const response = await axios.delete(baseURL + `user/${username}`, {
+        headers: { 'Authorization': `Bearer ${localStorage.getItem('token')}` }
+      });
+      console.log('Response:', response.data);
+      setBackendData(prevData => prevData.filter(user => user.name !== username));
+    } catch (error) {
+      setIsSuccess(false);
+      setModalMessage(`Error deleting guard: ${error.response ? error.response.data.message : error.message}`);
+      setModalIsOpen(true);
+    }
+  };
+
   const closeModal = () => {
     setModalIsOpen(false);
   };
@@ -91,86 +105,93 @@ const SecurityTeam = () => {
   }, [backendData]);
 
   const filteredData = backendData.filter((item) =>
-      Object.values(item).some((value) =>
-          value.toString().toLowerCase().includes(filterText.toLowerCase())
-      )
+    Object.values(item).some((value) =>
+      value.toString().toLowerCase().includes(filterText.toLowerCase())
+    )
   );
 
   return (
-      <div className="main-containerse text-sm">
-        <aside className="sidebar" style={{ backgroundColor: 'white' }}>
-          {/* Contenido del aside */}
-        </aside>
-        <div className="table-containerse">
+    <div className="main-containerse text-sm">
+      <aside className="sidebar" style={{ backgroundColor: 'white' }}>
+        {/* Contenido del aside */}
+      </aside>
+      <div className="table-containerse">
+        <input
+          type="text"
+          className="filter-inputse"
+          placeholder="Filtrar..."
+          value={filterText}
+          onChange={handleFilterChange}
+        />
+        <div className="form">
           <input
-              type="text"
-              className="filter-inputse"
-              placeholder="Filtrar..."
-              value={filterText}
-              onChange={handleFilterChange}
+            type="text"
+            name="name"
+            className="form-inputse"
+            placeholder="Username"
+            value={formValues.name}
+            onChange={handleInputChange}
           />
-          <div className="form">
-            <input
-                type="text"
-                name="name"
-                className="form-inputse"
-                placeholder="Username"
-                value={formValues.name}
-                onChange={handleInputChange}
-            />
-            <input
-                type="text"
-                name="correo"
-                className="form-inputse"
-                placeholder="Correo"
-                value={formValues.correo}
-                onChange={handleInputChange}
-            />
-            <button className="form-buttonse" onClick={handleAddData}>Agregar a la tabla</button>
-          </div>
-          <div className="custom-table-wrapperse text-sm" ref={tableContainerRef}>
-            <table className="custom-tablese">
-              <thead>
+          <input
+            type="text"
+            name="correo"
+            className="form-inputse"
+            placeholder="Correo"
+            value={formValues.correo}
+            onChange={handleInputChange}
+          />
+          <button className="form-buttonse" onClick={handleAddData}>Agregar a la tabla</button>
+        </div>
+        <div className="custom-table-wrapperse text-sm" ref={tableContainerRef}>
+          <table className="custom-tablese">
+            <thead>
               <tr>
                 <th>Nombre</th>
                 <th>Correo</th>
                 <th>Acciones</th>
               </tr>
-              </thead>
-              <tbody>
+            </thead>
+            <tbody>
               {filteredData.map((row, index) => (
-                  <tr key={index}>
-                    <td data-label="Nombre">{row.name}</td>
-                    <td data-label="Correo">{row.correo}</td>
-                    <td data-label="Acciones">{row.acciones}</td>
-                  </tr>
+                <tr key={index}>
+                  <td data-label="Nombre">{row.name}</td>
+                  <td data-label="Correo">{row.correo}</td>
+                  <td data-label="Acciones">
+                    <button
+                      onClick={() => handleDelete(row.name)}
+                      className="px-2 py-1 text-white bg-red-500 hover:bg-red-600 rounded-md text-sm"
+                    >
+                      Eliminar
+                    </button>
+                  </td>
+                </tr>
               ))}
-              </tbody>
-            </table>
-          </div>
+            </tbody>
+          </table>
         </div>
-        <Modal
-            isOpen={modalIsOpen}
-            onRequestClose={closeModal}
-            contentLabel="Notification"
-            className="custom-modal"
-            overlayClassName="custom-overlay"
-        >
-          <div className="modal-content">
-            <div className={`modal-icon ${isSuccess ? 'success' : 'error'}`}>
-              <span>{isSuccess ? '✓' : 'X'}</span>
-            </div>
-            <h2 className="modal-title">{isSuccess ? 'Éxito' : '¡Error!'}</h2>
-            <p className="modal-message">{modalMessage}</p>
-            <button
-                onClick={closeModal}
-                className={`modal-button ${isSuccess ? '' : 'error'}`}
-            >
-              Continuar
-            </button>
-          </div>
-        </Modal>
       </div>
+      <Modal
+        isOpen={modalIsOpen}
+        onRequestClose={closeModal}
+        contentLabel="Notification"
+        className="custom-modal"
+        overlayClassName="custom-overlay"
+      >
+        <div className="modal-content">
+          <div className={`modal-icon ${isSuccess ? 'success' : 'error'}`}>
+            <span>{isSuccess ? '✓' : 'X'}</span>
+          </div>
+          <h2 className="modal-title">{isSuccess ? 'Éxito' : '¡Error!'}</h2>
+          <p className="modal-message">{modalMessage}</p>
+          <button
+            onClick={closeModal}
+            className={`modal-button ${isSuccess ? '' : 'error'}`}
+          >
+            Continuar
+          </button>
+        </div>
+      </Modal>
+    </div>
   );
 };
 
