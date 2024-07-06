@@ -6,6 +6,15 @@ import './admi.css';
 
 Modal.setAppElement('#root'); // Asegúrate de que el root coincide con el id del div principal en tu index.html
 
+const roleTranslations = {
+  Sysadmin: 'Administrador del sistema',
+  Admin: 'Administrador',
+  Guard: 'Guardia',
+  Resident: 'Residente',
+  Manager: 'Encargado',
+  Visitor: 'Visitante'
+};
+
 const UserPanel = () => {
   const [filterText, setFilterText] = useState('');
   const [newData, setNewData] = useState([]);
@@ -13,7 +22,6 @@ const UserPanel = () => {
   const [formValues, setFormValues] = useState({
     username: '',
     casa: '',
-    correo: '',
     acciones: 'Acciones', // Default value for actions
   });
   const [modalIsOpen, setModalIsOpen] = useState(false);
@@ -29,10 +37,12 @@ const UserPanel = () => {
           headers: { 'Authorization': `Bearer ${localStorage.getItem('token')}` }
         });
         console.log('Backend response:', response);
-        // Añadir campo 'acciones' a cada elemento del backend
+        // Añadir campo 'acciones' y 'role' traducido a cada elemento del backend
         const dataWithActions = response.data.data.map((item) => ({
           ...item,
-          acciones: 'Acciones'
+          acciones: 'Acciones',
+          role: item.authorities.map(auth => roleTranslations[auth.authority] || auth.authority).join(', '),
+          houseId: item.house ? item.house.id : ''
         }));
         setBackendData(dataWithActions);
       } catch (error) {
@@ -55,22 +65,10 @@ const UserPanel = () => {
     });
   };
 
-  const handleAddData = async () => {
-    console.log('Nombre de usuario:', formValues.username);
-    console.log('Casa:', formValues.casa);
-    console.log('Correo:', formValues.correo);
-
-    if (!formValues.username || !formValues.casa || !formValues.correo) {
+  const handleChangeManager = async () => {
+    if (!formValues.username || !formValues.casa) {
       setIsSuccess(false);
       setModalMessage('Por favor, complete todos los campos.');
-      setModalIsOpen(true);
-      return;
-    }
-
-    const casaValue = parseInt(formValues.casa, 10);
-    if (isNaN(casaValue)) {
-      setIsSuccess(false);
-      setModalMessage('Número de casa debe ser un número.');
       setModalIsOpen(true);
       return;
     }
@@ -78,32 +76,47 @@ const UserPanel = () => {
     try {
       const data = {
         username: formValues.username,
-        houseId: casaValue,
-        email: formValues.correo,
-        acciones: 'Acciones',
+        houseId: formValues.casa
       };
 
-      const response = await axios.post(baseURL + 'user', data, {
+      const response = await axios.put(baseURL + 'house/changeManager', data, {
         headers: { 'Authorization': `Bearer ${localStorage.getItem('token')}` }
       });
 
       console.log('Response:', response.data);
 
       setIsSuccess(true);
-      setModalMessage(response.data.message || 'La entrada se ha agregado con éxito.');
+      setModalMessage(response.data.message || 'Manager asignado con éxito.');
       setModalIsOpen(true);
-      setNewData((prevData) => [...prevData, data]);
       setFormValues({
         username: '',
         casa: '',
-        correo: '',
         acciones: 'Acciones',
       });
+      // Refrescar los datos
+      fetchGuards();
     } catch (error) {
       console.error('Error:', error.response ? error.response.data : error.message);
       setIsSuccess(false);
-      setModalMessage(error.response ? error.response.data.message : 'Ocurrió un error al agregar la entrada');
+      setModalMessage(error.response ? error.response.data.message : 'Ocurrió un error al asignar el manager');
       setModalIsOpen(true);
+    }
+  };
+
+  const fetchGuards = async () => {
+    try {
+      const response = await axios.get(baseURL + 'user/allna', {
+        headers: { 'Authorization': `Bearer ${localStorage.getItem('token')}` }
+      });
+      const dataWithActions = response.data.data.map((item) => ({
+        ...item,
+        acciones: 'Acciones',
+        role: item.authorities.map(auth => roleTranslations[auth.authority] || auth.authority).join(', '),
+        houseId: item.house ? item.house.id : ''
+      }));
+      setBackendData(dataWithActions);
+    } catch (error) {
+      console.error('Error fetching data:', error.response ? error.response.data : error.message);
     }
   };
 
@@ -119,7 +132,7 @@ const UserPanel = () => {
 
   const columns = [
     {
-      name: 'Nombre de usuario',
+      name: 'Usuario',
       selector: (row) => row.username,
       sortable: true,
     },
@@ -129,8 +142,8 @@ const UserPanel = () => {
       sortable: true,
     },
     {
-      name: 'Correo',
-      selector: (row) => row.email || row.correo,
+      name: 'Rol',
+      selector: (row) => row.role,
       sortable: true,
     },
     {
@@ -141,96 +154,88 @@ const UserPanel = () => {
   ];
 
   const filteredData = [...backendData, ...newData].filter((item) =>
-    Object.values(item).some((value) =>
-      value.toString().toLowerCase().includes(filterText.toLowerCase())
-    )
+      Object.values(item).some((value) =>
+          value.toString().toLowerCase().includes(filterText.toLowerCase())
+      )
   );
 
   return (
-    <div className="main-containerpa text-sm">
-      <aside className="sidebarpa" style={{ backgroundColor: 'white' }}>
-        {/* Contenido del aside */}
-      </aside>
-      <div className="table-containerpa">
-        <input
-          type="text"
-          className="filter-input"
-          placeholder="Filtrar..."
-          value={filterText}
-          onChange={handleFilterChange}
-        />
-        <div className="form">
+      <div className="main-containerpa text-sm">
+        <aside className="sidebarpa" style={{ backgroundColor: 'white' }}>
+          {/* Contenido del aside */}
+        </aside>
+        <div className="table-containerpa">
           <input
-            type="text"
-            name="username"
-            className="form-input"
-            placeholder="Nombre de usuario"
-            value={formValues.username}
-            onChange={handleInputChange}
+              type="text"
+              className="filter-input"
+              placeholder="Filtrar..."
+              value={filterText}
+              onChange={handleFilterChange}
           />
-          <input
-            type="text"
-            name="casa"
-            className="form-input"
-            placeholder="Casa"
-            value={formValues.casa}
-            onChange={handleInputChange}
-          />
-          <input
-            type="text"
-            name="correo"
-            className="form-input"
-            placeholder="Correo"
-            value={formValues.correo}
-            onChange={handleInputChange}
-          />
-          <button className="form-button" onClick={handleAddData}>Agregar a la tabla</button>
-        </div>
-        <div className="custom-table-wrapper text-sm" ref={tableContainerRef}>
-          <table className="custom-table">
-            <thead>
+          <div className="form">
+            <input
+                type="text"
+                name="username"
+                className="form-input"
+                placeholder="Usuario"
+                value={formValues.username}
+                onChange={handleInputChange}
+            />
+            <input
+                type="text"
+                name="casa"
+                className="form-input"
+                placeholder="Casa"
+                value={formValues.casa}
+                onChange={handleInputChange}
+            />
+            <button className="form-button" onClick={handleChangeManager}>Asignar Manager</button>
+          </div>
+          <div className="custom-table-wrapper text-sm" ref={tableContainerRef}>
+            <table className="custom-table">
+              <thead>
               <tr>
-                <th>Nombre de usuario</th>
+                <th>Usuario</th>
                 <th>Casa</th>
-                <th>Correo</th>
+                <th>Rol</th>
                 <th>Acciones</th>
               </tr>
-            </thead>
-            <tbody>
+              </thead>
+              <tbody>
               {filteredData.map((row, index) => (
-                <tr key={index}>
-                  <td data-label="Nombre de usuario">{row.username}</td>
-                  <td data-label="Casa">{row.houseId || row.casa}</td>
-                  <td data-label="Correo">{row.email || row.correo}</td>
-                  <td data-label="Acciones">{row.acciones}</td>
-                </tr>
+                  <tr key={index}>
+                    <td data-label="Nombre de usuario">{row.username}</td>
+                    <td data-label="Casa">{row.houseId || row.casa}</td>
+                    <td data-label="Rol">{row.role}</td>
+                    <td data-label="Acciones">{row.acciones}</td>
+                  </tr>
               ))}
-            </tbody>
-          </table>
-        </div>
-      </div>
-      <Modal
-        isOpen={modalIsOpen}
-        onRequestClose={closeModal}
-        contentLabel="Mensaje del formulario"
-        className="custom-modal"
-        overlayClassName="custom-overlay"
-      >
-        <div className="modal-content">
-          <div className={`modal-icon ${isSuccess ? 'success' : 'error'}`}>
-            <span>{isSuccess ? '✓' : 'X'}</span>
+              </tbody>
+            </table>
           </div>
-          <h2 className="modal-title">{isSuccess ? 'Éxito' : '¡Error!'}</h2>
-          <p className="modal-message">{modalMessage}</p>
-          <button 
-            onClick={closeModal} 
-            className={`modal-button ${isSuccess ? '' : 'error'}`}
-          >
-            Continuar
-          </button>
         </div>
-      </Modal>
-    </div>
+        <Modal
+            isOpen={modalIsOpen}
+            onRequestClose={closeModal}
+            contentLabel="Mensaje del formulario"
+            className="custom-modal"
+            overlayClassName="custom-overlay"
+        >
+          <div className="modal-content">
+            <div className={`modal-icon ${isSuccess ? 'success' : 'error'}`}>
+              <span>{isSuccess ? '✓' : 'X'}</span>
+            </div>
+            <h2 className="modal-title">{isSuccess ? 'Éxito' : '¡Error!'}</h2>
+            <p className="modal-message">{modalMessage}</p>
+            <button
+                onClick={closeModal}
+                className={`modal-button ${isSuccess ? '' : 'error'}`}
+            >
+              Continuar
+            </button>
+          </div>
+        </Modal>
+      </div>
   );
 };
 

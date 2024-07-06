@@ -1,7 +1,10 @@
 import React, { useState, useRef, useEffect } from 'react';
 import axios from 'axios';
+import Modal from 'react-modal';
 import './admi.css';
 import { baseURL } from "../../config/apiConfig.js";
+
+Modal.setAppElement('#root'); // Asegúrate de que este ID coincide con el ID de tu elemento raíz en index.html
 
 const SecurityTeam = () => {
   const [filterText, setFilterText] = useState('');
@@ -11,26 +14,29 @@ const SecurityTeam = () => {
     correo: '',
     acciones: 'Acciones', // Default value for actions
   });
+  const [modalIsOpen, setModalIsOpen] = useState(false);
+  const [modalMessage, setModalMessage] = useState('');
+  const [isSuccess, setIsSuccess] = useState(true);
+  const tableContainerRef = useRef(null);
+
+  const fetchGuards = async () => {
+    try {
+      const response = await axios.get(baseURL + 'user/guards', {
+        headers: { 'Authorization': `Bearer ${localStorage.getItem('token')}` }
+      });
+      setBackendData(response.data.data.map(item => ({
+        name: item.username,
+        correo: item.email,
+        acciones: 'Acciones'
+      })));
+    } catch (error) {
+      console.error('Error fetching data:', error.response ? error.response.data : error.message);
+    }
+  };
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await axios.get(baseURL + 'user/guards', {
-          headers: { 'Authorization': `Bearer ${localStorage.getItem('token')}` }
-        });
-        setBackendData(response.data.data.map(item => ({
-          name: item.username,
-          correo: item.email,
-          acciones: 'Acciones'
-        })));
-      } catch (error) {
-        console.error('Error fetching data:', error.response ? error.response.data : error.message);
-      }
-    };
-    fetchData();
+    fetchGuards();
   }, []);
-
-  const tableContainerRef = useRef(null);
 
   const handleFilterChange = (e) => {
     setFilterText(e.target.value);
@@ -44,17 +50,38 @@ const SecurityTeam = () => {
     });
   };
 
-  const handleAddData = () => {
-    const newEntry = {
-      ...formValues,
-      acciones: 'Acciones'
-    };
-    setBackendData((prevData) => [...prevData, newEntry]);
-    setFormValues({
-      name: '',
-      correo: '',
-      acciones: 'Acciones',
-    });
+  const handleAddData = async () => {
+    if (!formValues.name) {
+      setIsSuccess(false);
+      setModalMessage('Por favor, complete todos los campos.');
+      setModalIsOpen(true);
+      return;
+    }
+
+    try {
+      const response = await axios.put(baseURL + 'user/assignGuard', {
+        username: formValues.name
+      }, {
+        headers: { 'Authorization': `Bearer ${localStorage.getItem('token')}` }
+      });
+      setIsSuccess(true);
+      setModalMessage('Guard created successfully');
+      setModalIsOpen(true);
+      fetchGuards(); // Actualizar la tabla después de agregar el guardia
+      setFormValues({
+        name: '',
+        correo: '',
+        acciones: 'Acciones',
+      });
+    } catch (error) {
+      setIsSuccess(false);
+      setModalMessage(`Error creating guard: ${error.response ? error.response.data.message : error.message}`);
+      setModalIsOpen(true);
+    }
+  };
+
+  const closeModal = () => {
+    setModalIsOpen(false);
   };
 
   useEffect(() => {
@@ -87,7 +114,7 @@ const SecurityTeam = () => {
                 type="text"
                 name="name"
                 className="form-inputse"
-                placeholder="Nombre"
+                placeholder="Username"
                 value={formValues.name}
                 onChange={handleInputChange}
             />
@@ -122,6 +149,27 @@ const SecurityTeam = () => {
             </table>
           </div>
         </div>
+        <Modal
+            isOpen={modalIsOpen}
+            onRequestClose={closeModal}
+            contentLabel="Notification"
+            className="custom-modal"
+            overlayClassName="custom-overlay"
+        >
+          <div className="modal-content">
+            <div className={`modal-icon ${isSuccess ? 'success' : 'error'}`}>
+              <span>{isSuccess ? '✓' : 'X'}</span>
+            </div>
+            <h2 className="modal-title">{isSuccess ? 'Éxito' : '¡Error!'}</h2>
+            <p className="modal-message">{modalMessage}</p>
+            <button
+                onClick={closeModal}
+                className={`modal-button ${isSuccess ? '' : 'error'}`}
+            >
+              Continuar
+            </button>
+          </div>
+        </Modal>
       </div>
   );
 };

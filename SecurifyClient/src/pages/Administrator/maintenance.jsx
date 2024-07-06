@@ -164,7 +164,7 @@ const Maintenance = () => {
               <tr>
                 <th>Número de casa</th>
                 <th>Poligono</th>
-                <th>N° Residentes</th>
+                <th>N° max de Residentes</th>
               </tr>
             </thead>
             <tbody>
