@@ -1,5 +1,6 @@
 package com.securifytech.securifyserver.Contollers;
 
+import com.securifytech.securifyserver.Domain.dtos.CreateGuardDto;
 import com.securifytech.securifyserver.Domain.dtos.CreateUserDTO;
 import com.securifytech.securifyserver.Domain.dtos.GeneralResponse;
 import com.securifytech.securifyserver.Domain.dtos.RoleDTO;
@@ -159,6 +160,17 @@ public class UserController {
                 .status(HttpStatus.OK)
                 .message("Guard users found")
                 .data(guardUsers)
+                .getResponse();
+    }
+
+    //Agregar guardia cambiando role al usuari
+    @PutMapping("/assignGuard")
+    public ResponseEntity<GeneralResponse> createGuardUser(@RequestBody CreateGuardDto info){
+        userService.createGuardUser(info);
+
+        return GeneralResponse.builder()
+                .status(HttpStatus.OK)
+                .message("Guard created successfully")
                 .getResponse();
     }
 }

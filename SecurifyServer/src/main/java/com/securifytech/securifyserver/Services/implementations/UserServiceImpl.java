@@ -1,5 +1,6 @@
 package com.securifytech.securifyserver.Services.implementations;
 
+import com.securifytech.securifyserver.Domain.dtos.CreateGuardDto;
 import com.securifytech.securifyserver.Domain.dtos.CreateUserDTO;
 import com.securifytech.securifyserver.Domain.dtos.UserRegisterDTO;
 import com.securifytech.securifyserver.Domain.entities.House;
@@ -15,6 +16,7 @@ import com.securifytech.securifyserver.Utils.JWTTools;
 import jakarta.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
@@ -191,5 +193,28 @@ public class UserServiceImpl implements UserService {
         if (user == null) {
             createFirebaseUser(name, email);
         }
+    }
+
+    @Override
+    public void createGuardUser(CreateGuardDto createGuardDto){
+
+        String username = createGuardDto.getUsername();
+        if (username == null) {
+            throw new RuntimeException("Username must not be null");
+        }
+
+        User user = userRepository.findByUsernameOrEmail(username, username).orElse(null);
+        if (user == null) {
+            throw new RuntimeException("User not found");
+        }
+
+        Role guardRole = roleRepository.findByName("Guard").orElse(null);
+        if (guardRole == null) {
+            throw new RuntimeException("Role not found");
+        }
+
+        user.getRoles().clear();
+        user.getRoles().add(guardRole);
+        userRepository.save(user);
     }
 }

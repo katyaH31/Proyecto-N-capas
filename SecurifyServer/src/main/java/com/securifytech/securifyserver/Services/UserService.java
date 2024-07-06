@@ -1,6 +1,7 @@
 package com.securifytech.securifyserver.Services;
 
 
+import com.securifytech.securifyserver.Domain.dtos.CreateGuardDto;
 import com.securifytech.securifyserver.Domain.dtos.CreateUserDTO;
 import com.securifytech.securifyserver.Domain.dtos.UserRegisterDTO;
 import com.securifytech.securifyserver.Domain.entities.Role;
@@ -46,4 +47,6 @@ public interface UserService {
     void createFirebaseUser(String name, String email);
 
     void verifyUser(String name, String email);
+
+    void createGuardUser(CreateGuardDto createGuardDto);
 }
