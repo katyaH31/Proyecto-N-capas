@@ -1,6 +1,7 @@
 import React, { useContext, useState, useRef, useEffect } from 'react';
 import { DataContext } from "../../context/DataContext";
 import './admi.css';
+import {baseURL} from "../../config/apiConfig.js";
 
 const AnonymousHistory = () => {
   const { anonymousData } = useContext(DataContext);
@@ -11,6 +12,19 @@ const AnonymousHistory = () => {
     if (tableContainerRef.current) {
       tableContainerRef.current.scrollTop = tableContainerRef.current.scrollHeight;
     }
+
+    /*const fetchData = async () => {
+      try {
+        const response = await axios.get(baseURL + 'anonymous/all', {
+        headers: {'Authorization' : `Bearer ${localStorage.getItem('token')}`}
+    });
+        console.log(response);
+      } catch (error) {
+        console.error('Error fetching data:', error.response ? error.response.data : error.message);
+  }
+    }*/
+    //hay que hacer asincrono el useeffect
+
   }, [anonymousData]);
 
   const handleFilterChange = (e) => {
