@@ -8,13 +8,22 @@ Modal.setAppElement('#root'); // Asegúrate de que el root coincide con el id de
 
 const Permits = () => {
   const [formData, setFormData] = useState({
-    visitorUser: '',
+    username: '',
     description: '',
-    date: '',
+    requestedDate: '',
   });
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [modalMessage, setModalMessage] = useState('');
   const [isSuccess, setIsSuccess] = useState(true);
+
+  // Obtener la fecha actual en formato YYYY-MM-DD
+  const getCurrentDate = () => {
+    const today = new Date();
+    const year = today.getFullYear();
+    const month = String(today.getMonth() + 1).padStart(2, '0');
+    const day = String(today.getDate()).padStart(2, '0');
+    return `${year}-${month}-${day}`;
+  };
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -43,9 +52,9 @@ const Permits = () => {
       setModalIsOpen(true);
       // Reset form data
       setFormData({
-        visitorUser: '',
+        username: '',
         description: '',
-        date: '',
+        requestedDate: '',
       });
     } catch (error) {
       const errorMessage = error.response ? error.response.data.message : 'Ocurrió un error al añadir la entrada';
@@ -58,9 +67,9 @@ const Permits = () => {
 
   const validateForm = () => {
     return (
-      formData.visitorUser.trim() !== '' &&
-      formData.description.trim() !== '' &&
-      formData.date.trim() !== ''
+        formData.username.trim() !== '' &&
+        formData.description.trim() !== '' &&
+        formData.requestedDate.trim() !== ''
     );
   };
 
@@ -69,75 +78,76 @@ const Permits = () => {
   };
 
   return (
-    <div className="visit-permits">
-      <aside className="sidebar">
-        {/* Contenido del aside */}
-      </aside>
-      <div className="main-container">
-        <form onSubmit={handleSubmit} className="space-y-4 p-6 max-w-lg mx-auto content-container">
-          <div className="left-content">
-            <h1 className="text-2xl font-bold mb-4">Rellenar los campos para solicitud de visita</h1>
-            <div className="mb-4">
-              <label htmlFor="visitorUser" className="block text-gray-700 text-left">Usuario del visitante:</label>
-              <input
-                type="text"
-                id="visitorUser"
-                name="visitorUser"
-                value={formData.visitorUser}
-                onChange={handleChange}
-                className="mt-1 p-2 w-full border border-gray-300 rounded-md"
-              />
+      <div className="visit-permits">
+        <aside className="sidebar">
+          {/* Contenido del aside */}
+        </aside>
+        <div className="main-container">
+          <form onSubmit={handleSubmit} className="space-y-4 p-6 max-w-lg mx-auto content-container">
+            <div className="left-content">
+              <h1 className="text-2xl font-bold mb-4">Rellenar los campos para solicitud de visita</h1>
+              <div className="mb-4">
+                <label htmlFor="username" className="block text-gray-700 text-left">Usuario del visitante:</label>
+                <input
+                    type="text"
+                    id="username"
+                    name="username"
+                    value={formData.username}
+                    onChange={handleChange}
+                    className="mt-1 p-2 w-full border border-gray-300 rounded-md"
+                />
+              </div>
+              <div className="mb-4">
+                <label htmlFor="description" className="block text-gray-700 text-left">Descripción:</label>
+                <input
+                    type="text"
+                    id="description"
+                    name="description"
+                    value={formData.description}
+                    onChange={handleChange}
+                    className="mt-1 p-2 w-full border border-gray-300 rounded-md"
+                />
+              </div>
+              <div className="mb-4">
+                <label htmlFor="requestedDate" className="block text-gray-700 text-left">Fecha:</label>
+                <input
+                    type="date"
+                    id="requestedDate"
+                    name="requestedDate"
+                    value={formData.requestedDate}
+                    onChange={handleChange}
+                    className="mt-1 p-2 w-full border border-gray-300 rounded-md"
+                    min={getCurrentDate()} // Establecer la fecha mínima como la fecha actual
+                />
+              </div>
+              <div className="button-container flex justify-end">
+                <button type="submit" className="generate-button">Enviar solicitud</button>
+              </div>
             </div>
-            <div className="mb-4">
-              <label htmlFor="description" className="block text-gray-700 text-left">Descripción:</label>
-              <input
-                type="text"
-                id="description"
-                name="description"
-                value={formData.description}
-                onChange={handleChange}
-                className="mt-1 p-2 w-full border border-gray-300 rounded-md"
-              />
-            </div>
-            <div className="mb-4">
-              <label htmlFor="date" className="block text-gray-700 text-left">Fecha:</label>
-              <input
-                type="date"
-                id="date"
-                name="date"
-                value={formData.date}
-                onChange={handleChange}
-                className="mt-1 p-2 w-full border border-gray-300 rounded-md"
-              />
-            </div>
-            <div className="button-container flex justify-end">
-              <button type="submit" className="generate-button">Enviar solicitud</button>
-            </div>
-          </div>
-        </form>
-      </div>
-      <Modal
-        isOpen={modalIsOpen}
-        onRequestClose={closeModal}
-        contentLabel="Mensaje del formulario"
-        className="custom-modal"
-        overlayClassName="custom-overlay"
-      >
-        <div className="modal-content">
-          <div className={`modal-icon ${isSuccess ? 'success' : 'error'}`}>
-            <span>{isSuccess ? '✓' : 'X'}</span>
-          </div>
-          <h2 className="modal-title">{isSuccess ? 'Éxito' : '¡Error!'}</h2>
-          <p className="modal-message">{modalMessage}</p>
-          <button 
-            onClick={closeModal} 
-            className={`modal-button ${isSuccess ? '' : 'error'}`}
-          >
-            Continuar
-          </button>
+          </form>
         </div>
-      </Modal>
-    </div>
+        <Modal
+            isOpen={modalIsOpen}
+            onRequestClose={closeModal}
+            contentLabel="Mensaje del formulario"
+            className="custom-modal"
+            overlayClassName="custom-overlay"
+        >
+          <div className="modal-content">
+            <div className={`modal-icon ${isSuccess ? 'success' : 'error'}`}>
+              <span>{isSuccess ? '✓' : 'X'}</span>
+            </div>
+            <h2 className="modal-title">{isSuccess ? 'Éxito' : '¡Error!'}</h2>
+            <p className="modal-message">{modalMessage}</p>
+            <button
+                onClick={closeModal}
+                className={`modal-button ${isSuccess ? '' : 'error'}`}
+            >
+              Continuar
+            </button>
+          </div>
+        </Modal>
+      </div>
   );
 };
 
