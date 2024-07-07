@@ -1,140 +1,35 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
+import axios from 'axios';
+import { baseURL } from '../../config/apiConfig';
 import './admi.css';
 
 const VisitHistory = () => {
   const [filterText, setFilterText] = useState('');
-  const [newData, setNewData] = useState([]);
-  const [formValues, setFormValues] = useState({
-    correlativo: '',
-    name: '',
-    dui: '',
-    home: '',
-    date: '',
-    hour: '',
-    acciones: 'Acciones', // Default value for actions
-  });
-
+  const [backendData, setBackendData] = useState([]);
   const tableContainerRef = useRef(null);
+
+  useEffect(() => {
+    // Fetch data from the backend
+    const fetchData = async () => {
+      try {
+        const response = await axios.get(baseURL + 'visits/all', {
+          headers: { 'Authorization': `Bearer ${localStorage.getItem('token')}` }
+        });
+        console.log('Backend response:', response);
+        setBackendData(response.data.data);
+      } catch (error) {
+        console.error('Error fetching data:', error.response ? error.response.data : error.message);
+      }
+    };
+
+    fetchData();
+  }, []);
 
   const handleFilterChange = (e) => {
     setFilterText(e.target.value);
   };
 
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setFormValues({
-      ...formValues,
-      [name]: value,
-    });
-  };
-
-  const handleAddData = () => {
-    const allData = [...data, ...newData];
-
-    // Obtener el mayor valor de correlativo actual, asegurando que sea un número válido
-    const maxCorrelativo = allData.length > 0 
-      ? Math.max(...allData.map(item => parseInt(item.correlativo, 10)).filter(Number.isFinite), 0)
-      : 0;
-
-    // Formatear el nuevo correlativo a 4 dígitos
-    const newCorrelativo = (maxCorrelativo + 1).toString().padStart(4, '0');
-
-    const newEntry = {
-      ...formValues,
-      correlativo: newCorrelativo, // Nuevo correlativo formateado
-      home: parseInt(formValues.home, 10), // Convert home to number
-    };
-    setNewData((prevData) => [...prevData, newEntry]);
-    setFormValues({
-      correlativo: '',
-      name: '',
-      dui: '',
-      home: '',
-      date: '',
-      hour: '',
-      acciones: 'Acciones',
-    });
-  };
-
-  const columns = [
-    {
-      name: 'Correlativo',
-      selector: (row) => row.correlativo,
-      sortable: true,
-    },
-    {
-      name: 'Nombre/Apellido',
-      selector: (row) => row.name,
-      sortable: true,
-    },
-    {
-      name: 'N° de Dui',
-      selector: (row) => row.dui,
-      sortable: true,
-    },
-    {
-      name: 'N° de casa',
-      selector: (row) => row.home,
-      sortable: true,
-    },
-    {
-      name: 'Fecha',
-      selector: (row) => row.date,
-      sortable: true,
-    },
-    {
-      name: 'Hora',
-      selector: (row) => row.hour,
-      sortable: true,
-    },
-    {
-      name: 'Acciones',
-      selector: (row) => row.acciones,
-      sortable: true,
-    },
-  ];
-
-  const data = [
-    {
-      correlativo: '0001',
-      name: 'Katya Avalos',
-      dui: '060987623-1',
-      home: '13',
-      date: '2024-06-12',
-      hour: '12:00',
-      acciones: 'Acciones',
-    },
-    {
-      correlativo: '0002',
-      name: 'Juan cardona',
-      dui: '060987623-1',
-      home: '31',
-      date: '2024-06-12',
-      hour: '12:00',
-      acciones: 'Acciones',
-    },
-    {
-      correlativo: '0003',
-      name: 'David mesa',
-      dui: '060987623-1',
-      home: '10',
-      date: '2024-06-12',
-      hour: '12:00',
-      acciones: 'Acciones',
-    },
-    {
-      correlativo: '0004',
-      name: 'Moises Urbina',
-      dui: '060987623-1',
-      home: '12',
-      date: '2024-06-12',
-      hour: '12:00',
-      acciones: 'Acciones',
-    },
-    ...newData, // Agregar nuevos datos
-  ];
-
-  const filteredData = data.filter((item) =>
+  const filteredData = backendData.filter((item) =>
     Object.values(item).some((value) =>
       value.toString().toLowerCase().includes(filterText.toLowerCase())
     )
@@ -146,38 +41,30 @@ const VisitHistory = () => {
         {/* Contenido del aside */}
       </aside>
       <div className="table-containervisit">
-        
-        <div className="formvisit">
-         
-
-          
-         
-         
-         
-        </div>
+        <input
+          type="text"
+          className="filter-inputvisit"
+          placeholder="Filtrar..."
+          value={filterText}
+          onChange={handleFilterChange}
+        />
         <div className="custom-table-wrappervisit text-sm" ref={tableContainerRef}>
           <table className="custom-tablevisit">
             <thead>
               <tr>
-              <th>Correlativo</th>
-                <th>Nombre/Apellido</th>
-                <th>N° de DUI</th>
+                <th>Usuario</th>
                 <th>Casa</th>
                 <th>Fecha</th>
-                <th>Hora</th>
-                <th>Acciones</th>
+                <th>Descripcion</th>
               </tr>
             </thead>
             <tbody>
               {filteredData.map((row, index) => (
                 <tr key={index}>
-                  <td data-label="Correlativo">{row.correlativo}</td>
-                  <td data-label="Nombre">{row.name}</td>
-                  <td data-label="N° de DUI">{row.dui}</td>
-                  <td data-label="Casa">{row.home}</td>
-                  <td data-label="Fecha">{row.date}</td>
-                  <td data-label="Hora">{row.hour}</td>
-                  <td data-label="Acciones">{row.acciones}</td>
+                  <td data-label="Nombre">{row.user.username}</td>
+                  <td data-label="Casa">{row.house.id}</td>
+                  <td data-label="Fecha">{row.visitDate}</td>
+                  <td data-label="Descripcion">{row.description}</td>
                 </tr>
               ))}
             </tbody>
