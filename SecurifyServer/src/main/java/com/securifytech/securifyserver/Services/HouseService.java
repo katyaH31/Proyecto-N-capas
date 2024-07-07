@@ -8,6 +8,7 @@ import com.securifytech.securifyserver.Domain.entities.User;
 import com.securifytech.securifyserver.Domain.entities.Visit;
 
 import java.util.List;
+import java.util.UUID;
 
 public interface HouseService {
 
@@ -25,5 +26,5 @@ public interface HouseService {
 
     List<User> getResidents(String houseId);
 
-    void updateHome(ResidentHouseDto residentHouseDto);
+    void updateHome(String username, House house);
 }

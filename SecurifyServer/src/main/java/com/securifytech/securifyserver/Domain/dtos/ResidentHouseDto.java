@@ -6,8 +6,5 @@ import java.util.UUID;
 
 @Data
 public class ResidentHouseDto {
-
-    private String houseId;
-
-    private UUID residentId;
+    private String username;
 }

@@ -112,7 +112,9 @@ public class HouseController {
 
     @PostMapping("/residenthouse")
     public ResponseEntity<GeneralResponse> updateHome(@RequestBody ResidentHouseDto residentHouseDto){
-        houseService.updateHome(residentHouseDto);
+        User user = userService.findUserAuthenticated();
+        House house = user.getHouse();
+        houseService.updateHome(residentHouseDto.getUsername(), house);
         return GeneralResponse.builder()
                 .status(HttpStatus.OK)
                 .message("Resident assigned successfully")

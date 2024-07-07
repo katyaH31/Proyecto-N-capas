@@ -19,6 +19,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.UUID;
 
 @Service
 @Slf4j
@@ -111,10 +112,8 @@ public class HouseServiceImpl implements HouseService {
     }
 
     @Override
-    public void updateHome(ResidentHouseDto residentHouseDto){
-        House house = houseRepository.findById(residentHouseDto.getHouseId())
-                .orElseThrow(() -> new RuntimeException("House not found"));
-        User resident = userRepository.findById(residentHouseDto.getResidentId())
+    public void updateHome(String username, House house){
+        User resident = userRepository.findByUsernameOrEmail(username, username)
                 .orElseThrow(() -> new RuntimeException("Resident not found"));
         List<Role> role = resident.getRoles();
         Role manager = roleRepository.findByName("Manager").orElse(null);
