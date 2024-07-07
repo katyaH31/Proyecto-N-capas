@@ -74,7 +74,7 @@ public class WebSecurityConfiguration {
                     .requestMatchers("/api/user").hasAuthority("Admin")
                     .requestMatchers("/api/user/allna").hasAuthority("Admin")
                     .requestMatchers("/api/user/guards").hasAuthority("Admin")
-                    .requestMatchers("/api/visits/all").hasAuthority("Admin")
+                    .requestMatchers("/api/visits/all").hasAnyAuthority("Admin", "Manager")
                     .requestMatchers("/api/user/assignGuard").hasAuthority("Admin")
 
                     //Manager

@@ -71,7 +71,7 @@ export function MyRoutes() {
         <Route path="/qrgeneratora" element={<RequiereAuth><Layout><QRGeneratora /></Layout></RequiereAuth>} />
         <Route path="/homeresidents" element={<RequiereAuth><Layout><HomeResidents /></Layout></RequiereAuth>} />
         <Route path="/permissionlist" element={<RequiereAuth><Layout><PermissionList /></Layout></RequiereAuth>} />
-        <Route path="/visithistory" element={<RequiereAuth><Layout><VisitHistoryTable /></Layout></RequiereAuth>} />
+        <Route path="/visitManagerHistory" element={<RequiereAuth><Layout><VisitHistoryTable /></Layout></RequiereAuth>} />
         {/*Resident */}
         <Route path="/resident" element={<RequiereAuth><Layout><Resident /></Layout></RequiereAuth>} />
         <Route path="/qrgenerator" element={<RequiereAuth><Layout><QRGeneratorr /></Layout></RequiereAuth>} />

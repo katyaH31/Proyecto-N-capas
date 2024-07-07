@@ -9,10 +9,11 @@ const VisitHistoryTable = ({ houseId }) => {
   useEffect(() => {
     const fetchVisitas = async () => {
       try {
-        const response = await axios.get(baseURL + 'house/history/visits/?houseId=' + houseId, {
+        const response = await axios.get(baseURL + 'visits/house', {
           headers: { 'Authorization': `Bearer ${localStorage.getItem('token')}` }
         });
-        setVisitas(response.data);
+        console.log('Visitas:', response.data.data);
+        setVisitas(response.data.data);
       } catch (error) {
         console.error('Error fetching visitas:', error);
       }
@@ -58,22 +59,20 @@ const VisitHistoryTable = ({ houseId }) => {
         <table className="min-w-full border-collapse border border-gray-200">
           <thead>
             <tr>
-              <th className="border border-gray-200 px-2 py-1 text-center">Nombre del visitante</th>
-              <th className="border border-gray-200 px-2 py-1 text-center">Fecha de inicio</th>
-              <th className="border border-gray-200 px-2 py-1 text-center">Hora</th>
-              <th className="border border-gray-200 px-2 py-1 text-center">Fecha de vencimiento</th>
-              <th className="border border-gray-200 px-2 py-1 text-center">Estado</th>
+              <th className="border border-gray-200 px-2 py-1 text-center">Fecha de Visita</th>
+              <th className="border border-gray-200 px-2 py-1 text-center">Descripción</th>
+              <th className="border border-gray-200 px-2 py-1 text-center">ID de Casa</th>
+              <th className="border border-gray-200 px-2 py-1 text-center">Usuario</th>
               <th className="border border-gray-200 px-2 py-1 text-center">Acción</th>
             </tr>
           </thead>
           <tbody>
             {filteredVisitas.map((visita, index) => (
               <tr key={index}>
-                <td className="border border-gray-200 px-2 py-1 text-center">{visita.nombre}</td>
-                <td className="border border-gray-200 px-2 py-1 text-center">{visita.fechaInicio}</td>
-                <td className="border border-gray-200 px-2 py-1 text-center">{visita.hora}</td>
-                <td className="border border-gray-200 px-2 py-1 text-center">{visita.fechaVencimiento}</td>
-                <td className="border border-gray-200 px-2 py-1 text-center">{visita.estado}</td>
+                <td className="border border-gray-200 px-2 py-1 text-center">{new Date(visita.visitDate).toLocaleString()}</td>
+                <td className="border border-gray-200 px-2 py-1 text-center">{visita.description}</td>
+                <td className="border border-gray-200 px-2 py-1 text-center">{visita.house.id}</td>
+                <td className="border border-gray-200 px-2 py-1 text-center">{visita.user.username}</td>
                 <td className="border border-gray-200 px-2 py-1 text-center">
                   <button onClick={() => handleDelete(visita.id)} className="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-2 rounded">Eliminar</button>
                 </td>
