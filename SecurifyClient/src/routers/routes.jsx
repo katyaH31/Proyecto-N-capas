@@ -27,6 +27,7 @@ import SidebarResident from "../components/sidebarResident";
 import QRGenerator from "../pages/visitor/qrgenerator";
 import Invitation from "../pages/visitor/invitation";
 import SidebarVisit from "../components/sidebarVisit";
+import ErrorPage from "../components/errorPage"; // Asegúrate de que la ruta es correcta
 
 const RequiereAuth = ({ children }) => {
   const { user, loading } = UserAuth();
@@ -84,7 +85,9 @@ export function MyRoutes() {
         <Route path="/homeVigilant" element={<RequiereAuth><Layout><Homevigilant /></Layout></RequiereAuth>} />
         <Route path="/anonymousVisit" element={<RequiereAuth><Layout><AnonymousVisit /></Layout></RequiereAuth>} />
         <Route path="/anonymousHistory" element={<RequiereAuth><Layout><AnonymousHistory /></Layout></RequiereAuth>} />
-       
+
+        {/* Ruta para manejar páginas no encontradas */}
+        <Route path="*" element={<ErrorPage />} />
       </Routes>
     </BrowserRouter>
   );
