@@ -28,6 +28,9 @@ public class JWTTools {
     @Value("${jwt.exptime}")
     private Integer exp;
 
+    @Value("${jwt.qr-expVisitortime}")
+    private Integer qrVisitorExp;
+
     @Value("${jwt.qr-exptime}")
     private Integer qrExp;
 
@@ -51,7 +54,7 @@ public class JWTTools {
                 .claims(claims)
                 .subject(user.getEmail())
                 .issuedAt(new Date(System.currentTimeMillis()))
-                .expiration(new Date(System.currentTimeMillis() + qrExp))
+                .expiration(new Date(System.currentTimeMillis() + qrVisitorExp))
                 .signWith(Keys.hmacShaKeyFor(qrSecret.getBytes()))
                 .compact();
 
@@ -84,10 +87,40 @@ public class JWTTools {
         }
     }
 
+    public Boolean verifyQrToken(String token) {
+        try {
+            JwtParser parser = Jwts.parser()
+                    .verifyWith(Keys.hmacShaKeyFor(qrSecret.getBytes()))
+                    .build();
+
+            parser.parseClaimsJws(token);
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+
     public String getUsernameFrom(String token) {
         try {
             JwtParser parser = Jwts.parser()
                     .verifyWith(Keys.hmacShaKeyFor(secret.getBytes()))
+                    .build();
+
+            return parser.parseSignedClaims(token)
+                    .getPayload()
+                    .getSubject();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public String getUsernameFromQrToken(String token) {
+        try {
+            JwtParser parser = Jwts.parser()
+                    .verifyWith(Keys.hmacShaKeyFor(qrSecret.getBytes()))
                     .build();
 
             return parser.parseSignedClaims(token)

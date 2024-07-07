@@ -11,6 +11,7 @@ import com.securifytech.securifyserver.Services.PermissionService;
 import com.securifytech.securifyserver.Services.QrService;
 import com.securifytech.securifyserver.Services.UserService;
 import jakarta.validation.Valid;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -20,6 +21,9 @@ import java.util.UUID;
 @RestController
 @RequestMapping("/api/qr")
 public class QrController {
+
+    @Value("${mqtt.defaultTopic}")
+    private  String topic;
 
     private final UserService userService;
 
@@ -106,7 +110,7 @@ public class QrController {
                         .data(false)
                         .getResponse();
             }
-            mqttService.publishMessage("/test/securify", response.toString());
+            mqttService.publishMessage(topic, response.toString());
             return GeneralResponse.builder()
                     .status(HttpStatus.OK)
                     .data(true)
@@ -123,7 +127,7 @@ public class QrController {
     @GetMapping("/servo")
     public ResponseEntity<GeneralResponse> sendToServo(@RequestParam String flag) {
         try {
-            mqttService.publishMessage("/test/securify", flag);
+            mqttService.publishMessage(topic, flag);
             return GeneralResponse.builder()
                     .status(HttpStatus.OK)
                     .message("Message send")

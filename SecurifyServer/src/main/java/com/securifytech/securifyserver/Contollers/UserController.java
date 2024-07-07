@@ -30,10 +30,10 @@ public class UserController {
         this.roleService = roleService;
     }
 
-    @PutMapping("/roles/{userId}")
-    public ResponseEntity<GeneralResponse> addRoleToUser(@PathVariable UUID userId, @RequestBody @Valid RoleDTO info){
+    @PutMapping("/roles")
+    public ResponseEntity<GeneralResponse> addRoleToUser(@RequestBody @Valid RoleDTO info){
         try {
-            User user = userService.findOneById(userId);
+            User user = userService.findByIdentifier(info.getUsername());
             if ( user == null ) {
                 return GeneralResponse.builder()
                         .status(HttpStatus.NOT_FOUND)
@@ -125,9 +125,10 @@ public class UserController {
     }
 
     //delete user by id
-    @DeleteMapping("{id}")
-    public ResponseEntity<GeneralResponse> deleteUser(@PathVariable UUID id){
-        userService.deleteUserById(id);
+    @DeleteMapping("{username}")
+    public ResponseEntity<GeneralResponse> deleteUser(@PathVariable String username){
+        User user = userService.findByIdentifier(username);
+        userService.deleteUserById(user.getId());
         return GeneralResponse.builder()
                 .status(HttpStatus.OK)
                 .message("User deleted successfully")

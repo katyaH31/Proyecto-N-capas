@@ -90,7 +90,7 @@ public class QrServiceImpl implements QrService {
         List<QrToken> tokens = qrTokenRepository.findByUserAndActiveAndPermission(user, true, permission);
 
         tokens.forEach(token -> {
-            if (!jwtTools.verifyToken(token.getContent())) {
+            if (!jwtTools.verifyQrToken(token.getContent())) {
                 token.setActive(false);
                 qrTokenRepository.save(token);
             }
@@ -102,7 +102,7 @@ public class QrServiceImpl implements QrService {
         List<QrToken> tokens = qrTokenRepository.findByUserAndActive(user, true);
 
         tokens.forEach(token -> {
-            if (!jwtTools.verifyToken(token.getContent())) {
+            if (!jwtTools.verifyQrToken(token.getContent())) {
                 token.setActive(false);
                 qrTokenRepository.save(token);
             }
@@ -112,7 +112,7 @@ public class QrServiceImpl implements QrService {
     @Override
     public Boolean VerifyToken(String token) {
         QrToken qrToken = qrTokenRepository.findByContent(token).orElse(null);
-        String username = jwtTools.getUsernameFrom(token);
+        String username = jwtTools.getUsernameFromQrToken(token);
         User user = userService.findByUsernameOrEmail(username, username);
         UUID idPermission = jwtTools.getIdPermissionFrom(token);
         Role resident = roleService.findByName("Resident").orElse(null);

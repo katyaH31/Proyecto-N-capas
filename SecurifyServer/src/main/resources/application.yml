@@ -1,13 +1,14 @@
 mqtt:
-  url: tcp://64.23.196.58:1883
-  clientId: mqttClient
-  defaultTopic: test/topic
+  url: "tcp://24.199.80.14:1883"
+  clientId: "spring-boot-client"
+  defaultTopic: "/test/securify"
 
 jwt:
-  secret: "NuevaClaveSecretaMuySegurade256bits"
+  secret: "94c9b14f-b497-4f25-bc02-4f5e1a512c3d"
   exptime: 1296000000
-  qr-secret: "NuevaClaveSecretaMuySegurade256bits"
-  qr-exptime: 180000
+  qr-expVisitortime: 180000
+  qr-secret: "94d8b15f-b794-4f25-bc02-4f5h1a512c3d"
+  qr-exptime: 300000
 
 spring:
   sql:

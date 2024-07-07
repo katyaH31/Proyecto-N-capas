@@ -120,4 +120,32 @@ public class HouseController {
                 .message("Resident assigned successfully")
                 .getResponse();
     }
+
+    @GetMapping("/residents-manager")
+    public ResponseEntity<GeneralResponse> getResidentsWithOutManager() {
+        User user = userService.findUserAuthenticated();
+        House house = user.getHouse();
+
+        if (house == null) {
+            return GeneralResponse.builder()
+                    .status(HttpStatus.NOT_FOUND)
+                    .message("House not found")
+                    .getResponse();
+        }
+
+        try {
+            List<User> residents = houseService.getResidentsWithOutManager(house);
+
+            return GeneralResponse.builder()
+                    .status(HttpStatus.OK)
+                    .message("Residents found:")
+                    .data(residents)
+                    .getResponse();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return GeneralResponse.builder()
+                    .status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .getResponse();
+        }
+    }
 }

@@ -14,6 +14,7 @@ import com.securifytech.securifyserver.Repositories.VisitRepository;
 import com.securifytech.securifyserver.Services.HouseService;
 import jakarta.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -24,6 +25,7 @@ import java.util.UUID;
 @Service
 @Slf4j
 public class HouseServiceImpl implements HouseService {
+
 
     private final HouseRepository houseRepository;
 
@@ -136,5 +138,19 @@ public class HouseServiceImpl implements HouseService {
 
         resident.setHouse(house);
         userRepository.save(resident);
+    }
+
+    @Override
+    public List<User> getResidentsWithOutManager(House house) {
+        List<User> residents = getResidents(house.getId());
+        List<User> residentsWithoutManager = new ArrayList<>();
+        Role manager = roleRepository.findByName("Manager").orElse(null);
+
+        residents.forEach(resident -> {
+            if (!resident.getRoles().contains(manager)) {
+                residentsWithoutManager.add(resident);
+            }
+        });
+        return residentsWithoutManager;
     }
 }

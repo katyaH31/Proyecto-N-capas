@@ -27,4 +27,6 @@ public interface HouseService {
     List<User> getResidents(String houseId);
 
     void updateHome(String username, House house);
+
+    List<User> getResidentsWithOutManager(House house);
 }
