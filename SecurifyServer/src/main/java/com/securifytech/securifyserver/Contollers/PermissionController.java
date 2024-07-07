@@ -39,7 +39,7 @@ public class PermissionController {
     public ResponseEntity<GeneralResponse> createPermission(@RequestBody @Valid PermissionDTO info) {
         User user = userService.findByUsernameOrEmail(info.getUsername(), info.getUsername());
         User resident = userService.findUserAuthenticated();
-        House house = user.getHouse();
+        House house = resident.getHouse();
 
         if(house == null){
             return GeneralResponse.builder()
