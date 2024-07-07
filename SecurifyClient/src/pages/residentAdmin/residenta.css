@@ -227,6 +227,109 @@ img {
   color: white;
 }
 
+.permission-list-container {
+  display: flex;
+  height: 100vh;
+}
+
+#permission-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  padding: 5rem;
+  overflow-x: scroll;
+}
+
+.accept-permission {
+  background-color: green; /* Color de fondo verde */
+  color: white; /* Color de texto blanco */
+  border: none;
+  border-radius: 4px;
+  padding: 5px 10px;
+  cursor: pointer;
+}
+
+.reject-permission {
+  background-color: red; /* Color de fondo rojo */
+  color: white; /* Color de texto blanco */
+  border: none;
+  border-radius: 4px;
+  padding: 5px 10px;
+  cursor: pointer;
+}
+
+.accept-permission:disabled,
+.reject-permission:disabled {
+  background-color: gray; /* Color de fondo gris cuando está desactivado */
+  cursor: not-allowed; /* Cambia el cursor cuando está desactivado */
+}
+
+.actions-permission button {
+  margin: 0 5px; /* Espaciado entre botones */
+}
+
+/* Estilos de modal */
+
+.modal-content-permission {
+  text-align: center;
+}
+.custom-overlay-permission {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.75);
+  z-index: 1000;
+}
+
+.custom-modal-permission {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  right: auto;
+  bottom: auto;
+  margin-right: -50%;
+  transform: translate(-50%, -50%);
+  background-color: white;
+  padding: 20px;
+  border-radius: 10px;
+  z-index: 1001;
+}
+.modal-title-permission {
+  margin-bottom: 20px;
+}
+
+.modal-message-permission {
+  margin-bottom: 30px;
+}
+
+.modal-buttons-permission {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+}
+
+.modal-button-permission {
+  background-color: green; /* Color de fondo verde */
+  color: white; /* Color de texto blanco */
+  border: none;
+  border-radius: 4px;
+  padding: 8px 16px;
+  cursor: pointer;
+}
+
+.modal-button-error-permission {
+  background-color: red; /* Color de fondo rojo */
+  color: white; /* Color de texto blanco */
+  border: none;
+  border-radius: 4px;
+  padding: 8px 16px;
+  cursor: pointer;
+}
+
 /* Estilos responsivos */
 @media (max-width: 768px) {
   .qr-generator-container {

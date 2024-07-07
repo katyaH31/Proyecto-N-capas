@@ -2,9 +2,22 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Modal from 'react-modal';
 import axios from 'axios';
-import { baseURL } from '../../config/apiConfig'; // Importa baseURL desde config
-import './residenta.css';
+import { baseURL } from '../../config/apiConfig'; // Importa baseURL desde config 
 import invitationImage from '../../assets/img/invitation.png'; // Importa la imagen
+
+Modal.setAppElement('#root'); // Configurar el elemento raíz
+
+const statusTranslations = {
+  APPROVED: 'Aprobado',
+  PENDING: 'Pendiente',
+  DENIED: 'Denegado',
+  USED: 'Usado'
+};
+
+const formatDate = (dateString) => {
+  const options = { year: 'numeric', month: '2-digit', day: '2-digit' };
+  return new Date(dateString).toLocaleDateString(undefined, options);
+};
 
 const PermissionList = ({ idHouse }) => {
   const [confirmationModalIsOpen, setConfirmationModalIsOpen] = useState(false);
@@ -17,10 +30,16 @@ const PermissionList = ({ idHouse }) => {
   useEffect(() => {
     const fetchRequests = async () => {
       try {
-        const response = await axios.get(baseURL + 'permission/house?idHouse=' + idHouse, {
+        const response = await axios.get(baseURL + 'permission/house', {
           headers: { 'Authorization': `Bearer ${localStorage.getItem('token')}` }
         });
-        setRequests(response.data);
+        const dataWithTranslations = response.data.data.map((item) => ({
+          ...item,
+          status: statusTranslations[item.status] || item.status,
+          requestedDated: formatDate(item.requestedDated),
+          makeDate: formatDate(item.makeDate)
+        }));
+        setRequests(dataWithTranslations);
       } catch (error) {
         console.error('Error fetching requests:', error);
       }
@@ -39,17 +58,45 @@ const PermissionList = ({ idHouse }) => {
     setRejectionModalIsOpen(true);
   };
 
-  const handleConfirmAccept = () => {
-    // Aquí puedes manejar la lógica de aceptación
-    setStatus({ ...status, [selectedRequest.name]: 'Aprobado' });
-    setConfirmationModalIsOpen(false);
-    navigate('/qrgeneratora'); // Redirige a la página qrgeneratora
+  const handleConfirmAccept = async () => {
+    try {
+      await axios.put( baseURL+  `permission/changeStatus?idPermission=${selectedRequest.id}`, {
+        state: 'APPROVED'
+      }, {
+        headers: { 'Authorization': `Bearer ${localStorage.getItem('token')}` }
+      });
+
+      setStatus({ ...status, [selectedRequest.description]: 'Aprobado' });
+      setRequests((prevRequests) => 
+        prevRequests.map((req) =>
+          req.id === selectedRequest.id ? { ...req, status: 'Aprobado' } : req
+        )
+      );
+      setConfirmationModalIsOpen(false);
+      navigate('/qrgeneratora'); // Redirige a la página qrgeneratora
+    } catch (error) {
+      console.error('Error approving request:', error);
+    }
   };
 
-  const handleConfirmReject = () => {
-    // Aquí puedes manejar la lógica de rechazo
-    setStatus({ ...status, [selectedRequest.name]: 'Rechazado' });
-    setRejectionModalIsOpen(false);
+  const handleConfirmReject = async () => {
+    try {
+      await axios.put( baseURL + `permission/changeStatus?idPermission=${selectedRequest.id}`, {
+        state: 'DENIED'
+      }, {
+        headers: { 'Authorization': `Bearer ${localStorage.getItem('token')}` }
+      });
+
+      setStatus({ ...status, [selectedRequest.description]: 'Rechazado' });
+      setRequests((prevRequests) => 
+        prevRequests.map((req) =>
+          req.id === selectedRequest.id ? { ...req, status: 'Rechazado' } : req
+        )
+      );
+      setRejectionModalIsOpen(false);
+    } catch (error) {
+      console.error('Error rejecting request:', error);
+    }
   };
 
   const handleCloseModal = () => {
@@ -58,42 +105,72 @@ const PermissionList = ({ idHouse }) => {
   };
 
   return (
-    <main className="content-container1">
-      <aside className="sidebar" style={{ backgroundColor: 'white' }}>
+    <main className="permission-list-container">
+      <aside className="sidebar-permission" style={{ backgroundColor: 'white' }}>
         {/* Contenido del aside */}
       </aside>
-      <img src={invitationImage} alt="Invitación" />
-      <h1>Solicitud de permiso</h1>
-      {requests.map((request, index) => (
-        <div key={index} className="request">
-          <div className="request-info">
-            <p>{request.name}</p>
-            <p>{request.time}</p>
+      <div id='permission-container'>
+        <img src={invitationImage} alt="Invitación" />
+        <h1>Solicitud de permiso</h1>
+        <div className="table-containervisit">
+          <div className="custom-table-wrappervisit">
+            <table className="custom-tablevisit">
+              <thead>
+                <tr>
+                  <th>Descripción</th>
+                  <th>Fecha a realizar la visita</th>
+                  <th>Fecha de petición</th>
+                  <th>Estado</th>
+                  <th>Acciones</th>
+                </tr>
+              </thead>
+              <tbody>
+                {requests.map((request, index) => (
+                  <tr key={index}>
+                    <td data-label="Descripción">{request.description}</td>
+                    <td data-label="Fecha a realizar la visita">{request.requestedDated}</td>
+                    <td data-label="Fecha de petición">{request.makeDate}</td>
+                    <td data-label="Estado">{request.status}</td>
+                    <td data-label="Acciones">
+                      <div className="actions-permission">
+                        <button
+                          className="accept-permission"
+                          onClick={() => handleAccept(request)}
+                          disabled={['Aprobado', 'Usado', 'Denegado'].includes(request.status)}
+                        >
+                          Aceptar
+                        </button>
+                        <button
+                          className="reject-permission"
+                          onClick={() => handleReject(request)}
+                          disabled={['Aprobado', 'Usado', 'Denegado'].includes(request.status)}
+                        >
+                          Rechazar
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
           </div>
-          <div className="status">{request.status}</div>
-          {!status[request.name] && (
-            <div className="actions">
-              <button className="accept" onClick={() => handleAccept(request)}>Aceptar</button>
-              <button className="reject" onClick={() => handleReject(request)}>Rechazar</button>
-            </div>
-          )}
         </div>
-      ))}
+      </div>
 
       {/* Popup de confirmación de aceptación */}
       <Modal
         isOpen={confirmationModalIsOpen}
         onRequestClose={handleCloseModal}
         contentLabel="Confirmación de Aceptación"
-        className="custom-modal"
-        overlayClassName="custom-overlay"
+        className="custom-modal-permission"
+        overlayClassName="custom-overlay-permission"
       >
-        <div className="modal-content">
-          <h2 className="modal-title">Confirmación de Aceptación</h2>
-          <p className="modal-message">¿Estás seguro de que deseas aceptar la solicitud de {selectedRequest && selectedRequest.name}?</p>
-          <div className="modal-buttons">
-            <button onClick={handleConfirmAccept} className="modal-button">Aceptar</button>
-            <button onClick={handleCloseModal} className="modal-button error">Cancelar</button>
+        <div className="modal-content-permission">
+          <h2 className="modal-title-permission">Confirmación de Aceptación</h2>
+          <p className="modal-message-permission">¿Estás seguro de que deseas aceptar la solicitud de {selectedRequest && selectedRequest.description}?</p>
+          <div className="modal-buttons-permission">
+            <button onClick={handleConfirmAccept} className="modal-button-permission">Aceptar</button>
+            <button onClick={handleCloseModal} className="modal-button-error-permission">Cancelar</button>
           </div>
         </div>
       </Modal>
@@ -103,15 +180,15 @@ const PermissionList = ({ idHouse }) => {
         isOpen={rejectionModalIsOpen}
         onRequestClose={handleCloseModal}
         contentLabel="Confirmación de Rechazo"
-        className="custom-modal"
-        overlayClassName="custom-overlay"
+        className="custom-modal-permission"
+        overlayClassName="custom-overlay-permission"
       >
-        <div className="modal-content">
-          <h2 className="modal-title">Confirmación de Rechazo</h2>
-          <p className="modal-message">¿Estás seguro de que deseas rechazar la solicitud de {selectedRequest && selectedRequest.name}?</p>
-          <div className="modal-buttons">
-            <button onClick={handleConfirmReject} className="modal-button">Rechazar</button>
-            <button onClick={handleCloseModal} className="modal-button error">Cancelar</button>
+        <div className="modal-content-permission">
+          <h2 className="modal-title-permission">Confirmación de Rechazo</h2>
+          <p className="modal-message-permission">¿Estás seguro de que deseas rechazar la solicitud de {selectedRequest && selectedRequest.description}?</p>
+          <div className="modal-buttons-permission">
+            <button onClick={handleConfirmReject} className="modal-button-permission">Rechazar</button>
+            <button onClick={handleCloseModal} className="modal-button-error-permission">Cancelar</button>
           </div>
         </div>
       </Modal>
