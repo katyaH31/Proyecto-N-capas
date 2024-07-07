@@ -105,7 +105,7 @@ const PermissionList = ({ idHouse }) => {
   };
 
   return (
-    <main className="permission-list-container">
+    <main className="">
       <aside className="sidebar-permission" style={{ backgroundColor: 'white' }}>
         {/* Contenido del aside */}
       </aside>
