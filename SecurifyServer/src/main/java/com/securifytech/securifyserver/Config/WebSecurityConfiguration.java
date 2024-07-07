@@ -84,6 +84,7 @@ public class WebSecurityConfiguration {
                     .requestMatchers("/api/permission/").hasAuthority("Manager")
                     .requestMatchers("/api/permission/User").hasAuthority("Manager")
                     .requestMatchers("/api/permission/changeStatus").hasAuthority("Manager")
+                    .requestMatchers("/api/permission/house").hasAuthority("Manager")
                     .requestMatchers("/api/visits/house").hasAuthority("Manager")
 
                     //resident

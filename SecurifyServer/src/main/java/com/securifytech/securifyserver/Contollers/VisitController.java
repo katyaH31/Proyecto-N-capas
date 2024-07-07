@@ -74,8 +74,9 @@ public class VisitController {
     }
 
     @GetMapping("/house")
-    public ResponseEntity<GeneralResponse> GetVisitsByHouse(@RequestParam String idHouse) {
-        House house = houseService.findById(idHouse);
+    public ResponseEntity<GeneralResponse> GetVisitsByHouse() {
+        User user = userService.findUserAuthenticated();
+        House house = user.getHouse();
 
         if (house == null) {
             return GeneralResponse.builder()

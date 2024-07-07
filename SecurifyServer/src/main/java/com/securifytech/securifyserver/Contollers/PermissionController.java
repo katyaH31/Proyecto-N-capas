@@ -72,8 +72,9 @@ public class PermissionController {
     }
 
     @GetMapping("/house")
-    public ResponseEntity<GeneralResponse> getPermissionsByHouse(@RequestParam String idHouse) {
-        House house = houseService.findById(idHouse);
+    public ResponseEntity<GeneralResponse> getPermissionsByHouse() {
+        User user = userService.findUserAuthenticated();
+        House house = user.getHouse();
         List<Permission> emptyList = Collections.emptyList();
 
         if (house == null) {
