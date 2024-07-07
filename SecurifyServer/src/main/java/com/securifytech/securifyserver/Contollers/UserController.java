@@ -33,34 +33,7 @@ public class UserController {
     @PutMapping("/roles")
     public ResponseEntity<GeneralResponse> addRoleToUser(@RequestBody @Valid RoleDTO info){
         try {
-            User user = userService.findByIdentifier(info.getUsername());
-            if ( user == null ) {
-                return GeneralResponse.builder()
-                        .status(HttpStatus.NOT_FOUND)
-                        .message("User not found")
-                        .getResponse();
-            }
-
-            Optional<Role> findRole = roleService.findByName(info.getRole());
-
-            if (findRole.isEmpty()) {
-                return GeneralResponse.builder()
-                        .status(HttpStatus.NOT_FOUND)
-                        .message("Role not found")
-                        .getResponse();
-            }
-
-            Role roleToAdd = findRole.get();
-
-            if (user.getRoles().contains(roleToAdd)) {
-                return GeneralResponse.builder()
-                        .status(HttpStatus.BAD_REQUEST)
-                        .message("User already has the specified role")
-                        .getResponse();
-            }
-
-            user.getRoles().add(roleToAdd);
-            userService.saveUser(user);
+            roleService.ChangeRole(info);
 
             return GeneralResponse.builder()
                     .status(HttpStatus.OK)
@@ -125,7 +98,7 @@ public class UserController {
     }
 
     //delete user by id
-    @DeleteMapping("{username}")
+    @DeleteMapping("/{username}")
     public ResponseEntity<GeneralResponse> deleteUser(@PathVariable String username){
         User user = userService.findByIdentifier(username);
         userService.deleteUserById(user.getId());

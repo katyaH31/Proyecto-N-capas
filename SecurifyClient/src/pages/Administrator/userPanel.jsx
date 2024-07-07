@@ -15,6 +15,15 @@ const roleTranslations = {
   Visitor: 'Visitante'
 };
 
+const roleReverseTranslations = {
+  'Administrador del sistema': 'Sysadmin',
+  'Administrador': 'Admin',
+  'Guardia': 'Guard',
+  'Residente': 'Resident',
+  'Encargado': 'Manager',
+  'Visitante': 'Visitor'
+};
+
 const UserPanel = () => {
   const [filterText, setFilterText] = useState('');
   const [newData, setNewData] = useState([]);
@@ -138,35 +147,22 @@ const UserPanel = () => {
     setFormValues({
       username: userToEdit.username,
       casa: userToEdit.houseId,
-      role: userToEdit.role,
+      role: roleTranslations[userToEdit.role] || userToEdit.role,
       acciones: 'Acciones'
     });
     setEditModalIsOpen(true);
   };
 
-  const handleDelete = async (username) => {
-    try {
-      const response = await axios.delete(`${baseURL}user/${username}`, {
-        headers: { 'Authorization': `Bearer ${localStorage.getItem('token')}` }
-      });sin
-      console.log('Response:', response.data);
-      // Actualiza los datos después de eliminar el usuario
-      setBackendData(prevData => prevData.filter(user => user.username !== username));
-      setNewData(prevData => prevData.filter(user => user.username !== username));
-    } catch (error) {
-      console.error('Error deleting user:', error.response ? error.response.data : error.message);
-    }
-  };
+ 
 
   const handleConfirmEdit = async () => {
     try {
       const data = {
         username: formValues.username,
-        houseId: formValues.casa,
-        role: formValues.role
+        role: roleReverseTranslations[formValues.role] || formValues.role
       };
 
-      const response = await axios.put(`${baseURL}user/${formValues.username}`, data, {
+      const response = await axios.put(`${baseURL}user/roles`, data, {
         headers: { 'Authorization': `Bearer ${localStorage.getItem('token')}` }
       });
 
@@ -279,7 +275,6 @@ const UserPanel = () => {
                   <td data-label="Rol">{row.role}</td>
                   <td data-label="Acciones">
                     <button onClick={() => handleEdit(row.username)} className="px-2 py-1 text-white bg-green-700 hover:bg-green-800 rounded-md text-sm">Editar</button>
-                    <button onClick={() => handleDelete(row.username)} className="px-2 py-1 text-white bg-red-500 hover:bg-red-600 rounded-md text-sm">Eliminar</button>
                   </td>
                 </tr>
               ))}
@@ -343,14 +338,17 @@ const UserPanel = () => {
             </div>
             <div>
               <label htmlFor="editRole" className="block text-gray-700">Rol:</label>
-              <input
-                type="text"
+              <select
                 id="editRole"
                 name="role"
                 value={formValues.role}
                 onChange={handleInputChange}
                 className="mt-1 p-2 w-full border border-gray-300 rounded-md"
-              />
+              >
+                <option value="Visitante">Visitante</option>
+                <option value="Guardia">Guardia</option>
+                <option value="Residente">Residente</option>
+              </select>
             </div>
             <div className="flex justify-between">
               <button
