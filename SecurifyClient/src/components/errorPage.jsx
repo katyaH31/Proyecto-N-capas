@@ -5,7 +5,7 @@ const ErrorPage = () => {
   const navigate = useNavigate();
 
   const handleNavigate = React.useCallback(() => {
-    navigate('/'); // Cambia 'a page base'
+    navigate('/'); // Cambia 'a la page '
   }, [navigate]);
 
   return (

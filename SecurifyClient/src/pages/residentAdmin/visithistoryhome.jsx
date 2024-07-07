@@ -37,12 +37,14 @@ const VisitHistoryTable = ({ houseId }) => {
   });
 
   return (
-    <div className="py-4 flex flex-col items-center">
-      <aside className="sidebar">
+    <main className="">
+      <div className="py-4 flex flex-col items-center">
+        <aside className="sidebar"style={{ backgroundColor: 'white' }}>
         {/* Contenido del aside */}
-      </aside>
-      <h2 className="text-xl font-bold mb-4 text-center">Historial de visitas</h2>
-      <div className="mb-4">
+        </aside>
+        <div id='permission-container' >
+        <h2 className=" text-xl font-bold mb-4 text-center">Historial de visitas</h2>
+        <div className="mb-4">
         <label htmlFor="filter" className="mr-2">Mostrar:</label>
         <select
           id="filter"
@@ -55,8 +57,9 @@ const VisitHistoryTable = ({ houseId }) => {
           <option value="denied">Denegadas</option>
         </select>
       </div>
-      <div className="overflow-x-auto">
-        <table className="min-w-full border-collapse border border-gray-200">
+      <div className="table-containervisit" >
+      <div className="custom-table-wrappervisit" >
+        <table className="custom-tablevisit">
           <thead>
             <tr>
               <th className="border border-gray-200 px-2 py-1 text-center">Fecha de Visita</th>
@@ -81,7 +84,10 @@ const VisitHistoryTable = ({ houseId }) => {
           </tbody>
         </table>
       </div>
+    </div> 
     </div>
+    </div>
+  </main>
   );
 };
 

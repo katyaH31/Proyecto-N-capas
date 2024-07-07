@@ -77,64 +77,82 @@ const HomeResidents = ({ houseId }) => {
   };
 
   return (
-      <div className="home-residents">
-        <aside className="sidebar">
-          {/* Contenido del aside */}
-        </aside>
-        <div className="main-container">
-          <form onSubmit={handleSubmit} className="space-y-4 p-6 max-w-lg mx-auto content-container">
-            <div className="left-content">
-              <h1 className="text-2xl font-bold mb-4">Registrar Residente</h1>
-              <div>
-                <label htmlFor="username" className="block text-gray-700 text-left">Usuario o Correo:</label>
-                <input
-                    type="text"
-                    id="username"
-                    name="username"
-                    value={formData.username}
-                    onChange={handleChange}
-                    className="mt-1 p-2 w-full border border-gray-300 rounded-md"
-                    placeholder="Username or Email"
-                />
-              </div>
-              <div className="button-container">
-                <button type="submit" className="generate-button text-left">Registrar Residente</button>
-              </div>
+    <div className="home-residents">
+      <aside className="sidebar" style={{ backgroundColor: 'white' }}>
+        {/* Contenido del aside */}
+      </aside>
+      <div className="main-container">
+        <form onSubmit={handleSubmit} className="space-y-4 p-6 max-w-lg mx-auto content-container">
+          <div className="left-content">
+            <h1 className="text-2xl font-bold mb-4">Registrar Residente</h1>
+            <div>
+              <label htmlFor="username" className="block text-gray-700 text-left">Usuario o Correo:</label>
+              <input
+                type="text"
+                id="username"
+                name="username"
+                value={formData.username}
+                onChange={handleChange}
+                className="mt-1 p-2 w-full border border-gray-300 rounded-md"
+                placeholder="Username or Email"
+              />
             </div>
-          </form>
-          <div className="residents-list">
-            <h2 className="text-xl font-bold mb-4 text-center">Residentes actuales</h2>
-            <ul>
-              {residents.map((resident) => (
-                  <li key={resident.id} className="resident-item">
-                    {resident.username}
-                  </li>
+            <div className="button-container">
+              <button type="submit" className="generate-button text-left">Registrar Residente</button>
+            </div>
+          </div>
+        </form>
+        <div className="residents-list">
+          <h2 className="text-xl font-bold mb-4 text-center">Residentes actuales</h2>
+          <div className="table-containervisit">
+            <div className="custom-table-wrappervisit">
+              <table className="custom-tablevisit">
+              <thead>
+                <tr>
+                   <th>Usuario</th>
+                   <th>Correo</th>
+                   <th>Acciones</th>
+                </tr>
+             </thead>
+                <tbody className="bg-white divide-y divide-gray-200">
+                {residents.map((resident) => (
+                <tr key={resident.id}>
+                  <td className="px-6 py-4 whitespace-nowrap">{resident.username}</td>
+                  <td className="px-6 py-4 whitespace-nowrap">{resident.email}</td>
+                  <td className="px-6 py-4 whitespace-nowrap">
+                    <button className="text-indigo-600 hover:text-indigo-900">Eliminar</button>
+                  </td>
+                </tr>
               ))}
-            </ul>
+            </tbody>
+          </table>
           </div>
+          </div>
+
         </div>
-        <Modal
-            isOpen={modalIsOpen}
-            onRequestClose={closeModal}
-            contentLabel="Mensaje del formulario"
-            className="custom-modal"
-            overlayClassName="custom-overlay"
-        >
-          <div className="modal-content">
-            <div className={`modal-icon ${isSuccess ? 'success' : 'error'}`}>
-              <span>{isSuccess ? '✓' : 'X'}</span>
-            </div>
-            <h2 className="modal-title">{isSuccess ? 'Bienvenido' : '¡Lo sentimos!'}</h2>
-            <p className="modal-message">{modalMessage}</p>
-            <button
-                onClick={closeModal}
-                className={`modal-button ${isSuccess ? '' : 'error'}`}
-            >
-              Continuar
-            </button>
-          </div>
-        </Modal>
       </div>
+      <Modal
+        isOpen={modalIsOpen}
+        onRequestClose={closeModal}
+        contentLabel="Mensaje del formulario"
+        className="custom-modal"
+        overlayClassName="custom-overlay"
+      >
+        <div className="modal-content">
+          <div className={`modal-icon ${isSuccess ? 'success' : 'error'}`}>
+            <span>{isSuccess ? '✓' : 'X'}</span>
+          </div>
+          <h2 className="modal-title">{isSuccess ? 'Bienvenido' : '¡Lo sentimos!'}</h2>
+          <p className="modal-message">{modalMessage}</p>
+          <button
+            onClick={closeModal}
+            className={`modal-button ${isSuccess ? '' : 'error'}`}
+          >
+            Continuar
+          </button>
+        </div>
+      </Modal>
+    </div>
   );
 };
 

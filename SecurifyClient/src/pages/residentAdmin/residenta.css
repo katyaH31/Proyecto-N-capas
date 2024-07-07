@@ -373,3 +373,17 @@ img {
     padding: 8px 16px;
   }
 }
+
+/* Ocultar la barra de desplazamiento en el contenedor de permisos */
+#permission-container {
+  overflow: hidden; /* Ocultar la barra de desplazamiento */
+  padding-right: 15px; /* Espacio adicional para compensar el desplazamiento oculto */
+}
+
+/* Mantener la capacidad de desplazamiento con pseudoelementos */
+#permission-container::before {
+  content: "";
+  display: block;
+  height: 1px;
+  overflow: scroll;
+}
