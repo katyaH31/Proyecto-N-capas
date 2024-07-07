@@ -148,7 +148,7 @@ const UserPanel = () => {
     try {
       const response = await axios.delete(`${baseURL}user/${username}`, {
         headers: { 'Authorization': `Bearer ${localStorage.getItem('token')}` }
-      });
+      });sin
       console.log('Response:', response.data);
       // Actualiza los datos después de eliminar el usuario
       setBackendData(prevData => prevData.filter(user => user.username !== username));
