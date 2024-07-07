@@ -82,7 +82,7 @@ const AnonymousVisit = () => {
     <>
       <SidebarVigilant />
       <div className="main-containerAno text-sm">
-        <aside className="sidebarAno"></aside>
+        <aside className="sidebarAno"style={{ backgroundColor: 'white' }}></aside>
         <div className="table-containerAno">
           <div className="table-containerinfo">
             <div className="visitdata">Datos para la visita anónima</div>

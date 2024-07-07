@@ -54,7 +54,7 @@ const Scan = () => {
     <>
       <SidebarVigilant />
       <div className="main-containerScan text-sm">
-        <aside className="sidebarScan"></aside>
+        <aside className="sidebarScan" style={{ backgroundColor: 'white' }}></aside>
         <div className="btn-containerScan">
           <Link to="/homevigilant" className="btnScan">
             <span>Regresar</span>
@@ -71,7 +71,7 @@ const Scan = () => {
         {showPopup && (
           <div className="popup">
             <div className="popup-content">
-              <p>Código QR escaneado con éxito!</p>
+              <p>Código QR escaneado </p>
               {validationResult !== null && (
                 <p>Resultado de la validación: {validationResult ? 'Válido' : 'Inválido'}</p>
               )}

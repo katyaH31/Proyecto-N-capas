@@ -6,7 +6,7 @@ const Homevigilant = () => {
   return (
     <>
       <div className="main-containervi text-sm">
-        <aside className="sidebarvi">
+        <aside className="sidebarvi" style={{ backgroundColor: 'white' }}>
           {/* Contenido del aside */}
         </aside>
         <div className="table-containervi">
