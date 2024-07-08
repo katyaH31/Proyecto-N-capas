@@ -67,10 +67,10 @@ const PermissionList = ({ idHouse }) => {
       });
 
       setStatus({ ...status, [selectedRequest.description]: 'Aprobado' });
-      setRequests((prevRequests) => 
-        prevRequests.map((req) =>
-          req.id === selectedRequest.id ? { ...req, status: 'Aprobado' } : req
-        )
+      setRequests((prevRequests) =>
+          prevRequests.map((req) =>
+              req.id === selectedRequest.id ? { ...req, status: 'Aprobado' } : req
+          )
       );
       setConfirmationModalIsOpen(false);
       navigate('/qrgeneratora'); // Redirige a la página qrgeneratora
@@ -88,10 +88,10 @@ const PermissionList = ({ idHouse }) => {
       });
 
       setStatus({ ...status, [selectedRequest.description]: 'Rechazado' });
-      setRequests((prevRequests) => 
-        prevRequests.map((req) =>
-          req.id === selectedRequest.id ? { ...req, status: 'Rechazado' } : req
-        )
+      setRequests((prevRequests) =>
+          prevRequests.map((req) =>
+              req.id === selectedRequest.id ? { ...req, status: 'Rechazado' } : req
+          )
       );
       setRejectionModalIsOpen(false);
     } catch (error) {
@@ -105,17 +105,17 @@ const PermissionList = ({ idHouse }) => {
   };
 
   return (
-    <main className="">
-      <aside className="sidebar-permission" style={{ backgroundColor: 'white' }}>
-        {/* Contenido del aside */}
-      </aside>
-      <div id='permission-container'>
-        <img src={invitationImage} alt="Invitación" />
-        <h1>Solicitud de permiso</h1>
-        <div className="table-containervisit">
-          <div className="custom-table-wrappervisit">
-            <table className="custom-tablevisit">
-              <thead>
+      <main className="">
+        <aside className="sidebar-permission" style={{ backgroundColor: 'white' }}>
+          {/* Contenido del aside */}
+        </aside>
+        <div id='permission-container'>
+          <img src={invitationImage} alt="Invitación" />
+          <h1>Solicitud de permiso</h1>
+          <div className="table-containervisit" style={{ maxHeight: '400px', overflowY: 'auto' }}>
+            <div className="custom-table-wrappervisit">
+              <table className="custom-tablevisit">
+                <thead>
                 <tr>
                   <th>Descripción</th>
                   <th>Fecha a realizar la visita</th>
@@ -123,76 +123,76 @@ const PermissionList = ({ idHouse }) => {
                   <th>Estado</th>
                   <th>Acciones</th>
                 </tr>
-              </thead>
-              <tbody>
+                </thead>
+                <tbody>
                 {requests.map((request, index) => (
-                  <tr key={index}>
-                    <td data-label="Descripción">{request.description}</td>
-                    <td data-label="Fecha a realizar la visita">{request.requestedDated}</td>
-                    <td data-label="Fecha de petición">{request.makeDate}</td>
-                    <td data-label="Estado">{request.status}</td>
-                    <td data-label="Acciones">
-                      <div className="actions-permission">
-                        <button
-                          className="accept-permission"
-                          onClick={() => handleAccept(request)}
-                          disabled={['Aprobado', 'Usado', 'Denegado'].includes(request.status)}
-                        >
-                          Aceptar
-                        </button>
-                        <button
-                          className="reject-permission"
-                          onClick={() => handleReject(request)}
-                          disabled={['Aprobado', 'Usado', 'Denegado'].includes(request.status)}
-                        >
-                          Rechazar
-                        </button>
-                      </div>
-                    </td>
-                  </tr>
+                    <tr key={index}>
+                      <td data-label="Descripción">{request.description}</td>
+                      <td data-label="Fecha a realizar la visita">{request.requestedDated}</td>
+                      <td data-label="Fecha de petición">{request.makeDate}</td>
+                      <td data-label="Estado">{request.status}</td>
+                      <td data-label="Acciones">
+                        <div className="actions-permission">
+                          <button
+                              className="accept-permission"
+                              onClick={() => handleAccept(request)}
+                              disabled={['Aprobado', 'Usado', 'Denegado'].includes(request.status)}
+                          >
+                            Aceptar
+                          </button>
+                          <button
+                              className="reject-permission"
+                              onClick={() => handleReject(request)}
+                              disabled={['Aprobado', 'Usado', 'Denegado'].includes(request.status)}
+                          >
+                            Rechazar
+                          </button>
+                        </div>
+                      </td>
+                    </tr>
                 ))}
-              </tbody>
-            </table>
+                </tbody>
+              </table>
+            </div>
           </div>
         </div>
-      </div>
 
-      {/* Popup de confirmación de aceptación */}
-      <Modal
-        isOpen={confirmationModalIsOpen}
-        onRequestClose={handleCloseModal}
-        contentLabel="Confirmación de Aceptación"
-        className="custom-modal-permission"
-        overlayClassName="custom-overlay-permission"
-      >
-        <div className="modal-content-permission">
-          <h2 className="modal-title-permission">Confirmación de Aceptación</h2>
-          <p className="modal-message-permission">¿Estás seguro de que deseas aceptar la solicitud de {selectedRequest && selectedRequest.description}?</p>
-          <div className="modal-buttons-permission">
-            <button onClick={handleConfirmAccept} className="modal-button-permission">Aceptar</button>
-            <button onClick={handleCloseModal} className="modal-button-error-permission">Cancelar</button>
+        {/* Popup de confirmación de aceptación */}
+        <Modal
+            isOpen={confirmationModalIsOpen}
+            onRequestClose={handleCloseModal}
+            contentLabel="Confirmación de Aceptación"
+            className="custom-modal-permission"
+            overlayClassName="custom-overlay-permission"
+        >
+          <div className="modal-content-permission">
+            <h2 className="modal-title-permission">Confirmación de Aceptación</h2>
+            <p className="modal-message-permission">¿Estás seguro de que deseas aceptar la solicitud de {selectedRequest && selectedRequest.description}?</p>
+            <div className="modal-buttons-permission">
+              <button onClick={handleConfirmAccept} className="modal-button-permission">Aceptar</button>
+              <button onClick={handleCloseModal} className="modal-button-error-permission">Cancelar</button>
+            </div>
           </div>
-        </div>
-      </Modal>
+        </Modal>
 
-      {/* Popup de confirmación de rechazo */}
-      <Modal
-        isOpen={rejectionModalIsOpen}
-        onRequestClose={handleCloseModal}
-        contentLabel="Confirmación de Rechazo"
-        className="custom-modal-permission"
-        overlayClassName="custom-overlay-permission"
-      >
-        <div className="modal-content-permission">
-          <h2 className="modal-title-permission">Confirmación de Rechazo</h2>
-          <p className="modal-message-permission">¿Estás seguro de que deseas rechazar la solicitud de {selectedRequest && selectedRequest.description}?</p>
-          <div className="modal-buttons-permission">
-            <button onClick={handleConfirmReject} className="modal-button-permission">Rechazar</button>
-            <button onClick={handleCloseModal} className="modal-button-error-permission">Cancelar</button>
+        {/* Popup de confirmación de rechazo */}
+        <Modal
+            isOpen={rejectionModalIsOpen}
+            onRequestClose={handleCloseModal}
+            contentLabel="Confirmación de Rechazo"
+            className="custom-modal-permission"
+            overlayClassName="custom-overlay-permission"
+        >
+          <div className="modal-content-permission">
+            <h2 className="modal-title-permission">Confirmación de Rechazo</h2>
+            <p className="modal-message-permission">¿Estás seguro de que deseas rechazar la solicitud de {selectedRequest && selectedRequest.description}?</p>
+            <div className="modal-buttons-permission">
+              <button onClick={handleConfirmReject} className="modal-button-permission">Rechazar</button>
+              <button onClick={handleCloseModal} className="modal-button-error-permission">Cancelar</button>
+            </div>
           </div>
-        </div>
-      </Modal>
-    </main>
+        </Modal>
+      </main>
   );
 };
 
