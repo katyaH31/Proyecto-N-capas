@@ -86,13 +86,7 @@ public class HouseServiceImpl implements HouseService {
                 .orElseThrow(() -> new RuntimeException("House not found"));
 
         house.setNumberOfResidents(houseDto.getNumberOfResidents());
-
-        User resident = userRepository.findById(houseDto.getResidentID())
-                .orElseThrow(() -> new RuntimeException("Resident not found"));
-
-
-
-        house.getUsers().add(resident);
+        
         houseRepository.save(house);
     }
 
