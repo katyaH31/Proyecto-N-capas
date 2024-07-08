@@ -1,4 +1,4 @@
 import { Navigate } from "react-router-dom";
-export const baseURL = import.meta.env.API_URL;
+export const baseURL = 'http://localhost:8080/api/'
 
 
