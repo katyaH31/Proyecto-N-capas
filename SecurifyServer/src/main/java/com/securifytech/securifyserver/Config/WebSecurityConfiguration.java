@@ -77,6 +77,7 @@ public class WebSecurityConfiguration {
                     .requestMatchers("/api/user/guards").hasAuthority("Admin")
                     .requestMatchers("/api/visits/all").hasAnyAuthority("Admin", "Manager")
                     .requestMatchers("/api/user/assignGuard").hasAuthority("Admin")
+                    .requestMatchers("/api/house/{houseId}").hasAuthority("Admin")
 
                     //Manager
                     .requestMatchers("/api/house/history/visits/{houseId}").hasAuthority("Manager")
