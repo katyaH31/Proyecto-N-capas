@@ -37,7 +37,7 @@
 ## Guía de instalación
 Comando:
 SecurityCliente:
-nmp i
+npm i, 
 npm run dev
 
 ## Manual de usuario: 
