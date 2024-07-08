@@ -46,8 +46,8 @@ const Scan = () => {
   };
 
   const previewStyle = {
-    height: 240,
-    width: 320,
+    height: 360, // Aumenta la altura
+    width: 480,  // Aumenta la anchura
   };
 
   return (
@@ -55,11 +55,6 @@ const Scan = () => {
       <SidebarVigilant />
       <div className="main-containerScan text-sm">
         <aside className="sidebarScan" style={{ backgroundColor: 'white' }}></aside>
-        <div className="btn-containerScan">
-          <Link to="/homevigilant" className="btnScan">
-            <span>Regresar</span>
-          </Link>
-        </div>
         <div className="qr-reader-container">
           <QrScanner
             delay={300}
@@ -67,6 +62,11 @@ const Scan = () => {
             onScan={handleScan}
             style={previewStyle}
           />
+          <div className="btn-containerScan">
+            <Link to="/homevigilant" className="btnScan">
+              <span>Regresar</span>
+            </Link>
+          </div>
         </div>
         {showPopup && (
           <div className="popup">
