@@ -21,7 +21,7 @@ export const AuthContextProvider = ({ children }) => {
       const token = await result.user.getIdToken(true);
       const user = result.user;
       setUser(user);
-      const response = await fetch('https://frozen-peak-55789-86b35712c2d6.herokuapp.com/api/auth/google', {
+      const response = await fetch('159.203.179.36/api/auth/google', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
