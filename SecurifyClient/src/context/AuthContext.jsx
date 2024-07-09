@@ -21,7 +21,7 @@ export const AuthContextProvider = ({ children }) => {
       const token = await result.user.getIdToken(true);
       const user = result.user;
       setUser(user);
-      const response = await fetch('159.203.179.36/api/auth/google', {
+      const response = await fetch('157.230.49.148/api/auth/google', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
