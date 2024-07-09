@@ -18,7 +18,7 @@ const HomeResidents = ({ houseId }) => {
   useEffect(() => {
     const fetchResidents = async () => {
       try {
-        const response = await axios.get(`${baseURL}house/residents-manager`, {
+        const response = await axios.get(`${baseURL}visits/residents-manager`, {
           headers: { 'Authorization': `Bearer ${localStorage.getItem('token')}` }
         });
         // Asegúrate de que response.data.data es un array de residentes
@@ -49,7 +49,7 @@ const HomeResidents = ({ houseId }) => {
     }
 
     try {
-      const response = await axios.post(`${baseURL}house/residenthouse`, formData, {
+      const response = await axios.post(`${baseURL}visits/residenthouse`, formData, {
         headers: { 'Authorization': `Bearer ${localStorage.getItem('token')}` }
       });
       setIsSuccess(true); // Éxito en la validación
